@@ -1,0 +1,16 @@
+template<typename To>
+vec(const vec<To, N>& o) {
+	auto range = std::views::iota(size_t{0}, N);
+	std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
+		data[i] = o[i];
+	});
+}
+
+vec() {}
+vec(const vec&) = default;
+vec(vec&&) = default;
+vec& operator=(const vec&) = default;
+vec& operator=(vec&&) = default;
+vec(const vec<T, 1>& _0, const vec<T, 1>& _1, const vec<T, 1>& _2): data({_0[0], _1[0], _2[0]}) {}
+vec(const vec<T, 1>& _0, const vec<T, 2>& _1): data({_0[0], _1[0], _1[1]}) {}
+vec(const vec<T, 2>& _0, const vec<T, 1>& _1): data({_0[0], _0[1], _1[0]}) {}
