@@ -99,6 +99,13 @@ requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 	return make_from_simd(max(a.to_simd(), b.to_simd()));
 }
 
+inline T length_squared() const {
+	return reduce(to_simd() * to_simd());
+}
+
+inline T length() const {
+	return sqrt(length_squared());
+}
 
 inline friend T dot(const self& a, const self& b) {
 	return reduce(a.to_simd() * b.to_simd());
