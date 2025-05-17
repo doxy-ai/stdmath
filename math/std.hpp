@@ -1,5 +1,6 @@
 #pragma once
 
+#include <concepts>
 #if __has_include(<simd>)
 	#include <simd>
 #else
@@ -14,7 +15,7 @@
 #else
 	#define MDSPAN_IMPL_STANDARD_NAMESPACE stdmath
 	#define MDSPAN_IMPL_PROPOSED_NAMESPACE experimental
-	#include "thirdparty/mdspan.hpp"
+	#include "../thirdparty/mdspan.hpp"
 
 	namespace stdmath {
 		using namespace stdmath::experimental;
@@ -38,4 +39,11 @@
 	#endif
 #endif
 
-namespace stdmath { using namespace std; }
+#include <stdfloat>
+namespace stdmath { 
+	using namespace std;
+
+	constexpr bool approximately_equal(std::float64_t a, std::float64_t b, std::float64_t epsilon = std::numeric_limits<std::float32_t>::epsilon() * 100) {
+		return std::abs<std::float64_t>(a - b) < epsilon;
+	}
+}

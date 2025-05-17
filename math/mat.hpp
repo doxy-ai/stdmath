@@ -7,6 +7,7 @@ namespace stdmath {
 	struct mat {
 		using self = mat;
 		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<X * Y>>;
+		using underlying_type = T;
 
 		alignas(stdmath::memory_alignment_v<simd>)
 		std::array<T, X * Y> data;
@@ -30,8 +31,8 @@ namespace stdmath {
 		#include "partials/mat.operators.partial"
 
 		template<size_t Xo, size_t Yo>
-		requires(Y == Xo)
 		friend mat<T, X, Yo>& multiply(mat<T, X, Yo>& out, const mat& a, const mat<T, Xo, Yo>& b) {
+			static_assert(Y == Xo, "The left matrix must have the same number of rows as there are columns of the right matrix!");
 			linalg::matrix_product(a.mdspan(), b.mdspan(), out.mdspan());
 			return out;
 		}
