@@ -7,10 +7,11 @@
 #include <type_traits>
 
 namespace stdmath {
+	constexpr static std::float64_t PI = std::numbers::pi_v<std::float64_t>;
 	template<typename T>
-	constexpr static T rad2deg = 180/std::numbers::pi_v<T>;
+	constexpr static T rad2deg = 180/PI;
 	template<typename T>
-	constexpr static T deg2rad = std::numbers::pi_v<T>/180;
+	constexpr static T deg2rad = PI/180;
 
 	template<typename T>
 	struct basic_degree;
@@ -66,13 +67,13 @@ namespace stdmath {
 		constexpr basic_degree& operator/=(const basic_degree other) { *this = *this / other; return *this; }
 
 		constexpr T degree() const { return value; }
-		constexpr T radian() const { return radian(*this); }
+		constexpr T radian() const { return basic_radian<T>(*this); }
 	};
 
 	template<typename T>
 	constexpr basic_radian<T>::basic_radian(const stdmath::basic_degree<T> d) : basic_radian(T(d) * deg2rad<T>) {}
 	template<typename T>
-	constexpr T basic_radian<T>::degree() const { return basic_degree(*this); }
+	constexpr T basic_radian<T>::degree() const { return basic_degree<T>(*this); }
 
 
 
@@ -102,11 +103,11 @@ namespace stdmath {
 	constexpr basic_radian<T> atan2(T y, T x) { return std::atan2(y, x); }
 
 	template<typename T>
-	constexpr T sinh(basic_radian<T> rad) { return std::sinh(rad); }
+	constexpr T sinh(basic_radian<T> rad) { return std::sinh(rad.radian()); }
 	template<typename T>
-	constexpr T cosh(basic_radian<T> rad) { return std::cosh(rad); }
+	constexpr T cosh(basic_radian<T> rad) { return std::cosh(rad.radian()); }
 	template<typename T>
-	constexpr T tanh(basic_radian<T> rad) { return std::tanh(rad); }
+	constexpr T tanh(basic_radian<T> rad) { return std::tanh(rad.radian()); }
 	template<typename T>
 	constexpr basic_radian<T> asinh(T v) { return std::asinh(v); }
 	template<typename T>

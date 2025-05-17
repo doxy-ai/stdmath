@@ -214,4 +214,10 @@ namespace stdmath {
 	swizzle<T, 4>& swizzle<T, 4>::operator=(const vec<To>& vec) { *x = vec.x; *y = vec.y; *z = vec.z; *w = vec.w; return *this; }
 	template<typename T>
 	vec<T, 4> swizzle<T, 4>::to_vec()  { return {*x, *y, *z, *w}; }
+
+	template<typename T, size_t N>
+	vec<T, N> normalize(const vec<T, N>& v) {
+		auto length = v.length();
+		return v / vec<T, N>{length};
+	}
 }
