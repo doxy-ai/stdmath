@@ -15,14 +15,14 @@ def power_set(arr):
 
 def generate_swizzles(permutations, address_of = False):
 	out = ""
-	for p in permutations: 
+	for p in permutations:
 		out += f"swizzle<T, {len(p)}> {"_" if len(p) == 1 else ""}{''.join(p)}() "
 		out += "{ return {" + ("&" if address_of else "") + (",&" if address_of else ",").join(p) + "}; }\n"
 
 		out += f"const swizzle<T, {len(p)}> {"_" if len(p) == 1 else ""}{''.join(p)}() const "
-		out += "{ return {" + ("&" if address_of else "") + (",&" if address_of else ",").join(p) + "}; }\n"
+		out += "{ return {" + ("(T*)&" if address_of else "") + (",(T*)&" if address_of else ",").join(p) + "}; }\n"
 	return out
-		
+
 
 permutations = power_set(["x", "y", "z", "w"])
 with open("vec4.swizzles.partial.gen", "w") as f: f.write(generate_swizzles(permutations))
