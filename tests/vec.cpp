@@ -32,6 +32,8 @@ TEST_CASE("vec<float, 2>") {
 	CHECK(vec_from_swizzle2.x == 4.0f);
 	CHECK(vec_from_swizzle2.y == 5.0f);
 
+	CHECK(sw2.to_vec() == std::math::vec<float, 2>{4, 5});
+
 	std::math::vec<float, 2> normalized_vec_from_swizzle2 = normalize(sw2.to_vec());
 	CHECK(std::math::float_equal(normalized_vec_from_swizzle2.x, 0.624695));
 	CHECK(std::math::float_equal(normalized_vec_from_swizzle2.y, 0.780869));
@@ -67,6 +69,8 @@ TEST_CASE("vec<float, 3>") {
 	CHECK(vec_from_swizzle3.x == 9.0f);
 	CHECK(vec_from_swizzle3.y == 10.0f);
 	CHECK(vec_from_swizzle3.z == 11.0f);
+
+	CHECK(sw3.to_vec() == std::math::vec<float, 3>{9, 10, 11});
 
 	std::math::vec<float, 3> normalized_vec_from_swizzle3 = normalize(sw3.to_vec());
 	CHECK(std::math::float_equal(normalized_vec_from_swizzle3.x, 0.517892));
@@ -110,6 +114,8 @@ TEST_CASE("vec<float, 4>") {
 	CHECK(vec_from_swizzle4.y == 18.0f);
 	CHECK(vec_from_swizzle4.z == 19.0f);
 	CHECK(vec_from_swizzle4.w == 20.0f);
+
+	CHECK(sw4.to_vec() == std::math::vec<float, 4>{21.f, 18.f, 19.f, 20.f});
 
 	std::math::vec<float, 4> normalized_vec_from_swizzle4 = normalize(sw4.to_vec());
 	CHECK(std::math::float_equal(normalized_vec_from_swizzle4.x, 0.537579));

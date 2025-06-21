@@ -5,12 +5,16 @@
 #include <execution>
 #include <initializer_list>
 #include <ranges>
+#include <type_traits>
 
 namespace stdmath {
 	template<typename T, size_t N>
+	using simd_or_mask = std::conditional_t<std::is_same_v<T, bool>, stdmath::simd_mask<float, stdmath::simd_abi::fixed_size<N>>, stdmath::simd<T, stdmath::simd_abi::fixed_size<N>>>;
+
+	template<typename T, size_t N>
 	struct vec {
 		using self = vec;
-		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<N>>;
+		using simd = simd_or_mask<T, N>;
 
 		alignas(stdmath::memory_alignment_v<simd>)
 		std::array<T, N> data;
@@ -77,7 +81,7 @@ namespace stdmath {
 	struct vec<T, 1> {
 		constexpr static size_t N = 1;
 		using self = vec;
-		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<1>>;
+		using simd = simd_or_mask<T, N>;
 		
 		union {
 			struct {
@@ -105,7 +109,7 @@ namespace stdmath {
 	struct vec<T, 2> {
 		constexpr static size_t N = 2;
 		using self = vec;
-		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<2>>;
+		using simd = simd_or_mask<T, N>;
 		
 		union {
 			struct {
@@ -135,7 +139,7 @@ namespace stdmath {
 	struct vec<T, 3> {
 		constexpr static size_t N = 3;
 		using self = vec;
-		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<3>>;
+		using simd = simd_or_mask<T, N>;
 		
 		union {
 			struct {
@@ -180,7 +184,7 @@ namespace stdmath {
 	struct vec<T, 4> {
 		constexpr static size_t N = 4;
 		using self = vec;
-		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<4>>;
+		using simd = simd_or_mask<T, N>;
 		
 		union {
 			struct {
@@ -219,5 +223,22 @@ namespace stdmath {
 	vec<T, N> normalize(const vec<T, N>& v) {
 		auto length = v.length();
 		return v / vec<T, N>{length};
+	}
+
+	template<size_t N>
+	inline bool all_of(const vec<bool, N>& v) {
+		return all_of(v.to_simd());
+	}
+	template<size_t N>
+	inline bool any_of(const vec<bool, N>& v) {
+		return any_of(v.to_simd());
+	}
+	template<size_t N>
+	inline bool none_of(const vec<bool, N>& v) {
+		return none_of(v.to_simd());
+	}
+	template<size_t N>
+	inline bool some_of(const vec<bool, N>& v) {
+		return some_of(v.to_simd());
 	}
 }

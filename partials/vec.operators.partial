@@ -43,7 +43,7 @@ inline friend self operator/(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() / vec<T, N>(b).to_simd());
 }
 
-inline friend self operator%(const self& a, const self& b) 
+inline friend self operator%(const self& a, const self& b)
 requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() % b.to_simd());
@@ -69,36 +69,67 @@ requires(requires(T t) { { ~t } -> std::convertible_to<T>; })
 	return make_from_simd(~a.to_simd());
 }
 
-inline friend self operator&&(const self& a, const self& b) 
+inline friend self operator&&(const self& a, const self& b)
 requires(requires(T t) { { t && t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() && b.to_simd());
 }
 
-inline friend self operator&(const self& a, const self& b) 
+inline friend self operator&(const self& a, const self& b)
 requires(requires(T t) { { t & t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() & b.to_simd());
 }
 
-inline friend self operator||(const self& a, const self& b) 
+inline friend self operator||(const self& a, const self& b)
 requires(requires(T t) { { t || t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() || b.to_simd());
 }
 
-inline friend self operator|(const self& a, const self& b) 
+inline friend self operator|(const self& a, const self& b)
 requires(requires(T t) { { t | t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() | b.to_simd());
 }
 
-inline friend self operator^(const self& a, const self& b) 
+inline friend self operator^(const self& a, const self& b)
 requires(requires(T t) { { t ^ t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() ^ b.to_simd());
 }
 
+
+
+inline friend vec<bool, N> operator==(const self& a, const self& b) {
+	return vec<bool, N>::make_from_simd(a.to_simd() == b.to_simd());
+}
+inline friend vec<bool, N> operator!=(const self& a, const self& b) {
+	return vec<bool, N>::make_from_simd(a.to_simd() != b.to_simd());
+}
+
+inline friend vec<bool, N> operator<(const self& a, const self& b) {
+	return vec<bool, N>::make_from_simd(a.to_simd() < b.to_simd());
+}
+inline friend vec<bool, N> operator<=(const self& a, const self& b) {
+	return vec<bool, N>::make_from_simd(a.to_simd() <= b.to_simd());
+}
+inline friend vec<bool, N> operator>(const self& a, const self& b) {
+	return vec<bool, N>::make_from_simd(a.to_simd() > b.to_simd());
+}
+inline friend vec<bool, N> operator>=(const self& a, const self& b) {
+	return vec<bool, N>::make_from_simd(a.to_simd() >= b.to_simd());
+}
+
+inline friend vec<bool, N> operator!(const self& v) {
+	return vec<bool, N>::make_from_simd(!v.to_simd());
+}
+
+
+
+inline operator bool() {
+	return all_of(*this);
+}
 
 
 inline friend self min(const self& a, const self& b)
