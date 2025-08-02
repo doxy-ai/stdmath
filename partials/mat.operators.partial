@@ -2,8 +2,8 @@
 auto begin() { return data.begin(); }
 auto end() { return data.end(); }
 
-inline simd to_simd() const { return {data.data(), stdmath::vector_aligned}; }
-inline void from_simd(const simd& simd) { simd.copy_to(data.data(), stdmath::vector_aligned); }
+inline simd to_simd() const { return {data.data(), stl::vector_aligned}; }
+inline void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
 inline static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
 
 

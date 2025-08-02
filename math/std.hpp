@@ -5,7 +5,7 @@
 	#include <simd>
 #else
 	#include <experimental/simd>
-	namespace stdmath {
+	namespace stdmath::stl {
 		using namespace std::experimental;
 	}
 #endif
@@ -17,7 +17,7 @@
 	#define MDSPAN_IMPL_PROPOSED_NAMESPACE experimental
 	#include "../thirdparty/mdspan.hpp"
 
-	namespace stdmath {
+	namespace stdmath::stl {
 		using namespace stdmath::experimental;
 	}
 #endif
@@ -33,16 +33,18 @@
 	#include <experimental/linalg>
 
 	#ifndef MDSPAN_IMPL_STANDARD_NAMESPACE
-	namespace stdmath {
+	namespace stdmath::stl {
 		using namespace stdmath::experimental;
 	}
 	#endif
 #endif
 
-#include <stdfloat>
-namespace stdmath { 
+namespace stdmath::stl { 
 	using namespace std;
+}
 
+#include <stdfloat>
+namespace stdmath {
 	constexpr bool approximately_equal(std::float64_t a, std::float64_t b, std::float64_t epsilon = std::numeric_limits<std::float32_t>::epsilon() * 100) {
 		return std::abs<std::float64_t>(a - b) < epsilon;
 	}

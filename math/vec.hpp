@@ -9,7 +9,7 @@
 
 namespace stdmath {
 	template<typename T, size_t N>
-	using simd_or_mask = std::conditional_t<std::is_same_v<T, bool>, stdmath::simd_mask<float, stdmath::simd_abi::fixed_size<N>>, stdmath::simd<T, stdmath::simd_abi::fixed_size<N>>>;
+	using simd_or_mask = std::conditional_t<std::is_same_v<T, bool>, stl::simd_mask<float, stl::simd_abi::fixed_size<N>>, stl::simd<T, stl::simd_abi::fixed_size<N>>>;
 
 	template<typename T, size_t N>
 	struct vec {
@@ -17,7 +17,7 @@ namespace stdmath {
 		using simd = simd_or_mask<T, N>;
 		using underlying_type = T;
 
-		alignas(stdmath::memory_alignment_v<simd>)
+		alignas(stl::memory_alignment_v<simd>)
 		std::array<T, N> data;
 
 		vec(T broadcast) { data.fill(broadcast); }
@@ -92,10 +92,10 @@ namespace stdmath {
 
 		union {
 			struct {
-				alignas(stdmath::memory_alignment_v<simd>)
+				alignas(stl::memory_alignment_v<simd>)
 				T x;
 			};
-			alignas(stdmath::memory_alignment_v<simd>)
+			alignas(stl::memory_alignment_v<simd>)
 			std::array<T, 1> data;
 		};
 
@@ -123,11 +123,11 @@ namespace stdmath {
 
 		union {
 			struct {
-				alignas(stdmath::memory_alignment_v<simd>)
+				alignas(stl::memory_alignment_v<simd>)
 				T x;
 				T y;
 			};
-			alignas(stdmath::memory_alignment_v<simd>)
+			alignas(stl::memory_alignment_v<simd>)
 			std::array<T, 2> data;
 		};
 
@@ -156,18 +156,18 @@ namespace stdmath {
 
 		union {
 			struct {
-				alignas(stdmath::memory_alignment_v<simd>)
+				alignas(stl::memory_alignment_v<simd>)
 				T x;
 				T y;
 				T z;
 			};
 			struct {
-				alignas(stdmath::memory_alignment_v<simd>)
+				alignas(stl::memory_alignment_v<simd>)
 				T r;
 				T g;
 				T b;
 			};
-			alignas(stdmath::memory_alignment_v<simd>)
+			alignas(stl::memory_alignment_v<simd>)
 			std::array<T, 3> data;
 		};
 
@@ -204,20 +204,20 @@ namespace stdmath {
 
 		union {
 			struct {
-				alignas(stdmath::memory_alignment_v<simd>)
+				alignas(stl::memory_alignment_v<simd>)
 				T x;
 				T y;
 				T z;
 				T w;
 			};
 			struct {
-				alignas(stdmath::memory_alignment_v<simd>)
+				alignas(stl::memory_alignment_v<simd>)
 				T r;
 				T g;
 				T b;
 				T a;
 			};
-			alignas(stdmath::memory_alignment_v<simd>)
+			alignas(stl::memory_alignment_v<simd>)
 			std::array<T, 4> data;
 		};
 

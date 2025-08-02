@@ -6,10 +6,10 @@ namespace stdmath {
 	template<typename T, size_t X, size_t Y>
 	struct mat {
 		using self = mat;
-		using simd = stdmath::simd<T, stdmath::simd_abi::fixed_size<X * Y>>;
+		using simd = stl::simd<T, stl::simd_abi::fixed_size<X * Y>>;
 		using underlying_type = T;
 
-		alignas(stdmath::memory_alignment_v<simd>)
+		alignas(stl::memory_alignment_v<simd>)
 		std::array<T, X * Y> data;
 
 		static mat identity() {
@@ -33,7 +33,7 @@ namespace stdmath {
 		template<size_t Xo, size_t Yo>
 		friend mat<T, X, Yo>& multiply(mat<T, X, Yo>& out, const mat& a, const mat<T, Xo, Yo>& b) {
 			static_assert(Y == Xo, "The left matrix must have the same number of rows as there are columns of the right matrix!");
-			linalg::matrix_product(a.mdspan(), b.mdspan(), out.mdspan());
+			stl::linalg::matrix_product(a.mdspan(), b.mdspan(), out.mdspan());
 			return out;
 		}
 		template<size_t Xo, size_t Yo>
@@ -43,13 +43,13 @@ namespace stdmath {
 
 		friend vec<T, Y> operator*(const mat& a, const vec<T, Y>& b) {
 			vec<T, Y> out;
-			linalg::matrix_vector_product(a.mdspan(), stdmath::mdspan(&b.x, Y), stdmath::mdspan(&out.x, Y));
+			stl::linalg::matrix_vector_product(a.mdspan(), stl::mdspan(&b.x, Y), stl::mdspan(&out.x, Y));
 			return out;
 		}
 
 
-		auto mdspan() { return stdmath::mdspan<T, stdmath::extents<size_t, X, Y>, stdmath::layout_left>(data.data()); }
-		auto mdspan() const { return stdmath::mdspan<const T, stdmath::extents<size_t, X, Y>, stdmath::layout_left>(data.data()); }
+		auto mdspan() { return stl::mdspan<T, stl::extents<size_t, X, Y>, stl::layout_left>(data.data()); }
+		auto mdspan() const { return stl::mdspan<const T, stl::extents<size_t, X, Y>, stl::layout_left>(data.data()); }
 		operator std::span<T>() { return data; }
 		operator std::span<const T>() const { return data; }
 	};
