@@ -1,0 +1,106 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9e03292..6319f6b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -156,7 +156,7 @@ message(STATUS "Build include directory: ${CMAKE_CURRENT_BINARY_DIR}/include/exp
+ add_library(linalg INTERFACE)
+ add_library(std::linalg ALIAS linalg)
+ 
+-target_link_libraries(linalg INTERFACE std::mdspan)
++target_link_libraries(linalg INTERFACE mdspan::mdspan)
+ 
+ if(LINALG_ENABLE_TBB)
+   target_link_libraries(linalg INTERFACE TBB::tbb)
+diff --git a/include/experimental/__p1673_bits/blas2_matrix_vector_product.hpp b/include/experimental/__p1673_bits/blas2_matrix_vector_product.hpp
+index 20071ec..958587d 100644
+--- a/include/experimental/__p1673_bits/blas2_matrix_vector_product.hpp
++++ b/include/experimental/__p1673_bits/blas2_matrix_vector_product.hpp
+@@ -274,9 +274,9 @@ void matrix_vector_product(
+       std::common_type_t<SizeType_A, SizeType_x>,
+       SizeType_y>>;
+   for (size_type i = 0; i < A.extent(0); ++i) {
+-    y(i) = ElementType_y{};
++    y[i] = ElementType_y{};
+     for (size_type j = 0; j < A.extent(1); ++j) {
+-      y(i) += A(i,j) * x(j);
++      y[i] += A[i,j] * x[j];
+     }
+   }
+ }
+diff --git a/include/experimental/__p1673_bits/blas3_matrix_product.hpp b/include/experimental/__p1673_bits/blas3_matrix_product.hpp
+index e47796d..296ffe1 100644
+--- a/include/experimental/__p1673_bits/blas3_matrix_product.hpp
++++ b/include/experimental/__p1673_bits/blas3_matrix_product.hpp
+@@ -743,9 +743,9 @@ void matrix_product(
+ 
+     for (size_type i = 0; i < C.extent(0); ++i) {
+       for (size_type j = 0; j < C.extent(1); ++j) {
+-        C(i,j) = ElementType_C{};
++        C[i,j] = ElementType_C{};
+         for (size_type k = 0; k < A.extent(1); ++k) {
+-          C(i,j) += A(i,k) * B(k,j);
++          C[i,j] += A[i,k] * B[k,j];
+         }
+       }
+     }
+diff --git a/include/experimental/__p1673_bits/macros.hpp b/include/experimental/__p1673_bits/macros.hpp
+index 997bcf3..66c569f 100644
+--- a/include/experimental/__p1673_bits/macros.hpp
++++ b/include/experimental/__p1673_bits/macros.hpp
+@@ -18,7 +18,7 @@
+ #ifndef LINALG_INCLUDE_EXPERIMENTAL___P1673_BITS_MACROS_HPP_
+ #define LINALG_INCLUDE_EXPERIMENTAL___P1673_BITS_MACROS_HPP_
+ 
+-#include "__p1673_bits/linalg_config.h"
++// #include "__p1673_bits/linalg_config.h"
+ 
+ // Work around a known MSVC issue, that by default
+ // it always defines __cplusplus as for C++98,
+diff --git a/include/experimental/__p1673_bits/maybe_static_size.hpp b/include/experimental/__p1673_bits/maybe_static_size.hpp
+index 367d53f..65dc00e 100644
+--- a/include/experimental/__p1673_bits/maybe_static_size.hpp
++++ b/include/experimental/__p1673_bits/maybe_static_size.hpp
+@@ -59,7 +59,7 @@ struct __maybe_static_value<T, DynSentinel, DynSentinel> {
+   static constexpr auto value_static = DynSentinel;
+ };
+ 
+-template <::std::size_t StaticSize, ::std::size_t Sentinel=dynamic_extent>
++template <::std::size_t StaticSize, ::std::size_t Sentinel=::std::dynamic_extent>
+ using __maybe_static_extent = __maybe_static_value<::std::size_t, StaticSize, Sentinel>;
+ 
+ } // end namespace impl
+diff --git a/include/experimental/__p1673_bits/transposed.hpp b/include/experimental/__p1673_bits/transposed.hpp
+index 2ded769..ee9b890 100644
+--- a/include/experimental/__p1673_bits/transposed.hpp
++++ b/include/experimental/__p1673_bits/transposed.hpp
+@@ -323,7 +323,7 @@ namespace impl {
+ } // namespace impl
+ 
+ template<class ElementType, class Extents, class Layout, class Accessor>
+-auto transposed(mdspan<ElementType, Extents, Layout, Accessor> a)
++auto transposed(stdmath::stl::mdspan<ElementType, Extents, Layout, Accessor> a)
+ {
+   using element_type = typename impl::transposed_element_accessor<ElementType, Accessor>::element_type;
+   using layout_type = typename impl::transposed_layout<Layout>::layout_type;
+@@ -331,7 +331,7 @@ auto transposed(mdspan<ElementType, Extents, Layout, Accessor> a)
+ 
+   auto mapping = impl::transposed_layout<Layout>::mapping(a.mapping());
+   auto accessor = impl::transposed_element_accessor<ElementType, Accessor>::accessor(a.accessor());
+-  return mdspan<element_type, typename decltype(mapping)::extents_type, layout_type, accessor_type>{a.data_handle(), mapping, accessor};
++  return stdmath::stl::mdspan<element_type, typename decltype(mapping)::extents_type, layout_type, accessor_type>{a.data_handle(), mapping, accessor};
+ }
+ 
+ } // end namespace linalg
+diff --git a/include/experimental/linalg b/include/experimental/linalg
+index c9b56e9..61d9049 100644
+--- a/include/experimental/linalg
++++ b/include/experimental/linalg
+@@ -17,7 +17,7 @@
+ 
+ #pragma once
+ 
+-#include "__p1673_bits/linalg_config.h"
++// #include "__p1673_bits/linalg_config.h"
+ #include "__p1673_bits/macros.hpp"
+ #include "__p1673_bits/linalg_execpolicy_mapper.hpp"
+ #include "__p1673_bits/maybe_static_size.hpp"
