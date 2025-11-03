@@ -1,0 +1,50 @@
+
+template<typename To>
+inline friend self& operator+=(self& a, const To& b) {
+	return a = a + b;
+}
+
+template<typename To>
+inline friend self& operator-=(self& a, const To& b) {
+	return a = a - b;
+}
+
+template<typename To>
+inline friend self& operator*=(self& a, const To& b) {
+	return a = a * b;
+}
+
+template<typename To>
+inline friend self& operator/=(self& a, const To& b) {
+	return a = a / b;
+}
+
+template<typename To>
+inline friend self& operator%=(self& a, const To& b) {
+	return a = a % b;
+}
+
+template<typename To>
+inline friend self& operator&=(self& a, const To& b) {
+	return a = a & b;
+}
+
+template<typename To>
+inline friend self& operator|=(self& a, const To& b) {
+	return a = a | b;
+}
+
+template<typename To>
+inline friend self& operator^=(self& a, const To& b) {
+	return a = a ^ b;
+}
+
+template<typename To>
+inline friend self& operator<<=(self& a, const To& b) {
+	return a = a << b;
+}
+
+template<typename To>
+inline friend self& operator>>=(self& a, const To& b) {
+	return a = a >> b;
+}
