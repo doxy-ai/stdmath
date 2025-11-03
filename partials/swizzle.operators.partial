@@ -1,0 +1,5 @@
+template<typename To>
+swizzle& operator=(const vec<To>& vec);
+operator vec<T>() { return to_vec(); }
+vec<T> to_vec();
+const vec<T> to_vec() const;

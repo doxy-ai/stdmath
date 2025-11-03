@@ -1,0 +1,680 @@
+swizzle<T, 1> _x() { return {&x}; }
+const swizzle<T, 1> _x() const { return {(T*)&x}; }
+swizzle<T, 1> _y() { return {&y}; }
+const swizzle<T, 1> _y() const { return {(T*)&y}; }
+swizzle<T, 1> _z() { return {&z}; }
+const swizzle<T, 1> _z() const { return {(T*)&z}; }
+swizzle<T, 1> _w() { return {&w}; }
+const swizzle<T, 1> _w() const { return {(T*)&w}; }
+swizzle<T, 2> xx() { return {&x,&x}; }
+const swizzle<T, 2> xx() const { return {(T*)&x,(T*)&x}; }
+swizzle<T, 2> xy() { return {&x,&y}; }
+const swizzle<T, 2> xy() const { return {(T*)&x,(T*)&y}; }
+swizzle<T, 2> xz() { return {&x,&z}; }
+const swizzle<T, 2> xz() const { return {(T*)&x,(T*)&z}; }
+swizzle<T, 2> xw() { return {&x,&w}; }
+const swizzle<T, 2> xw() const { return {(T*)&x,(T*)&w}; }
+swizzle<T, 2> yx() { return {&y,&x}; }
+const swizzle<T, 2> yx() const { return {(T*)&y,(T*)&x}; }
+swizzle<T, 2> yy() { return {&y,&y}; }
+const swizzle<T, 2> yy() const { return {(T*)&y,(T*)&y}; }
+swizzle<T, 2> yz() { return {&y,&z}; }
+const swizzle<T, 2> yz() const { return {(T*)&y,(T*)&z}; }
+swizzle<T, 2> yw() { return {&y,&w}; }
+const swizzle<T, 2> yw() const { return {(T*)&y,(T*)&w}; }
+swizzle<T, 2> zx() { return {&z,&x}; }
+const swizzle<T, 2> zx() const { return {(T*)&z,(T*)&x}; }
+swizzle<T, 2> zy() { return {&z,&y}; }
+const swizzle<T, 2> zy() const { return {(T*)&z,(T*)&y}; }
+swizzle<T, 2> zz() { return {&z,&z}; }
+const swizzle<T, 2> zz() const { return {(T*)&z,(T*)&z}; }
+swizzle<T, 2> zw() { return {&z,&w}; }
+const swizzle<T, 2> zw() const { return {(T*)&z,(T*)&w}; }
+swizzle<T, 2> wx() { return {&w,&x}; }
+const swizzle<T, 2> wx() const { return {(T*)&w,(T*)&x}; }
+swizzle<T, 2> wy() { return {&w,&y}; }
+const swizzle<T, 2> wy() const { return {(T*)&w,(T*)&y}; }
+swizzle<T, 2> wz() { return {&w,&z}; }
+const swizzle<T, 2> wz() const { return {(T*)&w,(T*)&z}; }
+swizzle<T, 2> ww() { return {&w,&w}; }
+const swizzle<T, 2> ww() const { return {(T*)&w,(T*)&w}; }
+swizzle<T, 3> xxx() { return {&x,&x,&x}; }
+const swizzle<T, 3> xxx() const { return {(T*)&x,(T*)&x,(T*)&x}; }
+swizzle<T, 3> xxy() { return {&x,&x,&y}; }
+const swizzle<T, 3> xxy() const { return {(T*)&x,(T*)&x,(T*)&y}; }
+swizzle<T, 3> xxz() { return {&x,&x,&z}; }
+const swizzle<T, 3> xxz() const { return {(T*)&x,(T*)&x,(T*)&z}; }
+swizzle<T, 3> xxw() { return {&x,&x,&w}; }
+const swizzle<T, 3> xxw() const { return {(T*)&x,(T*)&x,(T*)&w}; }
+swizzle<T, 3> xyx() { return {&x,&y,&x}; }
+const swizzle<T, 3> xyx() const { return {(T*)&x,(T*)&y,(T*)&x}; }
+swizzle<T, 3> xyy() { return {&x,&y,&y}; }
+const swizzle<T, 3> xyy() const { return {(T*)&x,(T*)&y,(T*)&y}; }
+swizzle<T, 3> xyz() { return {&x,&y,&z}; }
+const swizzle<T, 3> xyz() const { return {(T*)&x,(T*)&y,(T*)&z}; }
+swizzle<T, 3> xyw() { return {&x,&y,&w}; }
+const swizzle<T, 3> xyw() const { return {(T*)&x,(T*)&y,(T*)&w}; }
+swizzle<T, 3> xzx() { return {&x,&z,&x}; }
+const swizzle<T, 3> xzx() const { return {(T*)&x,(T*)&z,(T*)&x}; }
+swizzle<T, 3> xzy() { return {&x,&z,&y}; }
+const swizzle<T, 3> xzy() const { return {(T*)&x,(T*)&z,(T*)&y}; }
+swizzle<T, 3> xzz() { return {&x,&z,&z}; }
+const swizzle<T, 3> xzz() const { return {(T*)&x,(T*)&z,(T*)&z}; }
+swizzle<T, 3> xzw() { return {&x,&z,&w}; }
+const swizzle<T, 3> xzw() const { return {(T*)&x,(T*)&z,(T*)&w}; }
+swizzle<T, 3> xwx() { return {&x,&w,&x}; }
+const swizzle<T, 3> xwx() const { return {(T*)&x,(T*)&w,(T*)&x}; }
+swizzle<T, 3> xwy() { return {&x,&w,&y}; }
+const swizzle<T, 3> xwy() const { return {(T*)&x,(T*)&w,(T*)&y}; }
+swizzle<T, 3> xwz() { return {&x,&w,&z}; }
+const swizzle<T, 3> xwz() const { return {(T*)&x,(T*)&w,(T*)&z}; }
+swizzle<T, 3> xww() { return {&x,&w,&w}; }
+const swizzle<T, 3> xww() const { return {(T*)&x,(T*)&w,(T*)&w}; }
+swizzle<T, 3> yxx() { return {&y,&x,&x}; }
+const swizzle<T, 3> yxx() const { return {(T*)&y,(T*)&x,(T*)&x}; }
+swizzle<T, 3> yxy() { return {&y,&x,&y}; }
+const swizzle<T, 3> yxy() const { return {(T*)&y,(T*)&x,(T*)&y}; }
+swizzle<T, 3> yxz() { return {&y,&x,&z}; }
+const swizzle<T, 3> yxz() const { return {(T*)&y,(T*)&x,(T*)&z}; }
+swizzle<T, 3> yxw() { return {&y,&x,&w}; }
+const swizzle<T, 3> yxw() const { return {(T*)&y,(T*)&x,(T*)&w}; }
+swizzle<T, 3> yyx() { return {&y,&y,&x}; }
+const swizzle<T, 3> yyx() const { return {(T*)&y,(T*)&y,(T*)&x}; }
+swizzle<T, 3> yyy() { return {&y,&y,&y}; }
+const swizzle<T, 3> yyy() const { return {(T*)&y,(T*)&y,(T*)&y}; }
+swizzle<T, 3> yyz() { return {&y,&y,&z}; }
+const swizzle<T, 3> yyz() const { return {(T*)&y,(T*)&y,(T*)&z}; }
+swizzle<T, 3> yyw() { return {&y,&y,&w}; }
+const swizzle<T, 3> yyw() const { return {(T*)&y,(T*)&y,(T*)&w}; }
+swizzle<T, 3> yzx() { return {&y,&z,&x}; }
+const swizzle<T, 3> yzx() const { return {(T*)&y,(T*)&z,(T*)&x}; }
+swizzle<T, 3> yzy() { return {&y,&z,&y}; }
+const swizzle<T, 3> yzy() const { return {(T*)&y,(T*)&z,(T*)&y}; }
+swizzle<T, 3> yzz() { return {&y,&z,&z}; }
+const swizzle<T, 3> yzz() const { return {(T*)&y,(T*)&z,(T*)&z}; }
+swizzle<T, 3> yzw() { return {&y,&z,&w}; }
+const swizzle<T, 3> yzw() const { return {(T*)&y,(T*)&z,(T*)&w}; }
+swizzle<T, 3> ywx() { return {&y,&w,&x}; }
+const swizzle<T, 3> ywx() const { return {(T*)&y,(T*)&w,(T*)&x}; }
+swizzle<T, 3> ywy() { return {&y,&w,&y}; }
+const swizzle<T, 3> ywy() const { return {(T*)&y,(T*)&w,(T*)&y}; }
+swizzle<T, 3> ywz() { return {&y,&w,&z}; }
+const swizzle<T, 3> ywz() const { return {(T*)&y,(T*)&w,(T*)&z}; }
+swizzle<T, 3> yww() { return {&y,&w,&w}; }
+const swizzle<T, 3> yww() const { return {(T*)&y,(T*)&w,(T*)&w}; }
+swizzle<T, 3> zxx() { return {&z,&x,&x}; }
+const swizzle<T, 3> zxx() const { return {(T*)&z,(T*)&x,(T*)&x}; }
+swizzle<T, 3> zxy() { return {&z,&x,&y}; }
+const swizzle<T, 3> zxy() const { return {(T*)&z,(T*)&x,(T*)&y}; }
+swizzle<T, 3> zxz() { return {&z,&x,&z}; }
+const swizzle<T, 3> zxz() const { return {(T*)&z,(T*)&x,(T*)&z}; }
+swizzle<T, 3> zxw() { return {&z,&x,&w}; }
+const swizzle<T, 3> zxw() const { return {(T*)&z,(T*)&x,(T*)&w}; }
+swizzle<T, 3> zyx() { return {&z,&y,&x}; }
+const swizzle<T, 3> zyx() const { return {(T*)&z,(T*)&y,(T*)&x}; }
+swizzle<T, 3> zyy() { return {&z,&y,&y}; }
+const swizzle<T, 3> zyy() const { return {(T*)&z,(T*)&y,(T*)&y}; }
+swizzle<T, 3> zyz() { return {&z,&y,&z}; }
+const swizzle<T, 3> zyz() const { return {(T*)&z,(T*)&y,(T*)&z}; }
+swizzle<T, 3> zyw() { return {&z,&y,&w}; }
+const swizzle<T, 3> zyw() const { return {(T*)&z,(T*)&y,(T*)&w}; }
+swizzle<T, 3> zzx() { return {&z,&z,&x}; }
+const swizzle<T, 3> zzx() const { return {(T*)&z,(T*)&z,(T*)&x}; }
+swizzle<T, 3> zzy() { return {&z,&z,&y}; }
+const swizzle<T, 3> zzy() const { return {(T*)&z,(T*)&z,(T*)&y}; }
+swizzle<T, 3> zzz() { return {&z,&z,&z}; }
+const swizzle<T, 3> zzz() const { return {(T*)&z,(T*)&z,(T*)&z}; }
+swizzle<T, 3> zzw() { return {&z,&z,&w}; }
+const swizzle<T, 3> zzw() const { return {(T*)&z,(T*)&z,(T*)&w}; }
+swizzle<T, 3> zwx() { return {&z,&w,&x}; }
+const swizzle<T, 3> zwx() const { return {(T*)&z,(T*)&w,(T*)&x}; }
+swizzle<T, 3> zwy() { return {&z,&w,&y}; }
+const swizzle<T, 3> zwy() const { return {(T*)&z,(T*)&w,(T*)&y}; }
+swizzle<T, 3> zwz() { return {&z,&w,&z}; }
+const swizzle<T, 3> zwz() const { return {(T*)&z,(T*)&w,(T*)&z}; }
+swizzle<T, 3> zww() { return {&z,&w,&w}; }
+const swizzle<T, 3> zww() const { return {(T*)&z,(T*)&w,(T*)&w}; }
+swizzle<T, 3> wxx() { return {&w,&x,&x}; }
+const swizzle<T, 3> wxx() const { return {(T*)&w,(T*)&x,(T*)&x}; }
+swizzle<T, 3> wxy() { return {&w,&x,&y}; }
+const swizzle<T, 3> wxy() const { return {(T*)&w,(T*)&x,(T*)&y}; }
+swizzle<T, 3> wxz() { return {&w,&x,&z}; }
+const swizzle<T, 3> wxz() const { return {(T*)&w,(T*)&x,(T*)&z}; }
+swizzle<T, 3> wxw() { return {&w,&x,&w}; }
+const swizzle<T, 3> wxw() const { return {(T*)&w,(T*)&x,(T*)&w}; }
+swizzle<T, 3> wyx() { return {&w,&y,&x}; }
+const swizzle<T, 3> wyx() const { return {(T*)&w,(T*)&y,(T*)&x}; }
+swizzle<T, 3> wyy() { return {&w,&y,&y}; }
+const swizzle<T, 3> wyy() const { return {(T*)&w,(T*)&y,(T*)&y}; }
+swizzle<T, 3> wyz() { return {&w,&y,&z}; }
+const swizzle<T, 3> wyz() const { return {(T*)&w,(T*)&y,(T*)&z}; }
+swizzle<T, 3> wyw() { return {&w,&y,&w}; }
+const swizzle<T, 3> wyw() const { return {(T*)&w,(T*)&y,(T*)&w}; }
+swizzle<T, 3> wzx() { return {&w,&z,&x}; }
+const swizzle<T, 3> wzx() const { return {(T*)&w,(T*)&z,(T*)&x}; }
+swizzle<T, 3> wzy() { return {&w,&z,&y}; }
+const swizzle<T, 3> wzy() const { return {(T*)&w,(T*)&z,(T*)&y}; }
+swizzle<T, 3> wzz() { return {&w,&z,&z}; }
+const swizzle<T, 3> wzz() const { return {(T*)&w,(T*)&z,(T*)&z}; }
+swizzle<T, 3> wzw() { return {&w,&z,&w}; }
+const swizzle<T, 3> wzw() const { return {(T*)&w,(T*)&z,(T*)&w}; }
+swizzle<T, 3> wwx() { return {&w,&w,&x}; }
+const swizzle<T, 3> wwx() const { return {(T*)&w,(T*)&w,(T*)&x}; }
+swizzle<T, 3> wwy() { return {&w,&w,&y}; }
+const swizzle<T, 3> wwy() const { return {(T*)&w,(T*)&w,(T*)&y}; }
+swizzle<T, 3> wwz() { return {&w,&w,&z}; }
+const swizzle<T, 3> wwz() const { return {(T*)&w,(T*)&w,(T*)&z}; }
+swizzle<T, 3> www() { return {&w,&w,&w}; }
+const swizzle<T, 3> www() const { return {(T*)&w,(T*)&w,(T*)&w}; }
+swizzle<T, 4> xxxx() { return {&x,&x,&x,&x}; }
+const swizzle<T, 4> xxxx() const { return {(T*)&x,(T*)&x,(T*)&x,(T*)&x}; }
+swizzle<T, 4> xxxy() { return {&x,&x,&x,&y}; }
+const swizzle<T, 4> xxxy() const { return {(T*)&x,(T*)&x,(T*)&x,(T*)&y}; }
+swizzle<T, 4> xxxz() { return {&x,&x,&x,&z}; }
+const swizzle<T, 4> xxxz() const { return {(T*)&x,(T*)&x,(T*)&x,(T*)&z}; }
+swizzle<T, 4> xxxw() { return {&x,&x,&x,&w}; }
+const swizzle<T, 4> xxxw() const { return {(T*)&x,(T*)&x,(T*)&x,(T*)&w}; }
+swizzle<T, 4> xxyx() { return {&x,&x,&y,&x}; }
+const swizzle<T, 4> xxyx() const { return {(T*)&x,(T*)&x,(T*)&y,(T*)&x}; }
+swizzle<T, 4> xxyy() { return {&x,&x,&y,&y}; }
+const swizzle<T, 4> xxyy() const { return {(T*)&x,(T*)&x,(T*)&y,(T*)&y}; }
+swizzle<T, 4> xxyz() { return {&x,&x,&y,&z}; }
+const swizzle<T, 4> xxyz() const { return {(T*)&x,(T*)&x,(T*)&y,(T*)&z}; }
+swizzle<T, 4> xxyw() { return {&x,&x,&y,&w}; }
+const swizzle<T, 4> xxyw() const { return {(T*)&x,(T*)&x,(T*)&y,(T*)&w}; }
+swizzle<T, 4> xxzx() { return {&x,&x,&z,&x}; }
+const swizzle<T, 4> xxzx() const { return {(T*)&x,(T*)&x,(T*)&z,(T*)&x}; }
+swizzle<T, 4> xxzy() { return {&x,&x,&z,&y}; }
+const swizzle<T, 4> xxzy() const { return {(T*)&x,(T*)&x,(T*)&z,(T*)&y}; }
+swizzle<T, 4> xxzz() { return {&x,&x,&z,&z}; }
+const swizzle<T, 4> xxzz() const { return {(T*)&x,(T*)&x,(T*)&z,(T*)&z}; }
+swizzle<T, 4> xxzw() { return {&x,&x,&z,&w}; }
+const swizzle<T, 4> xxzw() const { return {(T*)&x,(T*)&x,(T*)&z,(T*)&w}; }
+swizzle<T, 4> xxwx() { return {&x,&x,&w,&x}; }
+const swizzle<T, 4> xxwx() const { return {(T*)&x,(T*)&x,(T*)&w,(T*)&x}; }
+swizzle<T, 4> xxwy() { return {&x,&x,&w,&y}; }
+const swizzle<T, 4> xxwy() const { return {(T*)&x,(T*)&x,(T*)&w,(T*)&y}; }
+swizzle<T, 4> xxwz() { return {&x,&x,&w,&z}; }
+const swizzle<T, 4> xxwz() const { return {(T*)&x,(T*)&x,(T*)&w,(T*)&z}; }
+swizzle<T, 4> xxww() { return {&x,&x,&w,&w}; }
+const swizzle<T, 4> xxww() const { return {(T*)&x,(T*)&x,(T*)&w,(T*)&w}; }
+swizzle<T, 4> xyxx() { return {&x,&y,&x,&x}; }
+const swizzle<T, 4> xyxx() const { return {(T*)&x,(T*)&y,(T*)&x,(T*)&x}; }
+swizzle<T, 4> xyxy() { return {&x,&y,&x,&y}; }
+const swizzle<T, 4> xyxy() const { return {(T*)&x,(T*)&y,(T*)&x,(T*)&y}; }
+swizzle<T, 4> xyxz() { return {&x,&y,&x,&z}; }
+const swizzle<T, 4> xyxz() const { return {(T*)&x,(T*)&y,(T*)&x,(T*)&z}; }
+swizzle<T, 4> xyxw() { return {&x,&y,&x,&w}; }
+const swizzle<T, 4> xyxw() const { return {(T*)&x,(T*)&y,(T*)&x,(T*)&w}; }
+swizzle<T, 4> xyyx() { return {&x,&y,&y,&x}; }
+const swizzle<T, 4> xyyx() const { return {(T*)&x,(T*)&y,(T*)&y,(T*)&x}; }
+swizzle<T, 4> xyyy() { return {&x,&y,&y,&y}; }
+const swizzle<T, 4> xyyy() const { return {(T*)&x,(T*)&y,(T*)&y,(T*)&y}; }
+swizzle<T, 4> xyyz() { return {&x,&y,&y,&z}; }
+const swizzle<T, 4> xyyz() const { return {(T*)&x,(T*)&y,(T*)&y,(T*)&z}; }
+swizzle<T, 4> xyyw() { return {&x,&y,&y,&w}; }
+const swizzle<T, 4> xyyw() const { return {(T*)&x,(T*)&y,(T*)&y,(T*)&w}; }
+swizzle<T, 4> xyzx() { return {&x,&y,&z,&x}; }
+const swizzle<T, 4> xyzx() const { return {(T*)&x,(T*)&y,(T*)&z,(T*)&x}; }
+swizzle<T, 4> xyzy() { return {&x,&y,&z,&y}; }
+const swizzle<T, 4> xyzy() const { return {(T*)&x,(T*)&y,(T*)&z,(T*)&y}; }
+swizzle<T, 4> xyzz() { return {&x,&y,&z,&z}; }
+const swizzle<T, 4> xyzz() const { return {(T*)&x,(T*)&y,(T*)&z,(T*)&z}; }
+swizzle<T, 4> xyzw() { return {&x,&y,&z,&w}; }
+const swizzle<T, 4> xyzw() const { return {(T*)&x,(T*)&y,(T*)&z,(T*)&w}; }
+swizzle<T, 4> xywx() { return {&x,&y,&w,&x}; }
+const swizzle<T, 4> xywx() const { return {(T*)&x,(T*)&y,(T*)&w,(T*)&x}; }
+swizzle<T, 4> xywy() { return {&x,&y,&w,&y}; }
+const swizzle<T, 4> xywy() const { return {(T*)&x,(T*)&y,(T*)&w,(T*)&y}; }
+swizzle<T, 4> xywz() { return {&x,&y,&w,&z}; }
+const swizzle<T, 4> xywz() const { return {(T*)&x,(T*)&y,(T*)&w,(T*)&z}; }
+swizzle<T, 4> xyww() { return {&x,&y,&w,&w}; }
+const swizzle<T, 4> xyww() const { return {(T*)&x,(T*)&y,(T*)&w,(T*)&w}; }
+swizzle<T, 4> xzxx() { return {&x,&z,&x,&x}; }
+const swizzle<T, 4> xzxx() const { return {(T*)&x,(T*)&z,(T*)&x,(T*)&x}; }
+swizzle<T, 4> xzxy() { return {&x,&z,&x,&y}; }
+const swizzle<T, 4> xzxy() const { return {(T*)&x,(T*)&z,(T*)&x,(T*)&y}; }
+swizzle<T, 4> xzxz() { return {&x,&z,&x,&z}; }
+const swizzle<T, 4> xzxz() const { return {(T*)&x,(T*)&z,(T*)&x,(T*)&z}; }
+swizzle<T, 4> xzxw() { return {&x,&z,&x,&w}; }
+const swizzle<T, 4> xzxw() const { return {(T*)&x,(T*)&z,(T*)&x,(T*)&w}; }
+swizzle<T, 4> xzyx() { return {&x,&z,&y,&x}; }
+const swizzle<T, 4> xzyx() const { return {(T*)&x,(T*)&z,(T*)&y,(T*)&x}; }
+swizzle<T, 4> xzyy() { return {&x,&z,&y,&y}; }
+const swizzle<T, 4> xzyy() const { return {(T*)&x,(T*)&z,(T*)&y,(T*)&y}; }
+swizzle<T, 4> xzyz() { return {&x,&z,&y,&z}; }
+const swizzle<T, 4> xzyz() const { return {(T*)&x,(T*)&z,(T*)&y,(T*)&z}; }
+swizzle<T, 4> xzyw() { return {&x,&z,&y,&w}; }
+const swizzle<T, 4> xzyw() const { return {(T*)&x,(T*)&z,(T*)&y,(T*)&w}; }
+swizzle<T, 4> xzzx() { return {&x,&z,&z,&x}; }
+const swizzle<T, 4> xzzx() const { return {(T*)&x,(T*)&z,(T*)&z,(T*)&x}; }
+swizzle<T, 4> xzzy() { return {&x,&z,&z,&y}; }
+const swizzle<T, 4> xzzy() const { return {(T*)&x,(T*)&z,(T*)&z,(T*)&y}; }
+swizzle<T, 4> xzzz() { return {&x,&z,&z,&z}; }
+const swizzle<T, 4> xzzz() const { return {(T*)&x,(T*)&z,(T*)&z,(T*)&z}; }
+swizzle<T, 4> xzzw() { return {&x,&z,&z,&w}; }
+const swizzle<T, 4> xzzw() const { return {(T*)&x,(T*)&z,(T*)&z,(T*)&w}; }
+swizzle<T, 4> xzwx() { return {&x,&z,&w,&x}; }
+const swizzle<T, 4> xzwx() const { return {(T*)&x,(T*)&z,(T*)&w,(T*)&x}; }
+swizzle<T, 4> xzwy() { return {&x,&z,&w,&y}; }
+const swizzle<T, 4> xzwy() const { return {(T*)&x,(T*)&z,(T*)&w,(T*)&y}; }
+swizzle<T, 4> xzwz() { return {&x,&z,&w,&z}; }
+const swizzle<T, 4> xzwz() const { return {(T*)&x,(T*)&z,(T*)&w,(T*)&z}; }
+swizzle<T, 4> xzww() { return {&x,&z,&w,&w}; }
+const swizzle<T, 4> xzww() const { return {(T*)&x,(T*)&z,(T*)&w,(T*)&w}; }
+swizzle<T, 4> xwxx() { return {&x,&w,&x,&x}; }
+const swizzle<T, 4> xwxx() const { return {(T*)&x,(T*)&w,(T*)&x,(T*)&x}; }
+swizzle<T, 4> xwxy() { return {&x,&w,&x,&y}; }
+const swizzle<T, 4> xwxy() const { return {(T*)&x,(T*)&w,(T*)&x,(T*)&y}; }
+swizzle<T, 4> xwxz() { return {&x,&w,&x,&z}; }
+const swizzle<T, 4> xwxz() const { return {(T*)&x,(T*)&w,(T*)&x,(T*)&z}; }
+swizzle<T, 4> xwxw() { return {&x,&w,&x,&w}; }
+const swizzle<T, 4> xwxw() const { return {(T*)&x,(T*)&w,(T*)&x,(T*)&w}; }
+swizzle<T, 4> xwyx() { return {&x,&w,&y,&x}; }
+const swizzle<T, 4> xwyx() const { return {(T*)&x,(T*)&w,(T*)&y,(T*)&x}; }
+swizzle<T, 4> xwyy() { return {&x,&w,&y,&y}; }
+const swizzle<T, 4> xwyy() const { return {(T*)&x,(T*)&w,(T*)&y,(T*)&y}; }
+swizzle<T, 4> xwyz() { return {&x,&w,&y,&z}; }
+const swizzle<T, 4> xwyz() const { return {(T*)&x,(T*)&w,(T*)&y,(T*)&z}; }
+swizzle<T, 4> xwyw() { return {&x,&w,&y,&w}; }
+const swizzle<T, 4> xwyw() const { return {(T*)&x,(T*)&w,(T*)&y,(T*)&w}; }
+swizzle<T, 4> xwzx() { return {&x,&w,&z,&x}; }
+const swizzle<T, 4> xwzx() const { return {(T*)&x,(T*)&w,(T*)&z,(T*)&x}; }
+swizzle<T, 4> xwzy() { return {&x,&w,&z,&y}; }
+const swizzle<T, 4> xwzy() const { return {(T*)&x,(T*)&w,(T*)&z,(T*)&y}; }
+swizzle<T, 4> xwzz() { return {&x,&w,&z,&z}; }
+const swizzle<T, 4> xwzz() const { return {(T*)&x,(T*)&w,(T*)&z,(T*)&z}; }
+swizzle<T, 4> xwzw() { return {&x,&w,&z,&w}; }
+const swizzle<T, 4> xwzw() const { return {(T*)&x,(T*)&w,(T*)&z,(T*)&w}; }
+swizzle<T, 4> xwwx() { return {&x,&w,&w,&x}; }
+const swizzle<T, 4> xwwx() const { return {(T*)&x,(T*)&w,(T*)&w,(T*)&x}; }
+swizzle<T, 4> xwwy() { return {&x,&w,&w,&y}; }
+const swizzle<T, 4> xwwy() const { return {(T*)&x,(T*)&w,(T*)&w,(T*)&y}; }
+swizzle<T, 4> xwwz() { return {&x,&w,&w,&z}; }
+const swizzle<T, 4> xwwz() const { return {(T*)&x,(T*)&w,(T*)&w,(T*)&z}; }
+swizzle<T, 4> xwww() { return {&x,&w,&w,&w}; }
+const swizzle<T, 4> xwww() const { return {(T*)&x,(T*)&w,(T*)&w,(T*)&w}; }
+swizzle<T, 4> yxxx() { return {&y,&x,&x,&x}; }
+const swizzle<T, 4> yxxx() const { return {(T*)&y,(T*)&x,(T*)&x,(T*)&x}; }
+swizzle<T, 4> yxxy() { return {&y,&x,&x,&y}; }
+const swizzle<T, 4> yxxy() const { return {(T*)&y,(T*)&x,(T*)&x,(T*)&y}; }
+swizzle<T, 4> yxxz() { return {&y,&x,&x,&z}; }
+const swizzle<T, 4> yxxz() const { return {(T*)&y,(T*)&x,(T*)&x,(T*)&z}; }
+swizzle<T, 4> yxxw() { return {&y,&x,&x,&w}; }
+const swizzle<T, 4> yxxw() const { return {(T*)&y,(T*)&x,(T*)&x,(T*)&w}; }
+swizzle<T, 4> yxyx() { return {&y,&x,&y,&x}; }
+const swizzle<T, 4> yxyx() const { return {(T*)&y,(T*)&x,(T*)&y,(T*)&x}; }
+swizzle<T, 4> yxyy() { return {&y,&x,&y,&y}; }
+const swizzle<T, 4> yxyy() const { return {(T*)&y,(T*)&x,(T*)&y,(T*)&y}; }
+swizzle<T, 4> yxyz() { return {&y,&x,&y,&z}; }
+const swizzle<T, 4> yxyz() const { return {(T*)&y,(T*)&x,(T*)&y,(T*)&z}; }
+swizzle<T, 4> yxyw() { return {&y,&x,&y,&w}; }
+const swizzle<T, 4> yxyw() const { return {(T*)&y,(T*)&x,(T*)&y,(T*)&w}; }
+swizzle<T, 4> yxzx() { return {&y,&x,&z,&x}; }
+const swizzle<T, 4> yxzx() const { return {(T*)&y,(T*)&x,(T*)&z,(T*)&x}; }
+swizzle<T, 4> yxzy() { return {&y,&x,&z,&y}; }
+const swizzle<T, 4> yxzy() const { return {(T*)&y,(T*)&x,(T*)&z,(T*)&y}; }
+swizzle<T, 4> yxzz() { return {&y,&x,&z,&z}; }
+const swizzle<T, 4> yxzz() const { return {(T*)&y,(T*)&x,(T*)&z,(T*)&z}; }
+swizzle<T, 4> yxzw() { return {&y,&x,&z,&w}; }
+const swizzle<T, 4> yxzw() const { return {(T*)&y,(T*)&x,(T*)&z,(T*)&w}; }
+swizzle<T, 4> yxwx() { return {&y,&x,&w,&x}; }
+const swizzle<T, 4> yxwx() const { return {(T*)&y,(T*)&x,(T*)&w,(T*)&x}; }
+swizzle<T, 4> yxwy() { return {&y,&x,&w,&y}; }
+const swizzle<T, 4> yxwy() const { return {(T*)&y,(T*)&x,(T*)&w,(T*)&y}; }
+swizzle<T, 4> yxwz() { return {&y,&x,&w,&z}; }
+const swizzle<T, 4> yxwz() const { return {(T*)&y,(T*)&x,(T*)&w,(T*)&z}; }
+swizzle<T, 4> yxww() { return {&y,&x,&w,&w}; }
+const swizzle<T, 4> yxww() const { return {(T*)&y,(T*)&x,(T*)&w,(T*)&w}; }
+swizzle<T, 4> yyxx() { return {&y,&y,&x,&x}; }
+const swizzle<T, 4> yyxx() const { return {(T*)&y,(T*)&y,(T*)&x,(T*)&x}; }
+swizzle<T, 4> yyxy() { return {&y,&y,&x,&y}; }
+const swizzle<T, 4> yyxy() const { return {(T*)&y,(T*)&y,(T*)&x,(T*)&y}; }
+swizzle<T, 4> yyxz() { return {&y,&y,&x,&z}; }
+const swizzle<T, 4> yyxz() const { return {(T*)&y,(T*)&y,(T*)&x,(T*)&z}; }
+swizzle<T, 4> yyxw() { return {&y,&y,&x,&w}; }
+const swizzle<T, 4> yyxw() const { return {(T*)&y,(T*)&y,(T*)&x,(T*)&w}; }
+swizzle<T, 4> yyyx() { return {&y,&y,&y,&x}; }
+const swizzle<T, 4> yyyx() const { return {(T*)&y,(T*)&y,(T*)&y,(T*)&x}; }
+swizzle<T, 4> yyyy() { return {&y,&y,&y,&y}; }
+const swizzle<T, 4> yyyy() const { return {(T*)&y,(T*)&y,(T*)&y,(T*)&y}; }
+swizzle<T, 4> yyyz() { return {&y,&y,&y,&z}; }
+const swizzle<T, 4> yyyz() const { return {(T*)&y,(T*)&y,(T*)&y,(T*)&z}; }
+swizzle<T, 4> yyyw() { return {&y,&y,&y,&w}; }
+const swizzle<T, 4> yyyw() const { return {(T*)&y,(T*)&y,(T*)&y,(T*)&w}; }
+swizzle<T, 4> yyzx() { return {&y,&y,&z,&x}; }
+const swizzle<T, 4> yyzx() const { return {(T*)&y,(T*)&y,(T*)&z,(T*)&x}; }
+swizzle<T, 4> yyzy() { return {&y,&y,&z,&y}; }
+const swizzle<T, 4> yyzy() const { return {(T*)&y,(T*)&y,(T*)&z,(T*)&y}; }
+swizzle<T, 4> yyzz() { return {&y,&y,&z,&z}; }
+const swizzle<T, 4> yyzz() const { return {(T*)&y,(T*)&y,(T*)&z,(T*)&z}; }
+swizzle<T, 4> yyzw() { return {&y,&y,&z,&w}; }
+const swizzle<T, 4> yyzw() const { return {(T*)&y,(T*)&y,(T*)&z,(T*)&w}; }
+swizzle<T, 4> yywx() { return {&y,&y,&w,&x}; }
+const swizzle<T, 4> yywx() const { return {(T*)&y,(T*)&y,(T*)&w,(T*)&x}; }
+swizzle<T, 4> yywy() { return {&y,&y,&w,&y}; }
+const swizzle<T, 4> yywy() const { return {(T*)&y,(T*)&y,(T*)&w,(T*)&y}; }
+swizzle<T, 4> yywz() { return {&y,&y,&w,&z}; }
+const swizzle<T, 4> yywz() const { return {(T*)&y,(T*)&y,(T*)&w,(T*)&z}; }
+swizzle<T, 4> yyww() { return {&y,&y,&w,&w}; }
+const swizzle<T, 4> yyww() const { return {(T*)&y,(T*)&y,(T*)&w,(T*)&w}; }
+swizzle<T, 4> yzxx() { return {&y,&z,&x,&x}; }
+const swizzle<T, 4> yzxx() const { return {(T*)&y,(T*)&z,(T*)&x,(T*)&x}; }
+swizzle<T, 4> yzxy() { return {&y,&z,&x,&y}; }
+const swizzle<T, 4> yzxy() const { return {(T*)&y,(T*)&z,(T*)&x,(T*)&y}; }
+swizzle<T, 4> yzxz() { return {&y,&z,&x,&z}; }
+const swizzle<T, 4> yzxz() const { return {(T*)&y,(T*)&z,(T*)&x,(T*)&z}; }
+swizzle<T, 4> yzxw() { return {&y,&z,&x,&w}; }
+const swizzle<T, 4> yzxw() const { return {(T*)&y,(T*)&z,(T*)&x,(T*)&w}; }
+swizzle<T, 4> yzyx() { return {&y,&z,&y,&x}; }
+const swizzle<T, 4> yzyx() const { return {(T*)&y,(T*)&z,(T*)&y,(T*)&x}; }
+swizzle<T, 4> yzyy() { return {&y,&z,&y,&y}; }
+const swizzle<T, 4> yzyy() const { return {(T*)&y,(T*)&z,(T*)&y,(T*)&y}; }
+swizzle<T, 4> yzyz() { return {&y,&z,&y,&z}; }
+const swizzle<T, 4> yzyz() const { return {(T*)&y,(T*)&z,(T*)&y,(T*)&z}; }
+swizzle<T, 4> yzyw() { return {&y,&z,&y,&w}; }
+const swizzle<T, 4> yzyw() const { return {(T*)&y,(T*)&z,(T*)&y,(T*)&w}; }
+swizzle<T, 4> yzzx() { return {&y,&z,&z,&x}; }
+const swizzle<T, 4> yzzx() const { return {(T*)&y,(T*)&z,(T*)&z,(T*)&x}; }
+swizzle<T, 4> yzzy() { return {&y,&z,&z,&y}; }
+const swizzle<T, 4> yzzy() const { return {(T*)&y,(T*)&z,(T*)&z,(T*)&y}; }
+swizzle<T, 4> yzzz() { return {&y,&z,&z,&z}; }
+const swizzle<T, 4> yzzz() const { return {(T*)&y,(T*)&z,(T*)&z,(T*)&z}; }
+swizzle<T, 4> yzzw() { return {&y,&z,&z,&w}; }
+const swizzle<T, 4> yzzw() const { return {(T*)&y,(T*)&z,(T*)&z,(T*)&w}; }
+swizzle<T, 4> yzwx() { return {&y,&z,&w,&x}; }
+const swizzle<T, 4> yzwx() const { return {(T*)&y,(T*)&z,(T*)&w,(T*)&x}; }
+swizzle<T, 4> yzwy() { return {&y,&z,&w,&y}; }
+const swizzle<T, 4> yzwy() const { return {(T*)&y,(T*)&z,(T*)&w,(T*)&y}; }
+swizzle<T, 4> yzwz() { return {&y,&z,&w,&z}; }
+const swizzle<T, 4> yzwz() const { return {(T*)&y,(T*)&z,(T*)&w,(T*)&z}; }
+swizzle<T, 4> yzww() { return {&y,&z,&w,&w}; }
+const swizzle<T, 4> yzww() const { return {(T*)&y,(T*)&z,(T*)&w,(T*)&w}; }
+swizzle<T, 4> ywxx() { return {&y,&w,&x,&x}; }
+const swizzle<T, 4> ywxx() const { return {(T*)&y,(T*)&w,(T*)&x,(T*)&x}; }
+swizzle<T, 4> ywxy() { return {&y,&w,&x,&y}; }
+const swizzle<T, 4> ywxy() const { return {(T*)&y,(T*)&w,(T*)&x,(T*)&y}; }
+swizzle<T, 4> ywxz() { return {&y,&w,&x,&z}; }
+const swizzle<T, 4> ywxz() const { return {(T*)&y,(T*)&w,(T*)&x,(T*)&z}; }
+swizzle<T, 4> ywxw() { return {&y,&w,&x,&w}; }
+const swizzle<T, 4> ywxw() const { return {(T*)&y,(T*)&w,(T*)&x,(T*)&w}; }
+swizzle<T, 4> ywyx() { return {&y,&w,&y,&x}; }
+const swizzle<T, 4> ywyx() const { return {(T*)&y,(T*)&w,(T*)&y,(T*)&x}; }
+swizzle<T, 4> ywyy() { return {&y,&w,&y,&y}; }
+const swizzle<T, 4> ywyy() const { return {(T*)&y,(T*)&w,(T*)&y,(T*)&y}; }
+swizzle<T, 4> ywyz() { return {&y,&w,&y,&z}; }
+const swizzle<T, 4> ywyz() const { return {(T*)&y,(T*)&w,(T*)&y,(T*)&z}; }
+swizzle<T, 4> ywyw() { return {&y,&w,&y,&w}; }
+const swizzle<T, 4> ywyw() const { return {(T*)&y,(T*)&w,(T*)&y,(T*)&w}; }
+swizzle<T, 4> ywzx() { return {&y,&w,&z,&x}; }
+const swizzle<T, 4> ywzx() const { return {(T*)&y,(T*)&w,(T*)&z,(T*)&x}; }
+swizzle<T, 4> ywzy() { return {&y,&w,&z,&y}; }
+const swizzle<T, 4> ywzy() const { return {(T*)&y,(T*)&w,(T*)&z,(T*)&y}; }
+swizzle<T, 4> ywzz() { return {&y,&w,&z,&z}; }
+const swizzle<T, 4> ywzz() const { return {(T*)&y,(T*)&w,(T*)&z,(T*)&z}; }
+swizzle<T, 4> ywzw() { return {&y,&w,&z,&w}; }
+const swizzle<T, 4> ywzw() const { return {(T*)&y,(T*)&w,(T*)&z,(T*)&w}; }
+swizzle<T, 4> ywwx() { return {&y,&w,&w,&x}; }
+const swizzle<T, 4> ywwx() const { return {(T*)&y,(T*)&w,(T*)&w,(T*)&x}; }
+swizzle<T, 4> ywwy() { return {&y,&w,&w,&y}; }
+const swizzle<T, 4> ywwy() const { return {(T*)&y,(T*)&w,(T*)&w,(T*)&y}; }
+swizzle<T, 4> ywwz() { return {&y,&w,&w,&z}; }
+const swizzle<T, 4> ywwz() const { return {(T*)&y,(T*)&w,(T*)&w,(T*)&z}; }
+swizzle<T, 4> ywww() { return {&y,&w,&w,&w}; }
+const swizzle<T, 4> ywww() const { return {(T*)&y,(T*)&w,(T*)&w,(T*)&w}; }
+swizzle<T, 4> zxxx() { return {&z,&x,&x,&x}; }
+const swizzle<T, 4> zxxx() const { return {(T*)&z,(T*)&x,(T*)&x,(T*)&x}; }
+swizzle<T, 4> zxxy() { return {&z,&x,&x,&y}; }
+const swizzle<T, 4> zxxy() const { return {(T*)&z,(T*)&x,(T*)&x,(T*)&y}; }
+swizzle<T, 4> zxxz() { return {&z,&x,&x,&z}; }
+const swizzle<T, 4> zxxz() const { return {(T*)&z,(T*)&x,(T*)&x,(T*)&z}; }
+swizzle<T, 4> zxxw() { return {&z,&x,&x,&w}; }
+const swizzle<T, 4> zxxw() const { return {(T*)&z,(T*)&x,(T*)&x,(T*)&w}; }
+swizzle<T, 4> zxyx() { return {&z,&x,&y,&x}; }
+const swizzle<T, 4> zxyx() const { return {(T*)&z,(T*)&x,(T*)&y,(T*)&x}; }
+swizzle<T, 4> zxyy() { return {&z,&x,&y,&y}; }
+const swizzle<T, 4> zxyy() const { return {(T*)&z,(T*)&x,(T*)&y,(T*)&y}; }
+swizzle<T, 4> zxyz() { return {&z,&x,&y,&z}; }
+const swizzle<T, 4> zxyz() const { return {(T*)&z,(T*)&x,(T*)&y,(T*)&z}; }
+swizzle<T, 4> zxyw() { return {&z,&x,&y,&w}; }
+const swizzle<T, 4> zxyw() const { return {(T*)&z,(T*)&x,(T*)&y,(T*)&w}; }
+swizzle<T, 4> zxzx() { return {&z,&x,&z,&x}; }
+const swizzle<T, 4> zxzx() const { return {(T*)&z,(T*)&x,(T*)&z,(T*)&x}; }
+swizzle<T, 4> zxzy() { return {&z,&x,&z,&y}; }
+const swizzle<T, 4> zxzy() const { return {(T*)&z,(T*)&x,(T*)&z,(T*)&y}; }
+swizzle<T, 4> zxzz() { return {&z,&x,&z,&z}; }
+const swizzle<T, 4> zxzz() const { return {(T*)&z,(T*)&x,(T*)&z,(T*)&z}; }
+swizzle<T, 4> zxzw() { return {&z,&x,&z,&w}; }
+const swizzle<T, 4> zxzw() const { return {(T*)&z,(T*)&x,(T*)&z,(T*)&w}; }
+swizzle<T, 4> zxwx() { return {&z,&x,&w,&x}; }
+const swizzle<T, 4> zxwx() const { return {(T*)&z,(T*)&x,(T*)&w,(T*)&x}; }
+swizzle<T, 4> zxwy() { return {&z,&x,&w,&y}; }
+const swizzle<T, 4> zxwy() const { return {(T*)&z,(T*)&x,(T*)&w,(T*)&y}; }
+swizzle<T, 4> zxwz() { return {&z,&x,&w,&z}; }
+const swizzle<T, 4> zxwz() const { return {(T*)&z,(T*)&x,(T*)&w,(T*)&z}; }
+swizzle<T, 4> zxww() { return {&z,&x,&w,&w}; }
+const swizzle<T, 4> zxww() const { return {(T*)&z,(T*)&x,(T*)&w,(T*)&w}; }
+swizzle<T, 4> zyxx() { return {&z,&y,&x,&x}; }
+const swizzle<T, 4> zyxx() const { return {(T*)&z,(T*)&y,(T*)&x,(T*)&x}; }
+swizzle<T, 4> zyxy() { return {&z,&y,&x,&y}; }
+const swizzle<T, 4> zyxy() const { return {(T*)&z,(T*)&y,(T*)&x,(T*)&y}; }
+swizzle<T, 4> zyxz() { return {&z,&y,&x,&z}; }
+const swizzle<T, 4> zyxz() const { return {(T*)&z,(T*)&y,(T*)&x,(T*)&z}; }
+swizzle<T, 4> zyxw() { return {&z,&y,&x,&w}; }
+const swizzle<T, 4> zyxw() const { return {(T*)&z,(T*)&y,(T*)&x,(T*)&w}; }
+swizzle<T, 4> zyyx() { return {&z,&y,&y,&x}; }
+const swizzle<T, 4> zyyx() const { return {(T*)&z,(T*)&y,(T*)&y,(T*)&x}; }
+swizzle<T, 4> zyyy() { return {&z,&y,&y,&y}; }
+const swizzle<T, 4> zyyy() const { return {(T*)&z,(T*)&y,(T*)&y,(T*)&y}; }
+swizzle<T, 4> zyyz() { return {&z,&y,&y,&z}; }
+const swizzle<T, 4> zyyz() const { return {(T*)&z,(T*)&y,(T*)&y,(T*)&z}; }
+swizzle<T, 4> zyyw() { return {&z,&y,&y,&w}; }
+const swizzle<T, 4> zyyw() const { return {(T*)&z,(T*)&y,(T*)&y,(T*)&w}; }
+swizzle<T, 4> zyzx() { return {&z,&y,&z,&x}; }
+const swizzle<T, 4> zyzx() const { return {(T*)&z,(T*)&y,(T*)&z,(T*)&x}; }
+swizzle<T, 4> zyzy() { return {&z,&y,&z,&y}; }
+const swizzle<T, 4> zyzy() const { return {(T*)&z,(T*)&y,(T*)&z,(T*)&y}; }
+swizzle<T, 4> zyzz() { return {&z,&y,&z,&z}; }
+const swizzle<T, 4> zyzz() const { return {(T*)&z,(T*)&y,(T*)&z,(T*)&z}; }
+swizzle<T, 4> zyzw() { return {&z,&y,&z,&w}; }
+const swizzle<T, 4> zyzw() const { return {(T*)&z,(T*)&y,(T*)&z,(T*)&w}; }
+swizzle<T, 4> zywx() { return {&z,&y,&w,&x}; }
+const swizzle<T, 4> zywx() const { return {(T*)&z,(T*)&y,(T*)&w,(T*)&x}; }
+swizzle<T, 4> zywy() { return {&z,&y,&w,&y}; }
+const swizzle<T, 4> zywy() const { return {(T*)&z,(T*)&y,(T*)&w,(T*)&y}; }
+swizzle<T, 4> zywz() { return {&z,&y,&w,&z}; }
+const swizzle<T, 4> zywz() const { return {(T*)&z,(T*)&y,(T*)&w,(T*)&z}; }
+swizzle<T, 4> zyww() { return {&z,&y,&w,&w}; }
+const swizzle<T, 4> zyww() const { return {(T*)&z,(T*)&y,(T*)&w,(T*)&w}; }
+swizzle<T, 4> zzxx() { return {&z,&z,&x,&x}; }
+const swizzle<T, 4> zzxx() const { return {(T*)&z,(T*)&z,(T*)&x,(T*)&x}; }
+swizzle<T, 4> zzxy() { return {&z,&z,&x,&y}; }
+const swizzle<T, 4> zzxy() const { return {(T*)&z,(T*)&z,(T*)&x,(T*)&y}; }
+swizzle<T, 4> zzxz() { return {&z,&z,&x,&z}; }
+const swizzle<T, 4> zzxz() const { return {(T*)&z,(T*)&z,(T*)&x,(T*)&z}; }
+swizzle<T, 4> zzxw() { return {&z,&z,&x,&w}; }
+const swizzle<T, 4> zzxw() const { return {(T*)&z,(T*)&z,(T*)&x,(T*)&w}; }
+swizzle<T, 4> zzyx() { return {&z,&z,&y,&x}; }
+const swizzle<T, 4> zzyx() const { return {(T*)&z,(T*)&z,(T*)&y,(T*)&x}; }
+swizzle<T, 4> zzyy() { return {&z,&z,&y,&y}; }
+const swizzle<T, 4> zzyy() const { return {(T*)&z,(T*)&z,(T*)&y,(T*)&y}; }
+swizzle<T, 4> zzyz() { return {&z,&z,&y,&z}; }
+const swizzle<T, 4> zzyz() const { return {(T*)&z,(T*)&z,(T*)&y,(T*)&z}; }
+swizzle<T, 4> zzyw() { return {&z,&z,&y,&w}; }
+const swizzle<T, 4> zzyw() const { return {(T*)&z,(T*)&z,(T*)&y,(T*)&w}; }
+swizzle<T, 4> zzzx() { return {&z,&z,&z,&x}; }
+const swizzle<T, 4> zzzx() const { return {(T*)&z,(T*)&z,(T*)&z,(T*)&x}; }
+swizzle<T, 4> zzzy() { return {&z,&z,&z,&y}; }
+const swizzle<T, 4> zzzy() const { return {(T*)&z,(T*)&z,(T*)&z,(T*)&y}; }
+swizzle<T, 4> zzzz() { return {&z,&z,&z,&z}; }
+const swizzle<T, 4> zzzz() const { return {(T*)&z,(T*)&z,(T*)&z,(T*)&z}; }
+swizzle<T, 4> zzzw() { return {&z,&z,&z,&w}; }
+const swizzle<T, 4> zzzw() const { return {(T*)&z,(T*)&z,(T*)&z,(T*)&w}; }
+swizzle<T, 4> zzwx() { return {&z,&z,&w,&x}; }
+const swizzle<T, 4> zzwx() const { return {(T*)&z,(T*)&z,(T*)&w,(T*)&x}; }
+swizzle<T, 4> zzwy() { return {&z,&z,&w,&y}; }
+const swizzle<T, 4> zzwy() const { return {(T*)&z,(T*)&z,(T*)&w,(T*)&y}; }
+swizzle<T, 4> zzwz() { return {&z,&z,&w,&z}; }
+const swizzle<T, 4> zzwz() const { return {(T*)&z,(T*)&z,(T*)&w,(T*)&z}; }
+swizzle<T, 4> zzww() { return {&z,&z,&w,&w}; }
+const swizzle<T, 4> zzww() const { return {(T*)&z,(T*)&z,(T*)&w,(T*)&w}; }
+swizzle<T, 4> zwxx() { return {&z,&w,&x,&x}; }
+const swizzle<T, 4> zwxx() const { return {(T*)&z,(T*)&w,(T*)&x,(T*)&x}; }
+swizzle<T, 4> zwxy() { return {&z,&w,&x,&y}; }
+const swizzle<T, 4> zwxy() const { return {(T*)&z,(T*)&w,(T*)&x,(T*)&y}; }
+swizzle<T, 4> zwxz() { return {&z,&w,&x,&z}; }
+const swizzle<T, 4> zwxz() const { return {(T*)&z,(T*)&w,(T*)&x,(T*)&z}; }
+swizzle<T, 4> zwxw() { return {&z,&w,&x,&w}; }
+const swizzle<T, 4> zwxw() const { return {(T*)&z,(T*)&w,(T*)&x,(T*)&w}; }
+swizzle<T, 4> zwyx() { return {&z,&w,&y,&x}; }
+const swizzle<T, 4> zwyx() const { return {(T*)&z,(T*)&w,(T*)&y,(T*)&x}; }
+swizzle<T, 4> zwyy() { return {&z,&w,&y,&y}; }
+const swizzle<T, 4> zwyy() const { return {(T*)&z,(T*)&w,(T*)&y,(T*)&y}; }
+swizzle<T, 4> zwyz() { return {&z,&w,&y,&z}; }
+const swizzle<T, 4> zwyz() const { return {(T*)&z,(T*)&w,(T*)&y,(T*)&z}; }
+swizzle<T, 4> zwyw() { return {&z,&w,&y,&w}; }
+const swizzle<T, 4> zwyw() const { return {(T*)&z,(T*)&w,(T*)&y,(T*)&w}; }
+swizzle<T, 4> zwzx() { return {&z,&w,&z,&x}; }
+const swizzle<T, 4> zwzx() const { return {(T*)&z,(T*)&w,(T*)&z,(T*)&x}; }
+swizzle<T, 4> zwzy() { return {&z,&w,&z,&y}; }
+const swizzle<T, 4> zwzy() const { return {(T*)&z,(T*)&w,(T*)&z,(T*)&y}; }
+swizzle<T, 4> zwzz() { return {&z,&w,&z,&z}; }
+const swizzle<T, 4> zwzz() const { return {(T*)&z,(T*)&w,(T*)&z,(T*)&z}; }
+swizzle<T, 4> zwzw() { return {&z,&w,&z,&w}; }
+const swizzle<T, 4> zwzw() const { return {(T*)&z,(T*)&w,(T*)&z,(T*)&w}; }
+swizzle<T, 4> zwwx() { return {&z,&w,&w,&x}; }
+const swizzle<T, 4> zwwx() const { return {(T*)&z,(T*)&w,(T*)&w,(T*)&x}; }
+swizzle<T, 4> zwwy() { return {&z,&w,&w,&y}; }
+const swizzle<T, 4> zwwy() const { return {(T*)&z,(T*)&w,(T*)&w,(T*)&y}; }
+swizzle<T, 4> zwwz() { return {&z,&w,&w,&z}; }
+const swizzle<T, 4> zwwz() const { return {(T*)&z,(T*)&w,(T*)&w,(T*)&z}; }
+swizzle<T, 4> zwww() { return {&z,&w,&w,&w}; }
+const swizzle<T, 4> zwww() const { return {(T*)&z,(T*)&w,(T*)&w,(T*)&w}; }
+swizzle<T, 4> wxxx() { return {&w,&x,&x,&x}; }
+const swizzle<T, 4> wxxx() const { return {(T*)&w,(T*)&x,(T*)&x,(T*)&x}; }
+swizzle<T, 4> wxxy() { return {&w,&x,&x,&y}; }
+const swizzle<T, 4> wxxy() const { return {(T*)&w,(T*)&x,(T*)&x,(T*)&y}; }
+swizzle<T, 4> wxxz() { return {&w,&x,&x,&z}; }
+const swizzle<T, 4> wxxz() const { return {(T*)&w,(T*)&x,(T*)&x,(T*)&z}; }
+swizzle<T, 4> wxxw() { return {&w,&x,&x,&w}; }
+const swizzle<T, 4> wxxw() const { return {(T*)&w,(T*)&x,(T*)&x,(T*)&w}; }
+swizzle<T, 4> wxyx() { return {&w,&x,&y,&x}; }
+const swizzle<T, 4> wxyx() const { return {(T*)&w,(T*)&x,(T*)&y,(T*)&x}; }
+swizzle<T, 4> wxyy() { return {&w,&x,&y,&y}; }
+const swizzle<T, 4> wxyy() const { return {(T*)&w,(T*)&x,(T*)&y,(T*)&y}; }
+swizzle<T, 4> wxyz() { return {&w,&x,&y,&z}; }
+const swizzle<T, 4> wxyz() const { return {(T*)&w,(T*)&x,(T*)&y,(T*)&z}; }
+swizzle<T, 4> wxyw() { return {&w,&x,&y,&w}; }
+const swizzle<T, 4> wxyw() const { return {(T*)&w,(T*)&x,(T*)&y,(T*)&w}; }
+swizzle<T, 4> wxzx() { return {&w,&x,&z,&x}; }
+const swizzle<T, 4> wxzx() const { return {(T*)&w,(T*)&x,(T*)&z,(T*)&x}; }
+swizzle<T, 4> wxzy() { return {&w,&x,&z,&y}; }
+const swizzle<T, 4> wxzy() const { return {(T*)&w,(T*)&x,(T*)&z,(T*)&y}; }
+swizzle<T, 4> wxzz() { return {&w,&x,&z,&z}; }
+const swizzle<T, 4> wxzz() const { return {(T*)&w,(T*)&x,(T*)&z,(T*)&z}; }
+swizzle<T, 4> wxzw() { return {&w,&x,&z,&w}; }
+const swizzle<T, 4> wxzw() const { return {(T*)&w,(T*)&x,(T*)&z,(T*)&w}; }
+swizzle<T, 4> wxwx() { return {&w,&x,&w,&x}; }
+const swizzle<T, 4> wxwx() const { return {(T*)&w,(T*)&x,(T*)&w,(T*)&x}; }
+swizzle<T, 4> wxwy() { return {&w,&x,&w,&y}; }
+const swizzle<T, 4> wxwy() const { return {(T*)&w,(T*)&x,(T*)&w,(T*)&y}; }
+swizzle<T, 4> wxwz() { return {&w,&x,&w,&z}; }
+const swizzle<T, 4> wxwz() const { return {(T*)&w,(T*)&x,(T*)&w,(T*)&z}; }
+swizzle<T, 4> wxww() { return {&w,&x,&w,&w}; }
+const swizzle<T, 4> wxww() const { return {(T*)&w,(T*)&x,(T*)&w,(T*)&w}; }
+swizzle<T, 4> wyxx() { return {&w,&y,&x,&x}; }
+const swizzle<T, 4> wyxx() const { return {(T*)&w,(T*)&y,(T*)&x,(T*)&x}; }
+swizzle<T, 4> wyxy() { return {&w,&y,&x,&y}; }
+const swizzle<T, 4> wyxy() const { return {(T*)&w,(T*)&y,(T*)&x,(T*)&y}; }
+swizzle<T, 4> wyxz() { return {&w,&y,&x,&z}; }
+const swizzle<T, 4> wyxz() const { return {(T*)&w,(T*)&y,(T*)&x,(T*)&z}; }
+swizzle<T, 4> wyxw() { return {&w,&y,&x,&w}; }
+const swizzle<T, 4> wyxw() const { return {(T*)&w,(T*)&y,(T*)&x,(T*)&w}; }
+swizzle<T, 4> wyyx() { return {&w,&y,&y,&x}; }
+const swizzle<T, 4> wyyx() const { return {(T*)&w,(T*)&y,(T*)&y,(T*)&x}; }
+swizzle<T, 4> wyyy() { return {&w,&y,&y,&y}; }
+const swizzle<T, 4> wyyy() const { return {(T*)&w,(T*)&y,(T*)&y,(T*)&y}; }
+swizzle<T, 4> wyyz() { return {&w,&y,&y,&z}; }
+const swizzle<T, 4> wyyz() const { return {(T*)&w,(T*)&y,(T*)&y,(T*)&z}; }
+swizzle<T, 4> wyyw() { return {&w,&y,&y,&w}; }
+const swizzle<T, 4> wyyw() const { return {(T*)&w,(T*)&y,(T*)&y,(T*)&w}; }
+swizzle<T, 4> wyzx() { return {&w,&y,&z,&x}; }
+const swizzle<T, 4> wyzx() const { return {(T*)&w,(T*)&y,(T*)&z,(T*)&x}; }
+swizzle<T, 4> wyzy() { return {&w,&y,&z,&y}; }
+const swizzle<T, 4> wyzy() const { return {(T*)&w,(T*)&y,(T*)&z,(T*)&y}; }
+swizzle<T, 4> wyzz() { return {&w,&y,&z,&z}; }
+const swizzle<T, 4> wyzz() const { return {(T*)&w,(T*)&y,(T*)&z,(T*)&z}; }
+swizzle<T, 4> wyzw() { return {&w,&y,&z,&w}; }
+const swizzle<T, 4> wyzw() const { return {(T*)&w,(T*)&y,(T*)&z,(T*)&w}; }
+swizzle<T, 4> wywx() { return {&w,&y,&w,&x}; }
+const swizzle<T, 4> wywx() const { return {(T*)&w,(T*)&y,(T*)&w,(T*)&x}; }
+swizzle<T, 4> wywy() { return {&w,&y,&w,&y}; }
+const swizzle<T, 4> wywy() const { return {(T*)&w,(T*)&y,(T*)&w,(T*)&y}; }
+swizzle<T, 4> wywz() { return {&w,&y,&w,&z}; }
+const swizzle<T, 4> wywz() const { return {(T*)&w,(T*)&y,(T*)&w,(T*)&z}; }
+swizzle<T, 4> wyww() { return {&w,&y,&w,&w}; }
+const swizzle<T, 4> wyww() const { return {(T*)&w,(T*)&y,(T*)&w,(T*)&w}; }
+swizzle<T, 4> wzxx() { return {&w,&z,&x,&x}; }
+const swizzle<T, 4> wzxx() const { return {(T*)&w,(T*)&z,(T*)&x,(T*)&x}; }
+swizzle<T, 4> wzxy() { return {&w,&z,&x,&y}; }
+const swizzle<T, 4> wzxy() const { return {(T*)&w,(T*)&z,(T*)&x,(T*)&y}; }
+swizzle<T, 4> wzxz() { return {&w,&z,&x,&z}; }
+const swizzle<T, 4> wzxz() const { return {(T*)&w,(T*)&z,(T*)&x,(T*)&z}; }
+swizzle<T, 4> wzxw() { return {&w,&z,&x,&w}; }
+const swizzle<T, 4> wzxw() const { return {(T*)&w,(T*)&z,(T*)&x,(T*)&w}; }
+swizzle<T, 4> wzyx() { return {&w,&z,&y,&x}; }
+const swizzle<T, 4> wzyx() const { return {(T*)&w,(T*)&z,(T*)&y,(T*)&x}; }
+swizzle<T, 4> wzyy() { return {&w,&z,&y,&y}; }
+const swizzle<T, 4> wzyy() const { return {(T*)&w,(T*)&z,(T*)&y,(T*)&y}; }
+swizzle<T, 4> wzyz() { return {&w,&z,&y,&z}; }
+const swizzle<T, 4> wzyz() const { return {(T*)&w,(T*)&z,(T*)&y,(T*)&z}; }
+swizzle<T, 4> wzyw() { return {&w,&z,&y,&w}; }
+const swizzle<T, 4> wzyw() const { return {(T*)&w,(T*)&z,(T*)&y,(T*)&w}; }
+swizzle<T, 4> wzzx() { return {&w,&z,&z,&x}; }
+const swizzle<T, 4> wzzx() const { return {(T*)&w,(T*)&z,(T*)&z,(T*)&x}; }
+swizzle<T, 4> wzzy() { return {&w,&z,&z,&y}; }
+const swizzle<T, 4> wzzy() const { return {(T*)&w,(T*)&z,(T*)&z,(T*)&y}; }
+swizzle<T, 4> wzzz() { return {&w,&z,&z,&z}; }
+const swizzle<T, 4> wzzz() const { return {(T*)&w,(T*)&z,(T*)&z,(T*)&z}; }
+swizzle<T, 4> wzzw() { return {&w,&z,&z,&w}; }
+const swizzle<T, 4> wzzw() const { return {(T*)&w,(T*)&z,(T*)&z,(T*)&w}; }
+swizzle<T, 4> wzwx() { return {&w,&z,&w,&x}; }
+const swizzle<T, 4> wzwx() const { return {(T*)&w,(T*)&z,(T*)&w,(T*)&x}; }
+swizzle<T, 4> wzwy() { return {&w,&z,&w,&y}; }
+const swizzle<T, 4> wzwy() const { return {(T*)&w,(T*)&z,(T*)&w,(T*)&y}; }
+swizzle<T, 4> wzwz() { return {&w,&z,&w,&z}; }
+const swizzle<T, 4> wzwz() const { return {(T*)&w,(T*)&z,(T*)&w,(T*)&z}; }
+swizzle<T, 4> wzww() { return {&w,&z,&w,&w}; }
+const swizzle<T, 4> wzww() const { return {(T*)&w,(T*)&z,(T*)&w,(T*)&w}; }
+swizzle<T, 4> wwxx() { return {&w,&w,&x,&x}; }
+const swizzle<T, 4> wwxx() const { return {(T*)&w,(T*)&w,(T*)&x,(T*)&x}; }
+swizzle<T, 4> wwxy() { return {&w,&w,&x,&y}; }
+const swizzle<T, 4> wwxy() const { return {(T*)&w,(T*)&w,(T*)&x,(T*)&y}; }
+swizzle<T, 4> wwxz() { return {&w,&w,&x,&z}; }
+const swizzle<T, 4> wwxz() const { return {(T*)&w,(T*)&w,(T*)&x,(T*)&z}; }
+swizzle<T, 4> wwxw() { return {&w,&w,&x,&w}; }
+const swizzle<T, 4> wwxw() const { return {(T*)&w,(T*)&w,(T*)&x,(T*)&w}; }
+swizzle<T, 4> wwyx() { return {&w,&w,&y,&x}; }
+const swizzle<T, 4> wwyx() const { return {(T*)&w,(T*)&w,(T*)&y,(T*)&x}; }
+swizzle<T, 4> wwyy() { return {&w,&w,&y,&y}; }
+const swizzle<T, 4> wwyy() const { return {(T*)&w,(T*)&w,(T*)&y,(T*)&y}; }
+swizzle<T, 4> wwyz() { return {&w,&w,&y,&z}; }
+const swizzle<T, 4> wwyz() const { return {(T*)&w,(T*)&w,(T*)&y,(T*)&z}; }
+swizzle<T, 4> wwyw() { return {&w,&w,&y,&w}; }
+const swizzle<T, 4> wwyw() const { return {(T*)&w,(T*)&w,(T*)&y,(T*)&w}; }
+swizzle<T, 4> wwzx() { return {&w,&w,&z,&x}; }
+const swizzle<T, 4> wwzx() const { return {(T*)&w,(T*)&w,(T*)&z,(T*)&x}; }
+swizzle<T, 4> wwzy() { return {&w,&w,&z,&y}; }
+const swizzle<T, 4> wwzy() const { return {(T*)&w,(T*)&w,(T*)&z,(T*)&y}; }
+swizzle<T, 4> wwzz() { return {&w,&w,&z,&z}; }
+const swizzle<T, 4> wwzz() const { return {(T*)&w,(T*)&w,(T*)&z,(T*)&z}; }
+swizzle<T, 4> wwzw() { return {&w,&w,&z,&w}; }
+const swizzle<T, 4> wwzw() const { return {(T*)&w,(T*)&w,(T*)&z,(T*)&w}; }
+swizzle<T, 4> wwwx() { return {&w,&w,&w,&x}; }
+const swizzle<T, 4> wwwx() const { return {(T*)&w,(T*)&w,(T*)&w,(T*)&x}; }
+swizzle<T, 4> wwwy() { return {&w,&w,&w,&y}; }
+const swizzle<T, 4> wwwy() const { return {(T*)&w,(T*)&w,(T*)&w,(T*)&y}; }
+swizzle<T, 4> wwwz() { return {&w,&w,&w,&z}; }
+const swizzle<T, 4> wwwz() const { return {(T*)&w,(T*)&w,(T*)&w,(T*)&z}; }
+swizzle<T, 4> wwww() { return {&w,&w,&w,&w}; }
+const swizzle<T, 4> wwww() const { return {(T*)&w,(T*)&w,(T*)&w,(T*)&w}; }
