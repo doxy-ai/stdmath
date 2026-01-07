@@ -226,7 +226,7 @@ inline friend vector<bool, N> operator!(const self& v) {
 
 
 
-inline operator bool() {
+explicit inline operator bool() {
 	return all_of(*this);
 }
 
@@ -270,9 +270,16 @@ requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 }
 
 template<typename Tfunction> // TODO: Do we want this function to be able to change the type of the vector? vector<int, 4> -> vector<floats, 4> // Probably not?
-constexpr inline self elementwise_transform(const Tfunction& function) {
+constexpr inline self elementwise_transform(const Tfunction& function) const {
 	self out = *this;
-	for(auto& element: out)
-		element = function(element);
+	auto range = std::views::iota(size_t{0}, N);
+	std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
+		out[i] = function(out[i], i);
+	});
 	return out;
+}
+
+template<typename Tfunction = std::plus<T>>
+constexpr inline T reduce_elements(const T initial_value, const Tfunction& binary_op = {}) const {
+	return reduce(to_simd, initial_value, binary_op);
 }
