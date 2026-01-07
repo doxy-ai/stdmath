@@ -279,6 +279,18 @@ namespace stdmath {
 		return a * t + b * (1 - t);
 	}
 
+	template<typename T, size_t N>
+	constexpr vector<T, N> clamp(const vector<T, N>& v, const vector<T, N>& min, const vector<T, N>& max) {
+		return v.elementwise_transform([&](const T& element, size_t i) {
+			return std::clamp(element, min[i], max[i]);
+		});
+	}
+
+	template<typename T, size_t N>
+	constexpr vector<T, N> reflect(const vector<T, N>& v, const vector<T, N>& normal) {
+		return v - 2 * dot(v, normal) * normal;
+	}
+
 	template<size_t N>
 	inline bool all_of(const vector<bool, N>& v) {
 		return all_of(v.to_simd());
