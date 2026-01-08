@@ -42,4 +42,10 @@ namespace stdmath {
 	inline static bool approximately_equal(stl::float64_t a, stl::float64_t b, stl::float64_t epsilon = std::numeric_limits<stl::float32_t>::epsilon() * 100) {
 		return std::abs<stl::float64_t>(a - b) < epsilon;
 	}
+
+	inline static int8_t normalize(stl::float64_t v, stl::float64_t epsilon = std::numeric_limits<stl::float32_t>::epsilon() * 100) {
+		if(v - epsilon > 0) return 1;
+		if(v + epsilon < 0) return -1;
+		return 0;
+	}
 }
