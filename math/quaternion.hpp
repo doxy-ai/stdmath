@@ -105,12 +105,13 @@ namespace stdmath {
 			return out;
 		}
 
-		constexpr static basic_quaternion from_euler_angles(const vector<radian, 3> angles) {
+		constexpr static basic_quaternion from_euler_angles(const vector<degree, 3> angles) {
 			// TODO: How optimized is this?
-			return from_axis_angle({1, 0, 0}, angles.x) * from_axis_angle({0, 1, 0}, angles.y) * from_axis_angle({0, 0, 1}, angles.z);
+			auto q = from_axis_angle({1, 0, 0}, angles.x) * from_axis_angle({0, 1, 0}, angles.y) * from_axis_angle({0, 0, 1}, angles.z);
+			return from_vector(stdmath::normalize(q.to_vector()));
 		}
 
-		constexpr vector<radian, 3> to_euler_angles() {
+		constexpr vector<degree, 3> to_euler_angles() {
 			radian outX = stdmath::atan2(2*(w*x + y*z), 1-2*(x*x + y*y));
 			radian outY = stdmath::asin(2*(w*y - x*z));
 			radian outZ = stdmath::atan2(2*(w*z + x*y), 1-2*(y*y + z*z));
@@ -120,7 +121,7 @@ namespace stdmath {
 
 	template<typename F>
 	basic_quaternion<F> normalize(const basic_quaternion<F>& q) {
-		return basic_quaternion<F>::from_vector(normalize(q.to_vector()));
+		return basic_quaternion<F>::from_vector(stdmath::normalize(q.to_vector()));
 	}
 
 	template<typename F>
