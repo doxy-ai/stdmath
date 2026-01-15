@@ -10,14 +10,14 @@ namespace stdmath {
 	template<typename T = float_t, typename Tq = float_t>
 	constexpr matrix<T, 3, 3> rotation_matrix(const basic_quaternion<Tq>& q, bool assume_quaternion_is_unit = true) {
 		if(assume_quaternion_is_unit)
-			return { // TODO: Incorrect!
-				1 - 2*(q.y*q.y + q.z*q.z), 2*(q.x*q.y - q.w*q.z), 2*(q.w*q.y + q.x*q.z),
-				2*(q.x*q.y + q.w*q.y), 1-2*(q.x*q.x + q.z*q.z), 2*(q.y*q.z + q.w*q.x),
-				2*(q.x*q.z - q.w*q.y), 2*(q.w*q.x + q.y*q.z), 1-2*(q.x*q.x + q.y*q.y)
+			return { 
+				1 - 2*(q.y*q.y + q.z*q.z), 2*(q.x*q.y - q.w*q.z), 2*(q.x*q.z + q.w*q.y),
+				2*(q.x*q.y + q.w*q.z), 1 - 2*(q.x*q.x + q.z*q.z), 2*(q.y*q.z - q.w*q.x),
+				2*(q.x*q.z - q.w*q.y), 2*(q.w*q.x + q.y*q.z), 1 - 2*(q.x*q.x + q.y*q.y)
 			};
-		else return {
-			q.w*q.w + q.x*q.x - q.y*q.y - q.z*q.z, 2*(q.x*q.y - q.w*q.z), 2*(q.w*q.y + q.x*q.z),
-			2*(q.x*q.y + q.w*q.y), q.w*q.w - q.x*q.x + q.y*q.y - q.z*q.z, 2*(q.y*q.z + q.w*q.x),
+		else return { 
+			q.w*q.w + q.x*q.x - q.y*q.y - q.z*q.z, 2*(q.x*q.y - q.w*q.z), 2*(q.x*q.z + q.w*q.y),
+			2*(q.x*q.y + q.w*q.z), q.w*q.w - q.x*q.x + q.y*q.y - q.z*q.z, 2*(q.y*q.z - q.w*q.x),
 			2*(q.x*q.z - q.w*q.y), 2*(q.w*q.x + q.y*q.z), q.w*q.w - q.x*q.x - q.y*q.y + q.z*q.z
 		};
 	}
