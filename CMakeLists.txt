@@ -17,6 +17,7 @@ target_sources(stdmath PUBLIC
 		util/simd_emulation.cppm
 		util/types.cppm
 		math/vector.cppm
+		math/matrix.cppm
 )
 target_include_directories(stdmath PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_library(std::math ALIAS stdmath)
