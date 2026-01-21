@@ -1,0 +1,78 @@
+swizzle<T, 1> _x() { return {&x}; }
+const swizzle<T, 1> _x() const { return {(T*)&x}; }
+swizzle<T, 1> _y() { return {&y}; }
+const swizzle<T, 1> _y() const { return {(T*)&y}; }
+swizzle<T, 1> _z() { return {&z}; }
+const swizzle<T, 1> _z() const { return {(T*)&z}; }
+swizzle<T, 2> xx() { return {&x,&x}; }
+const swizzle<T, 2> xx() const { return {(T*)&x,(T*)&x}; }
+swizzle<T, 2> xy() { return {&x,&y}; }
+const swizzle<T, 2> xy() const { return {(T*)&x,(T*)&y}; }
+swizzle<T, 2> xz() { return {&x,&z}; }
+const swizzle<T, 2> xz() const { return {(T*)&x,(T*)&z}; }
+swizzle<T, 2> yx() { return {&y,&x}; }
+const swizzle<T, 2> yx() const { return {(T*)&y,(T*)&x}; }
+swizzle<T, 2> yy() { return {&y,&y}; }
+const swizzle<T, 2> yy() const { return {(T*)&y,(T*)&y}; }
+swizzle<T, 2> yz() { return {&y,&z}; }
+const swizzle<T, 2> yz() const { return {(T*)&y,(T*)&z}; }
+swizzle<T, 2> zx() { return {&z,&x}; }
+const swizzle<T, 2> zx() const { return {(T*)&z,(T*)&x}; }
+swizzle<T, 2> zy() { return {&z,&y}; }
+const swizzle<T, 2> zy() const { return {(T*)&z,(T*)&y}; }
+swizzle<T, 2> zz() { return {&z,&z}; }
+const swizzle<T, 2> zz() const { return {(T*)&z,(T*)&z}; }
+swizzle<T, 3> xxx() { return {&x,&x,&x}; }
+const swizzle<T, 3> xxx() const { return {(T*)&x,(T*)&x,(T*)&x}; }
+swizzle<T, 3> xxy() { return {&x,&x,&y}; }
+const swizzle<T, 3> xxy() const { return {(T*)&x,(T*)&x,(T*)&y}; }
+swizzle<T, 3> xxz() { return {&x,&x,&z}; }
+const swizzle<T, 3> xxz() const { return {(T*)&x,(T*)&x,(T*)&z}; }
+swizzle<T, 3> xyx() { return {&x,&y,&x}; }
+const swizzle<T, 3> xyx() const { return {(T*)&x,(T*)&y,(T*)&x}; }
+swizzle<T, 3> xyy() { return {&x,&y,&y}; }
+const swizzle<T, 3> xyy() const { return {(T*)&x,(T*)&y,(T*)&y}; }
+swizzle<T, 3> xyz() { return {&x,&y,&z}; }
+const swizzle<T, 3> xyz() const { return {(T*)&x,(T*)&y,(T*)&z}; }
+swizzle<T, 3> xzx() { return {&x,&z,&x}; }
+const swizzle<T, 3> xzx() const { return {(T*)&x,(T*)&z,(T*)&x}; }
+swizzle<T, 3> xzy() { return {&x,&z,&y}; }
+const swizzle<T, 3> xzy() const { return {(T*)&x,(T*)&z,(T*)&y}; }
+swizzle<T, 3> xzz() { return {&x,&z,&z}; }
+const swizzle<T, 3> xzz() const { return {(T*)&x,(T*)&z,(T*)&z}; }
+swizzle<T, 3> yxx() { return {&y,&x,&x}; }
+const swizzle<T, 3> yxx() const { return {(T*)&y,(T*)&x,(T*)&x}; }
+swizzle<T, 3> yxy() { return {&y,&x,&y}; }
+const swizzle<T, 3> yxy() const { return {(T*)&y,(T*)&x,(T*)&y}; }
+swizzle<T, 3> yxz() { return {&y,&x,&z}; }
+const swizzle<T, 3> yxz() const { return {(T*)&y,(T*)&x,(T*)&z}; }
+swizzle<T, 3> yyx() { return {&y,&y,&x}; }
+const swizzle<T, 3> yyx() const { return {(T*)&y,(T*)&y,(T*)&x}; }
+swizzle<T, 3> yyy() { return {&y,&y,&y}; }
+const swizzle<T, 3> yyy() const { return {(T*)&y,(T*)&y,(T*)&y}; }
+swizzle<T, 3> yyz() { return {&y,&y,&z}; }
+const swizzle<T, 3> yyz() const { return {(T*)&y,(T*)&y,(T*)&z}; }
+swizzle<T, 3> yzx() { return {&y,&z,&x}; }
+const swizzle<T, 3> yzx() const { return {(T*)&y,(T*)&z,(T*)&x}; }
+swizzle<T, 3> yzy() { return {&y,&z,&y}; }
+const swizzle<T, 3> yzy() const { return {(T*)&y,(T*)&z,(T*)&y}; }
+swizzle<T, 3> yzz() { return {&y,&z,&z}; }
+const swizzle<T, 3> yzz() const { return {(T*)&y,(T*)&z,(T*)&z}; }
+swizzle<T, 3> zxx() { return {&z,&x,&x}; }
+const swizzle<T, 3> zxx() const { return {(T*)&z,(T*)&x,(T*)&x}; }
+swizzle<T, 3> zxy() { return {&z,&x,&y}; }
+const swizzle<T, 3> zxy() const { return {(T*)&z,(T*)&x,(T*)&y}; }
+swizzle<T, 3> zxz() { return {&z,&x,&z}; }
+const swizzle<T, 3> zxz() const { return {(T*)&z,(T*)&x,(T*)&z}; }
+swizzle<T, 3> zyx() { return {&z,&y,&x}; }
+const swizzle<T, 3> zyx() const { return {(T*)&z,(T*)&y,(T*)&x}; }
+swizzle<T, 3> zyy() { return {&z,&y,&y}; }
+const swizzle<T, 3> zyy() const { return {(T*)&z,(T*)&y,(T*)&y}; }
+swizzle<T, 3> zyz() { return {&z,&y,&z}; }
+const swizzle<T, 3> zyz() const { return {(T*)&z,(T*)&y,(T*)&z}; }
+swizzle<T, 3> zzx() { return {&z,&z,&x}; }
+const swizzle<T, 3> zzx() const { return {(T*)&z,(T*)&z,(T*)&x}; }
+swizzle<T, 3> zzy() { return {&z,&z,&y}; }
+const swizzle<T, 3> zzy() const { return {(T*)&z,(T*)&z,(T*)&y}; }
+swizzle<T, 3> zzz() { return {&z,&z,&z}; }
+const swizzle<T, 3> zzz() const { return {(T*)&z,(T*)&z,(T*)&z}; }

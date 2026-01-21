@@ -1,0 +1,12 @@
+swizzle<T, 1> _x() { return {x}; }
+const swizzle<T, 1> _x() const { return {x}; }
+swizzle<T, 1> _y() { return {y}; }
+const swizzle<T, 1> _y() const { return {y}; }
+swizzle<T, 2> xx() { return {x,x}; }
+const swizzle<T, 2> xx() const { return {x,x}; }
+swizzle<T, 2> xy() { return {x,y}; }
+const swizzle<T, 2> xy() const { return {x,y}; }
+swizzle<T, 2> yx() { return {y,x}; }
+const swizzle<T, 2> yx() const { return {y,x}; }
+swizzle<T, 2> yy() { return {y,y}; }
+const swizzle<T, 2> yy() const { return {y,y}; }

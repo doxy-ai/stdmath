@@ -1,0 +1,2 @@
+swizzle<T, 1> _x() { return {&x}; }
+const swizzle<T, 1> _x() const { return {(T*)&x}; }

@@ -1,0 +1,20 @@
+template<typename To>
+vector(const vector<To, N>& o) {
+	auto range = std::views::iota(size_t{0}, N);
+#ifdef __clang__
+	std::for_each(range.begin(), range.end(), [&](size_t i) {
+#else
+	std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
+#endif
+		data[i] = o[i];
+	});
+}
+
+constexpr vector() {}
+vector(const vector&) = default;
+constexpr vector(vector&&) = default;
+constexpr vector& operator=(const vector&) = default;
+constexpr vector& operator=(vector&&) = default;
+vector(const vector<T, 1>& _0, const vector<T, 1>& _1, const vector<T, 1>& _2): data({_0[0], _1[0], _2[0]}) {}
+vector(const vector<T, 1>& _0, const vector<T, 2>& _1): data({_0[0], _1[0], _1[1]}) {}
+vector(const vector<T, 2>& _0, const vector<T, 1>& _1): data({_0[0], _0[1], _1[0]}) {}

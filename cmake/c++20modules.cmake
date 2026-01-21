@@ -72,23 +72,27 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSIO
 	add_dependencies(std std_module std_compat_module)
 
 	link_libraries(std)
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "19.36")
+elseif (MSVC AND MSVC_VERSION VERSION_GREATER_EQUAL 1936)
 	if (CMAKE_CXX_STANDARD VERSION_LESS 20)
 		message(FATAL_ERROR "C++20 or newer is required.")
-	elseif (CMAKE_CXX_STANDARD VERSION_LESS 23 AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.38")
+	elseif (CMAKE_CXX_STANDARD VERSION_LESS 23 AND MSVC_VERSION VERSION_LESS 1938)
 		message(FATAL_ERROR "C++23 Standard library module in C++20 is only supported with MSVC 19.38 or newer.")
 	endif()
 
-	file(TO_CMAKE_PATH "${VCTOOLS_INSTALL_DIR}" VCTOOLS_INSTALL_DIR)
+	file(TO_CMAKE_PATH "$ENV{VCToolsInstallDir}" VCTOOLS_INSTALL_DIR)
+	message("${VCTOOLS_INSTALL_DIR} - ${MSVC_VERSION}") 
 
-	add_library(std)
-	target_sources(std PUBLIC
-		FILE_SET CXX_MODULES
-		BASE_DIRS ${VCTOOLS_INSTALL_DIR}/modules
-		FILES
-			${VCTOOLS_INSTALL_DIR}/modules/std.ixx
-			${VCTOOLS_INSTALL_DIR}/modules/std.compat.ixx
-	)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+	add_library(std INTERFACE)
+	#target_sources(std PUBLIC
+	#	FILE_SET CXX_MODULES
+	#	BASE_DIRS ${VCTOOLS_INSTALL_DIR}/modules
+	#	FILES
+	#		${VCTOOLS_INSTALL_DIR}/modules/std.ixx
+	#		${VCTOOLS_INSTALL_DIR}/modules/std.compat.ixx
+	#)
+	target_compile_options(std INTERFACE /experimental:module)
 
 	link_libraries(std)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
