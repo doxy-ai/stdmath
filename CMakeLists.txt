@@ -19,6 +19,7 @@ target_sources(stdmath PUBLIC
 		util/types.cppm
 		math/AABB.cppm
 		math/angle.cppm
+		math/color.cppm
 		math/matrix_transformations.cppm
 		math/stdmath.cppm
 		math/matrix.cppm
