@@ -77,17 +77,10 @@ namespace stdmath { namespace stl {
 			return std::reduce(a.begin(), a.end());
 		}
 
+#ifndef __clang__
 	#define stdmath_simd_emulation_parallel_binary_operation(op)\
 		friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
-		requires(requires(T t) { { t op t } -> std::convertible_to<T>; } && !requires() {std::execution::par_unseq;})\
-		{\
-			simd_emulation out;\
-			for(size_t i = 0; i < N; ++i)\
-				out[i] = a[i] op b[i];\
-			return out;\
-		}\
-		friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
-		requires(requires(T t) { { t op t } -> std::convertible_to<T>; }  && requires() {std::execution::par_unseq;})\
+		requires(requires(T t) { { t op t } -> std::convertible_to<T>; } )\
 		{\
 			simd_emulation out;\
 			auto range = std::views::iota(size_t{0}, N);\
@@ -98,15 +91,7 @@ namespace stdmath { namespace stl {
 		}
 	#define stdmath_simd_emulation_parallel_prefix_unary_operation(op)\
 		friend simd_emulation operator op(const simd_emulation& a)\
-		requires(requires(T t) { { op t } -> std::convertible_to<T>; } && !requires() {std::execution::par_unseq;})\
-		{\
-			simd_emulation out;\
-			for(size_t i = 0; i < N; ++i)\
-				out[i] = op a[i];\
-			return out;\
-		}\
-		friend simd_emulation operator op(const simd_emulation& a)\
-		requires(requires(T t) { { op t } -> std::convertible_to<T>; } && requires() {std::execution::par_unseq;})\
+		requires(requires(T t) { { op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation out;\
 			auto range = std::views::iota(size_t{0}, N);\
@@ -116,24 +101,45 @@ namespace stdmath { namespace stl {
 			return out;\
 		}
 	#define stdmath_simd_emulation_parallel_postfix_unary_operation(op)\
-			friend simd_emulation operator op(const simd_emulation& a)\
-			requires(requires(T t) { { t op } -> std::convertible_to<T>; } && !requires() {std::execution::par_unseq;})\
-			{\
-				simd_emulation out;\
-				for(size_t i = 0; i < N; ++i)\
-					out[i] = a[i] op;\
-				return out;\
-			}\
-			friend simd_emulation operator op(const simd_emulation& a)\
-			requires(requires(T t) { { t op } -> std::convertible_to<T>; } && requires() {std::execution::par_unseq;})\
-			{\
-				simd_emulation out;\
-				auto range = std::views::iota(size_t{0}, N);\
-				std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {\
-					out[i] = a[i] op;\
-				});\
-				return out;\
+		friend simd_emulation operator op(const simd_emulation& a)\
+		requires(requires(T t) { { t op } -> std::convertible_to<T>; })\
+		{\
+			simd_emulation out;\
+			auto range = std::views::iota(size_t{0}, N);\
+			std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {\
+				out[i] = a[i] op;\
+			});\
+			return out;\
 			}
+#else 
+	#define stdmath_simd_emulation_parallel_binary_operation(op)\
+		friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
+		requires(requires(T t) { { t op t } -> std::convertible_to<T>; })\
+		{\
+			simd_emulation out;\
+			for(size_t i = 0; i < N; ++i)\
+				out[i] = a[i] op b[i];\
+			return out;\
+		}
+	#define stdmath_simd_emulation_parallel_prefix_unary_operation(op)\
+		friend simd_emulation operator op(const simd_emulation& a)\
+		requires(requires(T t) { { op t } -> std::convertible_to<T>; })\
+		{\
+			simd_emulation out;\
+			for(size_t i = 0; i < N; ++i)\
+				out[i] = op a[i];\
+			return out;\
+		}
+	#define stdmath_simd_emulation_parallel_postfix_unary_operation(op)\
+		friend simd_emulation operator op(const simd_emulation& a)\
+		requires(requires(T t) { { t op } -> std::convertible_to<T>; })\
+		{\
+			simd_emulation out;\
+			for(size_t i = 0; i < N; ++i)\
+				out[i] = a[i] op;\
+			return out;\
+		}
+#endif
 
 		stdmath_simd_emulation_parallel_binary_operation(+)
 		stdmath_simd_emulation_parallel_binary_operation(-)
@@ -150,17 +156,10 @@ namespace stdmath { namespace stl {
 		stdmath_simd_emulation_parallel_binary_operation(||)
 		stdmath_simd_emulation_parallel_binary_operation(^)
 
+#ifndef __clang__
 	#define stdmath_simd_emulation_parallel_relational_operation(op)\
 		friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
-		requires(requires(T t) { { t op t } -> std::convertible_to<T>; } && !requires() {std::execution::par_unseq;})\
-		{\
-			simd_emulation<bool, N> out;\
-			for(size_t i = 0; i < N; ++i)\
-				out[i] = a[i] op b[i];\
-			return out;\
-		}\
-		friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
-		requires(requires(T t) { { t op t } -> std::convertible_to<T>; } && requires() {std::execution::par_unseq;})\
+		requires(requires(T t) { { t op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation<bool, N> out;\
 			auto range = std::views::iota(size_t{0}, N);\
@@ -169,6 +168,17 @@ namespace stdmath { namespace stl {
 			});\
 			return out;\
 		}
+#else
+	#define stdmath_simd_emulation_parallel_relational_operation(op)\
+		friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
+		requires(requires(T t) { { t op t } -> std::convertible_to<T>; })\
+		{\
+			simd_emulation<bool, N> out;\
+			for(size_t i = 0; i < N; ++i)\
+				out[i] = a[i] op b[i];\
+			return out;\
+		}
+#endif
 
 		stdmath_simd_emulation_parallel_relational_operation(==)
 		stdmath_simd_emulation_parallel_relational_operation(!=)
