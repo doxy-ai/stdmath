@@ -15,6 +15,7 @@ target_sources(stdmath PUBLIC
 	# BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
 	FILES 
 		util/simd_emulation.cppm
+		util/slang_names.cppm
 		util/types.cppm
 		math/stdmath.cppm
 		math/vector.cppm

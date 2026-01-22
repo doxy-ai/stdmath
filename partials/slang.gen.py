@@ -9,9 +9,8 @@ def generate_hlsl_types():
 	]
 
 	sub = {
-		"int": "int32_t",
-		"uint": "uint32_t",
-		"byte": "uint8_t"
+		"int": "i32",
+		"uint": "u32",
 	}
 
 	vector_sizes = [1, 2, 3, 4]
