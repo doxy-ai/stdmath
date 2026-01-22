@@ -17,6 +17,7 @@ target_sources(stdmath PUBLIC
 		util/simd_emulation.cppm
 		util/slang_names.cppm
 		util/types.cppm
+		math/AABB.cppm
 		math/angle.cppm
 		math/matrix_transformations.cppm
 		math/stdmath.cppm
