@@ -18,6 +18,7 @@ target_sources(stdmath PUBLIC
 		util/slang_names.cppm
 		util/types.cppm
 		math/angle.cppm
+		math/matrix_transformations.cppm
 		math/stdmath.cppm
 		math/matrix.cppm
 		math/quaternion.cppm
