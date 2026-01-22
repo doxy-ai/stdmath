@@ -1,5 +1,7 @@
 #pragma once
 
+#include <concepts>
+
 namespace stdmath {
 
 	template<typename Tunderlying>
@@ -11,11 +13,13 @@ namespace stdmath {
 		}\
 		\
 		template<typename Tlike>\
+			requires(!std::same_as<Tlike, Tunderlying>)\
 		inline friend Tunderlying operator symbol(const Tunderlying& a, const Tlike& b) {\
 			return Tunderlying::name(a, b);\
 		}\
 		\
 		template<typename Tlike>\
+			requires(!std::same_as<Tlike, Tunderlying>)\
 		inline friend Tunderlying operator symbol(const Tlike& a, const Tunderlying& b) {\
 			return Tunderlying::name(a, b);\
 		}\
@@ -26,6 +30,7 @@ namespace stdmath {
 		}\
 		\
 		template<typename Tlike>\
+			requires(!std::same_as<Tlike, Tunderlying>)\
 		inline friend Tunderlying& operator symbol##=(Tunderlying& a, const Tlike& b) {\
 			return a = Tunderlying::name(a, b);\
 		}
