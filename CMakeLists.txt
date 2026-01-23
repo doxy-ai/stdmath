@@ -16,6 +16,7 @@ target_sources(stdmath PUBLIC
 	FILES 
 		util/simd_emulation.cppm
 		util/types.cppm
+		math/stdmath.cppm
 		math/vector.cppm
 		math/matrix.cppm
 )
