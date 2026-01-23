@@ -2,10 +2,7 @@
 #include <math/namespace_alias.hpp>
 
 import std.compat;
-import stdmath.quaternion;
-import stdmath.angle;
-import stdmath.vector;
-import stdmath.types;
+import stdmath;
 
 using namespace std::math::types;
 
