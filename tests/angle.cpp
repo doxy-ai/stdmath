@@ -2,8 +2,7 @@
 #include <math/namespace_alias.hpp>
 
 import std.compat;
-import stdmath.angle;
-import stdmath.types;
+import stdmath;
 
 using namespace std::math::types;
 
