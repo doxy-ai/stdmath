@@ -39,7 +39,7 @@ namespace stdmath { inline namespace types {
 		return 0;
 	}
 
-	export constexpr f64 fract(f64 x) {
+	export f64 fract(f64 x) {
 		return x - std::floor(x);
 	}
 }}

@@ -2,8 +2,7 @@
 #include <math/namespace_alias.hpp>
 
 import std.compat;
-import stdmath.matrix;
-import stdmath.types;
+import stdmath;
 
 using namespace std::math::types;
 
