@@ -8,7 +8,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSIO
 		message(FATAL_ERROR "C++20 or newer is required.")
 	endif()
 
-	set(CACHE CLANG_STANDARD_MODULE_PATH TYPE FILEPATH HELP "Path to where the clang std and std.compat modules are located" /usr/share/libc++/v1)
+	set(CLANG_STANDARD_MODULE_PATH /usr/share/libc++/v1 CACHE FILEPATH "Path to where the clang std and std.compat modules are located")
 	message("path = ${CLANG_STANDARD_MODULE_PATH}")
 
 	# add_custom_target(
