@@ -2,11 +2,11 @@ module;
 
 #include "../util/operators.hpp"
 
-#if !__has_include(<mdspan>)
+// #if !__has_include(<mdspan>)
 	#define MDSPAN_IMPL_STANDARD_NAMESPACE stdmath
 	#define MDSPAN_IMPL_PROPOSED_NAMESPACE experimental
 	#include "../thirdparty/mdspan.hpp"
-#endif
+// #endif
 
 export module stdmath.matrix;
 
@@ -16,21 +16,21 @@ import stdmath.vector;
 
 namespace stdmath {
 	export namespace stl {
-#if !__has_include(<mdspan>)
+// #if !__has_include(<mdspan>)
 		using stdmath::mdspan;
 		using stdmath::extents;
 		using stdmath::layout_right;
 		using stdmath::submdspan;
 		using stdmath::dynamic_extent;
 		using stdmath::full_extent;
-#else
-		using std::mdspan;
-		using std::extents;
-		using std::layout_right;
-		using std::submdspan;
-		using std::dynamic_extent;
-		using std::full_extent;
-#endif
+// #else
+// 		using std::mdspan;
+// 		using std::extents;
+// 		using std::layout_right;
+// 		using std::submdspan;
+// 		using std::dynamic_extent;
+// 		using std::full_extent;
+// #endif
 	}
 
 	// Note: Matrices are stored column major.
