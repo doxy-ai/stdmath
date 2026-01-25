@@ -15,6 +15,18 @@ import stdmath.simd;
 import stdmath.vector;
 
 namespace stdmath {
+	export namespace stl {
+#if !__has_include(<mdspan>)
+		using stdmath::mdspan;
+		using stdmath::extents;
+		using stdmath::layout_right;
+#else
+		using std::mdspan;
+		using std::extents;
+		using std::layout_right;
+#endif
+	}
+
 	// Note: Matrices are stored column major.
 	export template<typename T, size_t X, size_t Y>
 	struct matrix : public operators_crtp<matrix<T, X, Y>>{
@@ -129,13 +141,9 @@ namespace stdmath {
 			return out;
 		}
 
-#if __has_include(<mdspan>)
-		auto mdspan() { return std::mdspan<T, std::extents<size_t, X, Y>, std::layout_right>{data.data()}; }
-		auto mdspan() const { return std::mdspan<const T, std::extents<size_t, X, Y>, std::layout_right>{data.data()}; }
-#else
-		auto mdspan() { return stdmath::mdspan<T, extents<size_t, X, Y>, layout_right>(data.data()); }
-		auto mdspan() const { return stdmath::mdspan<const T, extents<size_t, X, Y>, layout_right>(data.data()); }
-#endif
+		auto mdspan() { return stl::mdspan<T, stl::extents<size_t, X, Y>, stl::layout_right>{data.data()}; }
+		auto mdspan() const { return stl::mdspan<const T, stl::extents<size_t, X, Y>, stl::layout_right>{data.data()}; }
+		
 		operator std::span<T>() { return data; }
 		operator std::span<const T>() const { return data; }
 	};
