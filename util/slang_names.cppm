@@ -1,8 +1,6 @@
 export module stdmath.slang;
 
-import stdmath.vector;
-import stdmath.matrix;
-import stdmath.types;
+export import stdmath;
 
 namespace stdmath { inline namespace slang { 
     #include "../partials/slang.usings.partial"
