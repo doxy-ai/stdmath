@@ -74,7 +74,7 @@ namespace stdmath {
 	}
 
 	export template<typename T = float_t, typename Tq = float_t>
-	constexpr matrix<T, 4, 4> transformatrixion_matrix(const vector<T, 3>& position, const basic_quaternion<Tq>& rotation, const vector<T, 3>& scale) {
+	constexpr matrix<T, 4, 4> transformation_matrix(const vector<T, 3>& position, const basic_quaternion<Tq>& rotation, const vector<T, 3>& scale) {
 		return combine_3x3_with_translation<T>(rotation_matrix<T, Tq>(rotation) * scale_matrix<T>(scale), position);
 	}
 
