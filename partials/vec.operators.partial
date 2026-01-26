@@ -7,188 +7,188 @@ constexpr auto end() const { return data.end(); }
 constexpr T& operator[](size_t i) { return data[i]; }
 constexpr const T& operator[](size_t i) const { return data[i]; }
 
-inline simd to_simd() const { return {data.data(), stl::vector_aligned}; }
-inline void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
-inline static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
+simd to_simd() const { return {data.data(), stl::vector_aligned}; }
+void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
+static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
 
 
 
-inline friend self add(const self& a, const self& b) {
+friend self add(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() + b.to_simd());
 }
 
-inline friend self subtract(const self& a, const self& b) {
+friend self subtract(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() - b.to_simd());
 }
 
-inline self negate() const
+self negate() const
 	requires(requires(T t) { { -t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(-this->to_simd());
 }
 
-inline friend self multiply(const self& a, const self& b) {
+friend self multiply(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() * b.to_simd());
 }
 
 template<std::convertible_to<T> Tlike>
 	requires(!std::is_same_v<Tlike, self>)
-inline friend self multiply(const self& a, const Tlike& b) {
+friend self multiply(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() * vector<T, N>(b).to_simd());
 }
 
-inline friend self divide(const self& a, const self& b) {
+friend self divide(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() / b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-inline friend self divide(const self& a, const Tlike& b) {
+friend self divide(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() / vector<T, N>(b).to_simd());
 }
 
-inline friend self modulus(const self& a, const self& b)
+friend self modulus(const self& a, const self& b)
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() % b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-inline friend self modulus(const self& a, const Tlike& b)
+friend self modulus(const self& a, const Tlike& b)
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() % vector<T, N>(b).to_simd());
 }
 
 
-inline self logical_not() const
+self logical_not() const
 	requires(requires(T t) { { !t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(!to_simd());
 }
 
-inline self bitwise_not() const
+self bitwise_not() const
 	requires(requires(T t) { { ~t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(~to_simd());
 }
 
-inline friend self logical_and(const self& a, const self& b)
+friend self logical_and(const self& a, const self& b)
 	requires(requires(T t) { { t && t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() && b.to_simd());
 }
 
-inline friend self bitwise_and(const self& a, const self& b)
+friend self bitwise_and(const self& a, const self& b)
 	requires(requires(T t) { { t & t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() & b.to_simd());
 }
 
-inline friend self logical_or(const self& a, const self& b)
+friend self logical_or(const self& a, const self& b)
 	requires(requires(T t) { { t || t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() || b.to_simd());
 }
 
-inline friend self bitwise_or(const self& a, const self& b)
+friend self bitwise_or(const self& a, const self& b)
 	requires(requires(T t) { { t | t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() | b.to_simd());
 }
 
-inline friend self bitwise_xor(const self& a, const self& b)
+friend self bitwise_xor(const self& a, const self& b)
 	requires(requires(T t) { { t ^ t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() ^ b.to_simd());
 }
 
-inline friend self shift_left(const self& a, const self& b)
+friend self shift_left(const self& a, const self& b)
 	requires(requires(T t) { { t << t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() << b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-inline friend self shift_left(const self& a, const Tlike& b) {
+friend self shift_left(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() << vector<T, N>(b).to_simd());
 }
 template<std::convertible_to<T> Tlike>
 
-inline friend self shift_right(const self& a, const self& b)
+friend self shift_right(const self& a, const self& b)
 	requires(requires(T t) { { t >> t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() >> b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-inline friend self shift_right(const self& a, const Tlike& b) {
+friend self shift_right(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() >> vector<T, N>(b).to_simd());
 }
 
 
-inline friend vector<bool, N> equal_to(const self& a, const self& b) {
+friend vector<bool, N> equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() == b.to_simd());
 }
-inline friend vector<bool, N> not_equal_to(const self& a, const self& b) {
+friend vector<bool, N> not_equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() != b.to_simd());
 }
 
-inline friend vector<bool, N> less_than(const self& a, const self& b) {
+friend vector<bool, N> less_than(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() < b.to_simd());
 }
-inline friend vector<bool, N> less_than_or_equal_to(const self& a, const self& b) {
+friend vector<bool, N> less_than_or_equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() <= b.to_simd());
 }
-inline friend vector<bool, N> greater_than(const self& a, const self& b) {
+friend vector<bool, N> greater_than(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() > b.to_simd());
 }
-inline friend vector<bool, N> greater_than_or_equal_to(const self& a, const self& b) {
+friend vector<bool, N> greater_than_or_equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() >= b.to_simd());
 }
 
 
 
-explicit inline operator bool() {
+explicit operator bool() {
 	return all_of(*this);
 }
 
 
-inline friend self min(const self& a, const self& b)
+friend self min(const self& a, const self& b)
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(min(a.to_simd(), b.to_simd()));
 }
 
-inline friend self max(const self& a, const self& b)
+friend self max(const self& a, const self& b)
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(max(a.to_simd(), b.to_simd()));
 }
 
-inline T length_squared() const {
+T length_squared() const {
 	return reduce(to_simd() * to_simd());
 }
 
-inline T length() const {
+T length() const {
 	return sqrt(length_squared());
 }
 
-inline friend T dot(const self& a, const self& b) {
+friend T dot(const self& a, const self& b) {
 	return reduce(a.to_simd() * b.to_simd());
 }
 
 
 
-inline T min_element()
+T min_element()
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 {
 	return hmin(to_simd());
 }
 
-inline self max_element()
+self max_element()
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 {
 	return hmax(to_simd());
 }
 
 template<typename Tfunction> // TODO: Do we want this function to be able to change the type of the vector? vector<int, 4> -> vector<floats, 4> // Probably not?
-constexpr inline self elementwise_transform(const Tfunction& function) const {
+constexpr self elementwise_transform(const Tfunction& function) const {
 	self out = *this;
 	auto range = std::views::iota(size_t{0}, N);
 #ifdef __clang__
@@ -204,6 +204,6 @@ constexpr inline self elementwise_transform(const Tfunction& function) const {
 }
 
 template<typename Tfunction = std::plus<T>>
-constexpr inline T reduce_elements(const T initial_value, const Tfunction& binary_op = {}) const {
+constexpr T reduce_elements(const T initial_value, const Tfunction& binary_op = {}) const {
 	return reduce(to_simd(), initial_value, binary_op);
 }
