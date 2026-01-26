@@ -136,7 +136,7 @@ namespace stdmath {
 
 		return out;
 	}
-	template<typename T = float_t>
+	export template<typename T = float_t>
 	constexpr matrix<T, 4, 4> perspective_matrix(
 		basic_radian<T> fov_y,
 		const vector<T, 2>& screen_size,
@@ -147,7 +147,7 @@ namespace stdmath {
 		return perspective_matrix<T>(fov_y, static_cast<T>(screen_size.x) / screen_size.y, near_plane_distance, far_plane_distance, support_negative_z);
 	}
 
-	template<typename T = float_t>
+	export template<typename T = float_t>
 	constexpr matrix<T, 4, 4> orthographic_matrix(
 		T left, T right,
 		T top, T bottom,
