@@ -76,28 +76,28 @@ namespace stdmath {
 		}
 
 		AABB& expand(const vec& p) {
-			min = vec::min(min, p);
-			max = vec::max(max, p);
+			min = stdmath::min(min, p);
+			max = stdmath::max(max, p);
 			return *this;
 		}
 
 		AABB& expand(const AABB& o) {
-			min = vec::min(min, o.min);
-			max = vec::max(max, o.max);
+			min = stdmath::min(min, o.min);
+			max = stdmath::max(max, o.max);
 			return *this;
 		}
 
 		static AABB merge(const AABB& a, const AABB& b) {
 			return {
-				.min = vec::min(a.min, b.min),
-				.max = vec::max(a.max, b.max)
+				.min = stdmath::min(a.min, b.min),
+				.max = stdmath::max(a.max, b.max)
 			};
 		}
 
 		std::optional<AABB> intersect(const AABB& other) const {
 			AABB result {
-				.min = max(min, other.min),
-				.max = min(max, other.max),
+				.min = stdmath::max(min, other.min),
+				.max = stdmath::min(max, other.max),
 			};
 
 			if(any_of(result.min > result.max))
