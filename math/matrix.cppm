@@ -33,7 +33,7 @@ namespace stdmath {
 // #endif
 	}
 
-	// Note: Matrices are stored column major.
+	// Note: Matrices are stored row major.
 	export template<typename T, size_t X, size_t Y>
 	struct matrix : public operators_crtp<matrix<T, X, Y>>{
 		using self = matrix;
@@ -75,21 +75,21 @@ namespace stdmath {
 
 
 
-		inline friend self add(const self& a, const self& b) {
+		inline static self add(const self& a, const self& b) {
 			return make_from_simd(a.to_simd() + b.to_simd());
 		}
 
-		inline friend self subtract(const self& a, const self& b) {
+		inline static self subtract(const self& a, const self& b) {
 			return make_from_simd(a.to_simd() - b.to_simd());
 		}
 
-		inline friend self negate(const self& a)
+		inline static self negate(const self& a)
 			requires(requires(T t) { { -t } -> std::convertible_to<T>; })
 		{
 			return make_from_simd(-a.to_simd());
 		}
 
-		inline friend self modulus(const self& a, const self& b)
+		inline static self modulus(const self& a, const self& b)
 			requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
 		{
 			return make_from_simd(a.to_simd() % b.to_simd());
@@ -97,7 +97,7 @@ namespace stdmath {
 
 
 		template<size_t Xo, size_t Yo>
-		friend matrix<T, X, Yo>& multiply(matrix<T, X, Yo>& out, const matrix& a, const matrix<T, Xo, Yo>& b) {
+		static matrix<T, X, Yo>& multiply(matrix<T, X, Yo>& out, const matrix& a, const matrix<T, Xo, Yo>& b) {
 			static_assert(Y == Xo, "The left matrix must have the same number of rows as there are columns of the right matrix!");
 #if __has_include(<linalg>)
 			std::linalg::matrix_product(a.mdspan(), b.mdspan(), out.mdspan());
@@ -112,25 +112,25 @@ namespace stdmath {
 			return out;
 		}
 		template<size_t Xo, size_t Yo>
-		friend matrix<T, X, Yo> multiply(const matrix& a, const matrix<T, Xo, Yo>& b) {
+		static matrix<T, X, Yo> multiply(const matrix& a, const matrix<T, Xo, Yo>& b) {
 			matrix<T, X, Yo> out; return multiply(out, a, b);
 		}
 
 		friend matrix& scale(matrix& out, const matrix& a, const T& b) {
 			return multiply(out, a, matrix::identity(b));
 		}
-		friend matrix multiply(const matrix& a, const T& b) {
+		static matrix multiply(const matrix& a, const T& b) {
 			matrix out;
 			return scale(out, a, b);
 		}
 
-		friend matrix divide(const matrix& a, const T& b) {
+		static matrix divide(const matrix& a, const T& b) {
 			matrix out;
 			return scale(out, a, 1 / b);
 		}
 
 		template<std::convertible_to<T> Tlike>
-		friend vector<T, Y> multiply(const matrix& a, const vector<Tlike, Y>& b) {
+		static vector<T, Y> multiply(const matrix& a, const vector<Tlike, Y>& b) {
 			vector<T, Y> out;
 #if __has_include(<linalg>)
 			std::linalg::matrix_vector_product(a.mdspan(), std::mdspan(&b.x, Y), std::mdspan(&out.x, Y));
