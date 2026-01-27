@@ -185,7 +185,7 @@ namespace stdmath {
 		constexpr vector(T x, T y, T z = {}) : x(x), y(y), z(z) {}
 		#include "../partials/vec3.constructors.partial.gen"
 
-		friend vector cross(const vector& a, const vector& b) {
+		inline friend vector cross(const vector& a, const vector& b) {
 			return {
 				a.y * b.z - a.z * b.y,
 				a.z * b.x - a.x * b.z,

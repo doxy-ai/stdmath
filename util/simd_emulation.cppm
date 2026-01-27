@@ -54,32 +54,32 @@ namespace stdmath { namespace stl {
 			std::copy(this->begin(), this->end(), data);
 		}
 
-		friend simd_emulation min(const simd_emulation& a, const simd_emulation& b) {
+		inline friend simd_emulation min(const simd_emulation& a, const simd_emulation& b) {
 			simd_emulation out;
 			for(size_t i = 0; i < N; ++i)
 				out[i] = std::min(a[i], b[i]);
 			return out;
 		}
-		friend simd_emulation max(const simd_emulation& a, const simd_emulation& b) {
+		inline friend simd_emulation max(const simd_emulation& a, const simd_emulation& b) {
 			simd_emulation out;
 			for(size_t i = 0; i < N; ++i)
 				out[i] = std::max(a[i], b[i]);
 			return out;
 		}
 
-		friend T hmin(const simd_emulation& a) {
+		inline friend T hmin(const simd_emulation& a) {
 			return std::min_element(a.begin(), a.end());
 		}
-		friend T hmax(const simd_emulation& a) {
+		inline friend T hmax(const simd_emulation& a) {
 			return std::max_element(a.begin(), a.end());
 		}
-		friend T reduce(const simd_emulation& a) {
+		inline friend T reduce(const simd_emulation& a) {
 			return std::reduce(a.begin(), a.end());
 		}
 
 #ifndef __clang__
 	#define stdmath_simd_emulation_parallel_binary_operation(op)\
-		friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
+		inline friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
 		requires(requires(T t) { { t op t } -> std::convertible_to<T>; } )\
 		{\
 			simd_emulation out;\
@@ -90,7 +90,7 @@ namespace stdmath { namespace stl {
 			return out;\
 		}
 	#define stdmath_simd_emulation_parallel_prefix_unary_operation(op)\
-		friend simd_emulation operator op(const simd_emulation& a)\
+		inline friend simd_emulation operator op(const simd_emulation& a)\
 		requires(requires(T t) { { op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation out;\
@@ -101,7 +101,7 @@ namespace stdmath { namespace stl {
 			return out;\
 		}
 	#define stdmath_simd_emulation_parallel_postfix_unary_operation(op)\
-		friend simd_emulation operator op(const simd_emulation& a)\
+		inline friend simd_emulation operator op(const simd_emulation& a)\
 		requires(requires(T t) { { t op } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation out;\
@@ -113,7 +113,7 @@ namespace stdmath { namespace stl {
 			}
 #else 
 	#define stdmath_simd_emulation_parallel_binary_operation(op)\
-		friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
+		inline friend simd_emulation operator op(const simd_emulation& a, const simd_emulation& b)\
 		requires(requires(T t) { { t op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation out;\
@@ -122,7 +122,7 @@ namespace stdmath { namespace stl {
 			return out;\
 		}
 	#define stdmath_simd_emulation_parallel_prefix_unary_operation(op)\
-		friend simd_emulation operator op(const simd_emulation& a)\
+		inline friend simd_emulation operator op(const simd_emulation& a)\
 		requires(requires(T t) { { op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation out;\
@@ -131,7 +131,7 @@ namespace stdmath { namespace stl {
 			return out;\
 		}
 	#define stdmath_simd_emulation_parallel_postfix_unary_operation(op)\
-		friend simd_emulation operator op(const simd_emulation& a)\
+		inline friend simd_emulation operator op(const simd_emulation& a)\
 		requires(requires(T t) { { t op } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation out;\
@@ -149,6 +149,8 @@ namespace stdmath { namespace stl {
 
 		stdmath_simd_emulation_parallel_prefix_unary_operation(!)
 		stdmath_simd_emulation_parallel_prefix_unary_operation(~)
+		stdmath_simd_emulation_parallel_prefix_unary_operation(-)
+		stdmath_simd_emulation_parallel_prefix_unary_operation(+)
 
 		stdmath_simd_emulation_parallel_binary_operation(&)
 		stdmath_simd_emulation_parallel_binary_operation(&&)
@@ -158,7 +160,7 @@ namespace stdmath { namespace stl {
 
 #ifndef __clang__
 	#define stdmath_simd_emulation_parallel_relational_operation(op)\
-		friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
+		inline friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
 		requires(requires(T t) { { t op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation<bool, N> out;\
@@ -170,7 +172,7 @@ namespace stdmath { namespace stl {
 		}
 #else
 	#define stdmath_simd_emulation_parallel_relational_operation(op)\
-		friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
+		inline friend simd_emulation<bool, N> operator op(const simd_emulation& a, const simd_emulation& b)\
 		requires(requires(T t) { { t op t } -> std::convertible_to<T>; })\
 		{\
 			simd_emulation<bool, N> out;\

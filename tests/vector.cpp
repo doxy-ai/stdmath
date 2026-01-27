@@ -240,3 +240,79 @@ TEST_CASE("vector<f32, 4> -> vector<i32, 4>") {
 	CHECK(i32eg.z == 20);
 	CHECK(i32eg.w == 21);
 }
+
+TEST_CASE("vector<f32, 4> operators") {
+	using vec4 = std::math::vector<f32, 4>;
+
+	vec4 a(1.0f, 2.0f, 3.0f, 4.0f);
+	vec4 b(4.0f, 3.0f, 2.0f, 1.0f);
+	vec4 c(1.0f, 2.0f, 3.0f, 4.0f);
+
+	// --- Accessors ---
+	CHECK(a.x == 1.0f);
+	CHECK(a.y == 2.0f);
+	CHECK(a.z == 3.0f);
+	CHECK(a.w == 4.0f);
+
+	// --- Equality / Inequality ---
+	CHECK(all_of(a == c));
+	CHECK(none_of(a != c));
+	CHECK(all_of(a != b));
+	CHECK(none_of(a == b));
+
+	// --- Relational operators ---
+	CHECK(all_of(a < vec4(2.0f, 3.0f, 4.0f, 5.0f)));
+	CHECK(all_of(a <= c));
+	CHECK(all_of(b > vec4(1.0f, 1.0f, 1.0f, 0.5f)));
+	CHECK(all_of(b >= vec4(4.0f, 3.0f, 2.0f, 1.0f)));
+
+	// --- Unary operators ---
+	CHECK(all_of((-a) == vec4(-1.0f, -2.0f, -3.0f, -4.0f)));
+	// CHECK(all_of((+a) == a));
+
+	// --- Vector arithmetic ---
+	CHECK(all_of(a + b == vec4(5.0f, 5.0f, 5.0f, 5.0f)));
+	CHECK(all_of(a - b == vec4(-3.0f, -1.0f, 1.0f, 3.0f)));
+	CHECK(all_of(a * b == vec4(4.0f, 6.0f, 6.0f, 4.0f)));
+	CHECK(all_of(a / b == vec4(0.25f, 0.6666667f, 1.5f, 4.0f)));
+
+	// --- Scalar arithmetic ---
+	CHECK(all_of(a + 1.0f == vec4(2.0f, 3.0f, 4.0f, 5.0f)));
+	CHECK(all_of(a - 1.0f == vec4(0.0f, 1.0f, 2.0f, 3.0f)));
+	CHECK(all_of(a * 2.0f == vec4(2.0f, 4.0f, 6.0f, 8.0f)));
+	CHECK(all_of(a / 2.0f == vec4(0.5f, 1.0f, 1.5f, 2.0f)));
+
+	// --- Compound assignment (vector) ---
+	vec4 d = a;
+	d += b;
+	CHECK(all_of(d == vec4(5.0f, 5.0f, 5.0f, 5.0f)));
+
+	d = a;
+	d -= b;
+	CHECK(all_of(d == vec4(-3.0f, -1.0f, 1.0f, 3.0f)));
+
+	d = a;
+	d *= b;
+	CHECK(all_of(d == vec4(4.0f, 6.0f, 6.0f, 4.0f)));
+
+	d = a;
+	d /= b;
+	CHECK(all_of(d == vec4(0.25f, 0.6666667f, 1.5f, 4.0f)));
+
+	// --- Compound assignment (scalar) ---
+	d = a;
+	d += 1.0f;
+	CHECK(all_of(d == vec4(2.0f, 3.0f, 4.0f, 5.0f)));
+
+	d = a;
+	d -= 1.0f;
+	CHECK(all_of(d == vec4(0.0f, 1.0f, 2.0f, 3.0f)));
+
+	d = a;
+	d *= 2.0f;
+	CHECK(all_of(d == vec4(2.0f, 4.0f, 6.0f, 8.0f)));
+
+	d = a;
+	d /= 2.0f;
+	CHECK(all_of(d == vec4(0.5f, 1.0f, 1.5f, 2.0f)));
+}

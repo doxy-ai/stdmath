@@ -7,31 +7,31 @@ namespace stdmath {
 		
 	#define STDMATH_CRTP_BINARY_OP(name, symbol)\
 		inline friend Tunderlying operator symbol(const Tunderlying& a, const Tunderlying& b) {\
-			return name(a, b);\
+			return Tunderlying::name(a, b);\
 		}\
 		\
 		template<typename Tlike>\
 		inline friend Tunderlying operator symbol(const Tunderlying& a, const Tlike& b) {\
-			return name(a, b);\
+			return Tunderlying::name(a, b);\
 		}\
 		\
 		template<typename Tlike>\
 		inline friend Tunderlying operator symbol(const Tlike& a, const Tunderlying& b) {\
-			return name(a, b);\
+			return Tunderlying::name(a, b);\
 		}\
 
 	#define STDMATH_CRTP_BINARY_OP_WITH_EQ(name, symbol) STDMATH_CRTP_BINARY_OP(name, symbol)\
 		inline friend Tunderlying& operator symbol##=(Tunderlying& a, const Tunderlying& b) {\
-			return a = name(a, b);\
+			return a = Tunderlying::name(a, b);\
 		}\
 		\
 		template<typename Tlike>\
 		inline friend Tunderlying& operator symbol##=(Tunderlying& a, const Tlike& b) {\
-			return a = name(a, b);\
+			return a = Tunderlying::name(a, b);\
 		}
 
 	#define STDMATH_CRTP_UNARY_OP(name, symbol)\
-		inline friend Tunderlying& operator symbol(const Tunderlying& v) {\
+		inline friend Tunderlying operator symbol(const Tunderlying& v) {\
 			return v.name();\
 		}
 
@@ -59,17 +59,17 @@ namespace stdmath {
 
 	#define STDMATH_CRTP_COMPARISON_OP(name, symbol)\
 		inline friend Tboolean operator symbol(const Tunderlying& a, const Tunderlying& b) {\
-			return name(a, b);\
+			return Tunderlying::name(a, b);\
 		}\
 		\
 		template<typename Tlike>\
 		inline friend Tboolean operator symbol(const Tunderlying& a, const Tlike& b) {\
-			return name(a, b);\
+			return Tunderlying::name(a, b);\
 		}\
 		\
 		template<typename Tlike>\
 		inline friend Tboolean operator symbol(const Tlike& a, const Tunderlying& b) {\
-			return name(a, b);\
+			return Tunderlying::name(a, b);\
 		}\
 
 		STDMATH_CRTP_COMPARISON_OP(equal_to, ==)
