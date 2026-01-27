@@ -34,11 +34,11 @@ namespace stdmath {
 
 		operator T() const { return value; }
 		
-		friend basic_radian add(const basic_radian a, const basic_radian b) {
+		static basic_radian add(const basic_radian a, const basic_radian b) {
 			return a.value + b.value;
 		}
 
-		friend basic_radian subtract(const basic_radian a, const basic_radian b) {
+		static basic_radian subtract(const basic_radian a, const basic_radian b) {
 			return a.value - b.value;
 		}
 
@@ -46,35 +46,35 @@ namespace stdmath {
 			return -value;
 		}
 
-		friend basic_radian multiply(const basic_radian a, const basic_radian b) {
+		static basic_radian multiply(const basic_radian a, const basic_radian b) {
 			return a.value * b.value;
 		}
 
-		friend basic_radian divide(const basic_radian a, const basic_radian b) {
+		static basic_radian divide(const basic_radian a, const basic_radian b) {
 			return a.value / b.value;
 		}
 
-		friend bool equal_to(const basic_radian a, const basic_radian b) {
+		static bool equal_to(const basic_radian a, const basic_radian b) {
 			return a.value == b.value;
 		}
 
-		friend bool not_equal_to(const basic_radian a, const basic_radian b) {
+		static bool not_equal_to(const basic_radian a, const basic_radian b) {
 			return a.value != b.value;
 		}
 
-		friend bool less_than(const basic_radian a, const basic_radian b) {
+		static bool less_than(const basic_radian a, const basic_radian b) {
 			return a.value < b.value;
 		}
 
-		friend bool less_than_or_equal_to(const basic_radian a, const basic_radian b) {
+		static bool less_than_or_equal_to(const basic_radian a, const basic_radian b) {
 			return a.value <= b.value;
 		}
 
-		friend bool greater_than(const basic_radian a, const basic_radian b) {
+		static bool greater_than(const basic_radian a, const basic_radian b) {
 			return a.value > b.value;
 		}
 
-		friend bool greater_than_or_equal_to(const basic_radian a, const basic_radian b) {
+		static bool greater_than_or_equal_to(const basic_radian a, const basic_radian b) {
 			return a.value >= b.value;
 		}
 
@@ -99,11 +99,11 @@ namespace stdmath {
 
 		operator T() const { return value; }
 
-		friend basic_degree add(const basic_degree a, const basic_degree b) {
+		static basic_degree add(const basic_degree a, const basic_degree b) {
 			return a.value + b.value;
 		}
 
-		friend basic_degree subtract(const basic_degree a, const basic_degree b) {
+		static basic_degree subtract(const basic_degree a, const basic_degree b) {
 			return a.value - b.value;
 		}
 
@@ -111,35 +111,35 @@ namespace stdmath {
 			return -value;
 		}
 
-		friend basic_degree multiply(const basic_degree a, const basic_degree b) {
+		static basic_degree multiply(const basic_degree a, const basic_degree b) {
 			return a.value * b.value;
 		}
 
-		friend basic_degree divide(const basic_degree a, const basic_degree b) {
+		static basic_degree divide(const basic_degree a, const basic_degree b) {
 			return a.value / b.value;
 		}
 
-		friend bool equal_to(const basic_degree a, const basic_degree b) {
+		static bool equal_to(const basic_degree a, const basic_degree b) {
 			return a.value == b.value;
 		}
 
-		friend bool not_equal_to(const basic_degree a, const basic_degree b) {
+		static bool not_equal_to(const basic_degree a, const basic_degree b) {
 			return a.value != b.value;
 		}
 
-		friend bool less_than(const basic_degree a, const basic_degree b) {
+		static bool less_than(const basic_degree a, const basic_degree b) {
 			return a.value < b.value;
 		}
 
-		friend bool less_than_or_equal_to(const basic_degree a, const basic_degree b) {
+		static bool less_than_or_equal_to(const basic_degree a, const basic_degree b) {
 			return a.value <= b.value;
 		}
 
-		friend bool greater_than(const basic_degree a, const basic_degree b) {
+		static bool greater_than(const basic_degree a, const basic_degree b) {
 			return a.value > b.value;
 		}
 
-		friend bool greater_than_or_equal_to(const basic_degree a, const basic_degree b) {
+		static bool greater_than_or_equal_to(const basic_degree a, const basic_degree b) {
 			return a.value >= b.value;
 		}
 
