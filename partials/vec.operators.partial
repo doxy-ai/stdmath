@@ -13,11 +13,11 @@ static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); re
 
 
 
-friend self add(const self& a, const self& b) {
+static self add(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() + b.to_simd());
 }
 
-friend self subtract(const self& a, const self& b) {
+static self subtract(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() - b.to_simd());
 }
 
@@ -27,31 +27,31 @@ self negate() const
 	return make_from_simd(-this->to_simd());
 }
 
-friend self multiply(const self& a, const self& b) {
+static self multiply(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() * b.to_simd());
 }
 
 template<std::convertible_to<T> Tlike>
 	requires(!std::is_same_v<Tlike, self>)
-friend self multiply(const self& a, const Tlike& b) {
+static self multiply(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() * vector<T, N>(b).to_simd());
 }
 
-friend self divide(const self& a, const self& b) {
+static self divide(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() / b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-friend self divide(const self& a, const Tlike& b) {
+static self divide(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() / vector<T, N>(b).to_simd());
 }
 
-friend self modulus(const self& a, const self& b)
+static self modulus(const self& a, const self& b)
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() % b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-friend self modulus(const self& a, const Tlike& b)
+static self modulus(const self& a, const Tlike& b)
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() % vector<T, N>(b).to_simd());
@@ -70,75 +70,75 @@ self bitwise_not() const
 	return make_from_simd(~to_simd());
 }
 
-friend self logical_and(const self& a, const self& b)
+static self logical_and(const self& a, const self& b)
 	requires(requires(T t) { { t && t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() && b.to_simd());
 }
 
-friend self bitwise_and(const self& a, const self& b)
+static self bitwise_and(const self& a, const self& b)
 	requires(requires(T t) { { t & t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() & b.to_simd());
 }
 
-friend self logical_or(const self& a, const self& b)
+static self logical_or(const self& a, const self& b)
 	requires(requires(T t) { { t || t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() || b.to_simd());
 }
 
-friend self bitwise_or(const self& a, const self& b)
+static self bitwise_or(const self& a, const self& b)
 	requires(requires(T t) { { t | t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() | b.to_simd());
 }
 
-friend self bitwise_xor(const self& a, const self& b)
+static self bitwise_xor(const self& a, const self& b)
 	requires(requires(T t) { { t ^ t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() ^ b.to_simd());
 }
 
-friend self shift_left(const self& a, const self& b)
+static self shift_left(const self& a, const self& b)
 	requires(requires(T t) { { t << t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() << b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-friend self shift_left(const self& a, const Tlike& b) {
+static self shift_left(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() << vector<T, N>(b).to_simd());
 }
 template<std::convertible_to<T> Tlike>
 
-friend self shift_right(const self& a, const self& b)
+static self shift_right(const self& a, const self& b)
 	requires(requires(T t) { { t >> t } -> std::convertible_to<T>; })
 {
 	return make_from_simd(a.to_simd() >> b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
-friend self shift_right(const self& a, const Tlike& b) {
+static self shift_right(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() >> vector<T, N>(b).to_simd());
 }
 
 
-friend vector<bool, N> equal_to(const self& a, const self& b) {
+static vector<bool, N> equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() == b.to_simd());
 }
-friend vector<bool, N> not_equal_to(const self& a, const self& b) {
+static vector<bool, N> not_equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() != b.to_simd());
 }
 
-friend vector<bool, N> less_than(const self& a, const self& b) {
+static vector<bool, N> less_than(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() < b.to_simd());
 }
-friend vector<bool, N> less_than_or_equal_to(const self& a, const self& b) {
+static vector<bool, N> less_than_or_equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() <= b.to_simd());
 }
-friend vector<bool, N> greater_than(const self& a, const self& b) {
+static vector<bool, N> greater_than(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() > b.to_simd());
 }
-friend vector<bool, N> greater_than_or_equal_to(const self& a, const self& b) {
+static vector<bool, N> greater_than_or_equal_to(const self& a, const self& b) {
 	return vector<bool, N>::make_from_simd(a.to_simd() >= b.to_simd());
 }
 
