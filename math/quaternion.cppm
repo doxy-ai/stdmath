@@ -11,7 +11,7 @@ import stdmath.types;
 
 namespace stdmath {
 
-	export template<std::floating_point F = float_t>
+	export template<std::floating_point F = real_t>
 	struct basic_quaternion: protected vector<F, 4>, public operators_crtp<basic_quaternion<F>>, public comparison_operators_crtp<basic_quaternion<F>, vector<bool, 4>> {
 		using underlying_type = F;
 		using super = vector<F, 4>;
@@ -25,28 +25,40 @@ namespace stdmath {
 		constexpr basic_quaternion& operator=(const basic_quaternion&) = default;
 		constexpr basic_quaternion& operator=(basic_quaternion&&) = default;
 
+		template<typename To>
+		basic_quaternion(const basic_quaternion<To>& o) {
+			auto range = std::views::iota(size_t{0}, size_t{4});
+#ifdef __clang__
+			std::for_each(range.begin(), range.end(), [&](size_t i) {
+#else
+			std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
+#endif
+				data[i] = o[i];
+			});
+		}
+
 		static const basic_quaternion& from_vector(const super& v) { return (basic_quaternion&)v; }
 		super& to_vector() { return *this; }
 		const super& to_vector() const { return *this; }
 
 		static basic_quaternion identity() { return from_vector({0, 0, 0, 1}); }
 
-		friend basic_quaternion add(const basic_quaternion& a, const basic_quaternion& b) { return from_vector(add(a.to_vector(), b.to_vector())); }
-		friend basic_quaternion subtract(const basic_quaternion& a, const basic_quaternion& b) { return from_vector(subtract(a.to_vector(), b.to_vector())); }
+		static basic_quaternion add(const basic_quaternion& a, const basic_quaternion& b) { return from_vector(super::add(a.to_vector(), b.to_vector())); }
+		static basic_quaternion subtract(const basic_quaternion& a, const basic_quaternion& b) { return from_vector(super::subtract(a.to_vector(), b.to_vector())); }
 
-		friend vector<bool, 4> equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() == b.to_vector(); }
-		friend vector<bool, 4> not_equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() != b.to_vector(); }
-		friend vector<bool, 4> less_than_or_equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() <= b.to_vector(); }
-		friend vector<bool, 4> greater_than_or_equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() >= b.to_vector(); }
-		friend vector<bool, 4> less_than(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() < b.to_vector(); }
-		friend vector<bool, 4> greater_than(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() > b.to_vector(); }
+		static vector<bool, 4> equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() == b.to_vector(); }
+		static vector<bool, 4> not_equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() != b.to_vector(); }
+		static vector<bool, 4> less_than_or_equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() <= b.to_vector(); }
+		static vector<bool, 4> greater_than_or_equal_to(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() >= b.to_vector(); }
+		static vector<bool, 4> less_than(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() < b.to_vector(); }
+		static vector<bool, 4> greater_than(const basic_quaternion& a, const basic_quaternion& b) { return a.to_vector() > b.to_vector(); }
 		using super::length_squared;
 		using super::length;
 
-		template<typename F2>
-		friend basic_quaternion<F> normalize(const basic_quaternion<F2>& v);
-		template<typename F2>
-		constexpr friend bool approximately_equal(const basic_quaternion<F2>& a, const basic_quaternion<F2>& b);
+		// template<typename F2>
+		// friend basic_quaternion normalize(const basic_quaternion<F2>& v);
+		// template<typename F2>
+		// constexpr friend bool approximately_equal(const basic_quaternion<F2>& a, const basic_quaternion<F2>& b);
 
 		// Make sure that all of the elementwise accessor are available...
 		using super::x;
@@ -56,19 +68,19 @@ namespace stdmath {
 		using super::data;
 
 		template<std::convertible_to<F> Flike>
-		friend basic_quaternion multiply(const basic_quaternion<F>& q, Flike scalar) {
+		static basic_quaternion multiply(const basic_quaternion& q, Flike scalar) {
 			return from_vector(q.to_vector() * scalar);
 		}
 		template<std::convertible_to<F> Flike>
-		friend basic_quaternion multiply(Flike scalar, const basic_quaternion<F>& q) {
+		static basic_quaternion multiply(Flike scalar, const basic_quaternion& q) {
 			return from_vector(q.to_vector() * scalar);
 		}
 		template<std::convertible_to<F> Flike>
-		friend basic_quaternion divide(const basic_quaternion<F>& q, Flike scalar) {
+		static basic_quaternion divide(const basic_quaternion& q, Flike scalar) {
 			return from_vector(q.to_vector() / scalar);
 		}
 
-		friend basic_quaternion multiply(const basic_quaternion<F>& a, const basic_quaternion<F>& b) {
+		static basic_quaternion multiply(const basic_quaternion& a, const basic_quaternion& b) {
 			// sa = a.w, sb = b.w
 			// a = a.xyz, b = b.xyz
 
@@ -88,17 +100,18 @@ namespace stdmath {
 			return conjugate() / length_squared();
 		}
 
-		template<std::convertible_to<F> Fo>
-		friend vector<Fo, 3> rotate_vector(const basic_quaternion<F>& q, const vector<Fo, 3>& v) {
-			auto vQuat = basic_quaternion<F>(v, 0); // TODO: Is there a more efficient way to write this?
+		template<std::floating_point Fo>
+		friend vector<Fo, 3> rotate_vector(const basic_quaternion& q, const vector<Fo, 3>& v) {
+			auto vQuat = basic_quaternion(v, 0); // TODO: Is there a more efficient way to write this?
 			auto outQuat = (q * vQuat) * q.conjugate();
 			return outQuat.xyz().to_vector();
 		}
-		template<std::convertible_to<F> Fo>
-		friend vector<Fo, 3> multiply(const basic_quaternion<F> &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
+		// TODO: It would be nice to support rotating vectors with operator*
+		// template<std::floating_point Fo>
+		// friend vector<Fo, 3> multiply(const basic_quaternion &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
 
 		// TODO: Does this produce a value in radians?
-		friend radian angle_between(const basic_quaternion<F>& a, const basic_quaternion<F>& b) {
+		friend radian angle_between(const basic_quaternion& a, const basic_quaternion& b) {
 			// dot(q1, q2)/(q1.norm * q2.norm)
 			return dot(a.to_vector(), b.to_vector()) / a.length() / b.length();
 		}
@@ -145,5 +158,5 @@ namespace stdmath {
 
 	export using quaternion32 = basic_quaternion<f32>;
 	export using quaternion64 = basic_quaternion<f64>;
-	export using quaternion = basic_quaternion<float_t>;
+	export using quaternion = basic_quaternion<real_t>;
 }
