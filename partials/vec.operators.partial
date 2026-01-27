@@ -148,19 +148,6 @@ explicit operator bool() {
 	return all_of(*this);
 }
 
-
-friend self min(const self& a, const self& b)
-	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
-{
-	return make_from_simd(min(a.to_simd(), b.to_simd()));
-}
-
-friend self max(const self& a, const self& b)
-	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
-{
-	return make_from_simd(max(a.to_simd(), b.to_simd()));
-}
-
 T length_squared() const {
 	return reduce(to_simd() * to_simd());
 }

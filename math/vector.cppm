@@ -245,6 +245,20 @@ namespace stdmath {
 	const vector<T, 4> swizzle<T, 4>::to_vector() const { return {*x, *y, *z, *w}; }
 
 	export template<typename T, size_t N>
+	vector<T, N> min(const vector<T, N>& a, const vector<T, N>& b)
+		requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
+	{
+		return vector<T, N>::make_from_simd(min(a.to_simd(), b.to_simd()));
+	}
+
+	export template<typename T, size_t N>
+	vector<T, N> max(const vector<T, N>& a, const vector<T, N>& b)
+		requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
+	{
+		return vector<T, N>::make_from_simd(max(a.to_simd(), b.to_simd()));
+	}
+
+	export template<typename T, size_t N>
 	constexpr vector<T, N> normalize(const vector<T, N>& v) {
 		auto length = v.length();
 		return v / vector<T, N>{length};
