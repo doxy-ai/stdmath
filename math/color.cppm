@@ -84,11 +84,11 @@ namespace stdmath {
 
 
 		basic_color srgb_to_linear(){
-			return gamma(1/2.2);
+			return gamma(2.2);
 		}
 
 		basic_color linear_to_srgb() {
-			return gamma(2.2);
+			return gamma(1/2.2);
 		}
 
 		basic_color linear_to_hsv() {
@@ -116,7 +116,7 @@ namespace stdmath {
 			return { h, s, v, this->data[3] };
 		}
 
-		basic_color<T> hsv_to_linear(const basic_color<T>& c) {
+		basic_color<T> hsv_to_linear() {
 			T h = fract(this->data[0]) * T(6);
 			T s = this->data[1];
 			T v = this->data[2];
