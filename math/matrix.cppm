@@ -133,11 +133,10 @@ namespace stdmath {
 
 		template<std::convertible_to<T> Tlike>
 		static vector<T, Y> multiply(const matrix& a, const vector<Tlike, Y>& b) {
-			vector<T, Y> out;
+			vector<T, Y> out {T{}};
 #if __has_include(<linalg>)
 			std::linalg::matrix_vector_product(a.mdspan(), std::mdspan(&b.x, Y), std::mdspan(&out.x, Y));
 #else
-			out.fill(T{});
 
 			for (size_t i = 0; i < X; ++i) {
 				T sum = T{};
@@ -147,6 +146,10 @@ namespace stdmath {
 			}
 #endif
 			return out;
+		}
+		template<std::convertible_to<T> Tlike>
+		friend vector<T, Y> operator*(const matrix& a, const vector<Tlike, Y>& b) {
+			return multiply(a, b);
 		}
 
 		auto mdspan() { return stl::mdspan<T, stl::extents<size_t, X, Y>, stl::layout_right>{data.data()}; }

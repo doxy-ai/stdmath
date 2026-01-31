@@ -3,21 +3,21 @@
 #endif
 
 #define STDMATH_COMPARISON_OP(name, symbol)\
-	friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const self& a, const self& b)\
+	inline friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const self& a, const self& b)\
 		requires(requires(self v) { {name(v, v)} -> std::convertible_to<STDMATH_COMPARISON_BOOLEAN_TYPE>; })\
 	{\
 		return name(a, b);\
 	}\
 	\
 	template<typename Tlike>\
-	friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const self& a, const Tlike& b)\
+	inline friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const self& a, const Tlike& b)\
 		requires(requires(self v) { {name(v, v)} -> std::convertible_to<STDMATH_COMPARISON_BOOLEAN_TYPE>; })\
 	{\
 		return name(a, b);\
 	}\
 	\
 	template<typename Tlike>\
-	friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const Tlike& a, const self& b)\
+	inline friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const Tlike& a, const self& b)\
 		requires(requires(self v) { {name(v, v)} -> std::convertible_to<STDMATH_COMPARISON_BOOLEAN_TYPE>; })\
 	{\
 		return name(a, b);\

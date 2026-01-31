@@ -13,6 +13,7 @@ namespace stdmath {
 		using self = basic_quaternion;
 		using super = vector<F, 4>;
 		using super::super;
+		using super::operator[];
 
 		constexpr basic_quaternion(F broadcast = {}) : super(broadcast) {}
 		constexpr basic_quaternion(F x, F y, F z = {}, F w = {}) : super(x, y, z, w) {}
@@ -30,15 +31,13 @@ namespace stdmath {
 #else
 			std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
 #endif
-				data[i] = o[i];
+				data[i] = F(o[i]);
 			});
 		}
 
 		static const basic_quaternion& from_vector(const super& v) { return (basic_quaternion&)v; }
 		super& to_vector() { return *this; }
 		const super& to_vector() const { return *this; }
-
-		static basic_quaternion identity() { return from_vector({0, 0, 0, 1}); }
 
 		static basic_quaternion add(const basic_quaternion& a, const basic_quaternion& b) { return from_vector(super::add(a.to_vector(), b.to_vector())); }
 		static basic_quaternion subtract(const basic_quaternion& a, const basic_quaternion& b) { return from_vector(super::subtract(a.to_vector(), b.to_vector())); }
@@ -52,17 +51,62 @@ namespace stdmath {
 		using super::length_squared;
 		using super::length;
 
-		// template<typename F2>
-		// friend basic_quaternion normalize(const basic_quaternion<F2>& v);
-		// template<typename F2>
-		// constexpr friend bool approximately_equal(const basic_quaternion<F2>& a, const basic_quaternion<F2>& b);
-
-		// Make sure that all of the elementwise accessor are available...
 		using super::x;
 		using super::y;
 		using super::z;
 		using super::w;
 		using super::data;
+
+		static basic_quaternion identity() {
+			return basic_quaternion(0.f, 0.f, 0.f, 1.f);
+		}
+
+		static basic_quaternion from_axis_angle(const vector<F, 3>& axis, basic_degree<F> angle){
+			basic_radian<F> half = angle / 2;
+			auto s = stdmath::sin(half);
+
+			return /* normalize */(basic_quaternion{
+				axis.x * s,
+				axis.y * s,
+				axis.z * s,
+				stdmath::cos(half)
+			});
+		}
+
+		constexpr void to_axis_angle(vector<F, 3>& /*out*/ axis, basic_radian<F>& /*out*/ angle) {
+			basic_quaternion q = *this;
+
+			// Ensure unit quaternion
+			if (q.w > 1.f)
+				q = normalize(q);
+
+			angle = 2 * stdmath::acos(q.w);
+			auto s = std::sqrt(1 - q.w * q.w);
+
+			// If s is close to zero, direction doesn't matter
+			if (s < 0.0001f)
+				axis = vector<F, 3>{1, 0, 0};
+			else axis = vector<F, 3>{q.x / s, q.y / s, q.z / s};
+		}
+		constexpr std::pair<vector<F, 3>, basic_radian<F>> to_axis_angle() {
+			std::pair<vector<F, 3>, basic_radian<F>> out;
+			to_axis_angle(out.first, out.second);
+			return out;
+		}
+
+		basic_quaternion conjugate() const {
+			return {-x, -y, -z, w};
+		}
+
+		basic_quaternion inverse() const {
+			float lenSq = x*x + y*y + z*z + w*w;
+			if (lenSq == 0.f)
+				return basic_quaternion();
+
+			basic_quaternion c = conjugate();
+			float inv = 1.0f / lenSq;
+			return {c.x * inv, c.y * inv, c.z * inv, c.w * inv};
+		}
 
 		template<std::convertible_to<F> Flike>
 		static basic_quaternion multiply(const basic_quaternion& q, Flike scalar) {
@@ -80,67 +124,39 @@ namespace stdmath {
 #endif
 
 		static basic_quaternion multiply(const basic_quaternion& a, const basic_quaternion& b) {
-			// sa = a.w, sb = b.w
-			// a = a.xyz, b = b.xyz
-
-			// s = sa*sb - dot(a, b)
-			F w = a.w * b.w - dot(a.xyz().to_vector(), b.xyz().to_vector());
-			// xyz (v) = sa * b + sb * a + cross(a, b)
-			vector<F, 3> xyz = b.xyz().to_vector() * a.w + a.xyz().to_vector() * b.w + cross(a.xyz().to_vector(), b.xyz().to_vector());
-			return {xyz.x, xyz.y, xyz.z, w};
+			// return {
+			// 	a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y,
+			// 	a.w*b.y - a.x*b.z + a.y*b.w + a.z*b.x,
+			// 	a.w*b.z + a.x*b.y - a.y*b.x + a.z*b.w,
+			// 	a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
+			// };
+			auto out = a.w * b + from_vector(vector<F, 4>(b.w * a.xyz().to_vector() + cross(a.xyz().to_vector(), b.xyz().to_vector()), F{}));
+			// out.w -= a.w*b.w; // the b.w * a
+			return out;
 		}
 
-		basic_quaternion conjugate() const {
-			auto xyz = vector<F, 3>::negate(this->xyz());
-			return from_vector({xyz.x, xyz.y, xyz.z, this->w});
+		friend vector<F, 3> rotate(const basic_quaternion& q, const vector<F, 3>& v) {
+			basic_quaternion qv(v, 0.f);
+			basic_quaternion result = q * qv * q.inverse();
+			return vector<F, 3>(result.x, result.y, result.z);
 		}
-
-		basic_quaternion inverse() const {
-			return conjugate() / length_squared();
+		friend vector<F, 3> operator*(const basic_quaternion& q, const vector<F, 3>& v) {
+			return rotate(q, v);
 		}
-
-		template<std::floating_point Fo>
-		friend vector<Fo, 3> rotate_vector(const basic_quaternion& q, const vector<Fo, 3>& v) {
-			auto vQuat = basic_quaternion(v, 0); // TODO: Is there a more efficient way to write this?
-			auto outQuat = (q * vQuat) * q.conjugate();
-			return outQuat.xyz();
-		}
-
-		// template<std::floating_point Fo>
-		// static vector<Fo, 3> multiply(const basic_quaternion &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
-		template<std::floating_point Fo>
-		friend vector<Fo, 3> operator*(const basic_quaternion &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
 
 		#include "../partials/operators.partial"
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 4>
 		#include "../partials/operators.comparison.partial"
 
 		// TODO: Does this produce a value in radians?
-		friend radian angle_between(const basic_quaternion& a, const basic_quaternion& b) {
-			// dot(q1, q2)/(q1.norm * q2.norm)
+		friend basic_radian<F> angle_between(const basic_quaternion& a, const basic_quaternion& b) {
+			// dot(a, b)/(a.norm * b.norm)
 			return dot(a.to_vector(), b.to_vector()) / a.length() / b.length();
-		}
-
-		constexpr static basic_quaternion from_axis_angle(const vector<F, 3> axis, radian angle) {
-			auto sin = stdmath::sin<F>(angle / radian{2});
-			return {static_cast<F>(axis.x * sin), static_cast<F>(axis.y * sin), static_cast<F>(axis.z * sin), static_cast<F>(stdmath::cos(angle / radian{2}))};
-		}
-
-		constexpr void to_axis_angle(vector<F, 3>& /*out*/ axis, radian& /*out*/ angle) {
-			auto aOver2 = stdmath::acos(w);
-			angle = aOver2 * radian{2};
-			axis = this->xyz().to_vector() / stdmath::sin(aOver2);
-		}
-		constexpr std::pair<vector<F, 3>, radian> to_axis_angle() {
-			std::pair<vector<F, 3>, radian> out;
-			to_axis_angle(out.first, out.second);
-			return out;
 		}
 
 		constexpr static basic_quaternion from_euler_angles(const vector<degree, 3> angles) {
 			// TODO: How optimized is this?
-			auto q = from_axis_angle({1, 0, 0}, angles.x) * from_axis_angle({0, 1, 0}, angles.y) * from_axis_angle({0, 0, 1}, angles.z);
-			return from_vector(stdmath::normalize(q.to_vector()));
+			return from_axis_angle({1, 0, 0}, angles.x) * from_axis_angle({0, 1, 0}, angles.y) * from_axis_angle({0, 0, 1}, angles.z);
 		}
 
 		constexpr vector<degree, 3> to_euler_angles() {
