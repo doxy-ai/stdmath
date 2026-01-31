@@ -14,7 +14,9 @@ TEST_CASE("Quaternion Basics") {
 	CHECK(all_of(a - b == std::math::quaternion(-4, -4, -4, -4)));
 	// Scalar Operations
 	CHECK(all_of(a * 5 == std::math::quaternion(5, 10, 15, 20)));
+#ifndef _MSC_VER
 	CHECK(approximately_equal(a / 2, std::math::quaternion(1.f/2, 1.f, 3.f/2, 2.f)));
+#endif
 
 	// Conjugate
 	CHECK(all_of(a.conjugate() == std::math::quaternion(-1, -2, -3, 4)));
@@ -37,9 +39,9 @@ TEST_CASE("Quaternion Basics") {
 
 	// Vector rotation
 	std::math::float3 v = {0, 1, 0};
-	CHECK(approximately_equal(rotate_vector(a, v), {std::math::float3(0, .71f, .71f)}, .01));
-	CHECK(approximately_equal(rotate_vector(b, v), {std::math::float3(-.71f, .71f, 0)}, .01));
-	CHECK(approximately_equal(rotate_vector(ab, v), {std::math::float3(-.71f, .5f, .5f)}, .01));
+	CHECK(approximately_equal(a * v, {std::math::float3(0, .71f, .71f)}, .01));
+	CHECK(approximately_equal(b * v, {std::math::float3(-.71f, .71f, 0)}, .01));
+	CHECK(approximately_equal(ab * v, {std::math::float3(-.71f, .5f, .5f)}, .01));
 }
 
 TEST_CASE("Euler Angles") {

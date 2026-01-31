@@ -1,8 +1,6 @@
-module;
+export module stdmath.types;
 
 import std.compat;
-
-export module stdmath.types;
 
 namespace stdmath { inline namespace types {
 	export using byte = std::byte;

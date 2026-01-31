@@ -38,3 +38,20 @@ def generate_hlsl_types():
 with open("slang.usings.partial", "w") as f: 
 	types = generate_hlsl_types()
 	f.write("\n".join(types))
+
+with open("slang.swig.partial", "w") as f:
+	types = [t[12:].split("=") for t in types]
+	# print(types)
+	for i in range(0, len(types)):
+		try:
+			type_name = types[i][0].strip()
+			c_name = types[i][1].strip()[:-1]
+
+			types[i] = (f"%template({type_name}) {c_name};\n"\
+				+ f"%template(__{type_name}_ops) operators_crtp<{c_name}>;\n"\
+				+ f"%template(__{type_name}_comps) comparison_operators_crtp<{c_name}, vector<bool, {c_name.split(",")[1].strip()}>;\n")\
+				.replace("<byte", "<uint8_t")
+		except: types[i] = "".join(types[i])
+		
+	print(types)
+	f.write("\n".join(types))

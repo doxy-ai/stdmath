@@ -3,5 +3,5 @@
 namespace stdmath {}
 
 namespace std::math {
-    using namespace stdmath;
+	using namespace stdmath;
 }

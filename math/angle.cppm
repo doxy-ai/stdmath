@@ -1,7 +1,3 @@
-module;
-
-#include "../util/operators.hpp"
-
 export module stdmath.angle;
 
 import std.compat;
@@ -14,14 +10,15 @@ namespace stdmath {
 	constexpr T rad2deg = T{180}/T{PI};
 	export template<typename T>
 	constexpr T deg2rad = T{PI}/T{180};
-#pragma GCC diagnostic pop
+// #pragma GCC diagnostic pop
 
 	export template<typename T>
 	struct basic_degree;
 
 	export template<typename T>
-	struct basic_radian : public operators_crtp<basic_radian<T>>, public comparison_operators_crtp<basic_radian<T>, bool> {
+	struct basic_radian {
 		using underlying_type = T;
+		using self = basic_radian;
 		T value;
 
 		template<typename To> basic_radian(const To radian) : value(radian) {}
@@ -44,8 +41,8 @@ namespace stdmath {
 			return a.value - b.value;
 		}
 
-		basic_radian negate() const {
-			return -value;
+		static basic_radian negate(const basic_radian v) {
+			return -v.value;
 		}
 
 		static basic_radian multiply(const basic_radian a, const basic_radian b) {
@@ -80,13 +77,18 @@ namespace stdmath {
 			return a.value >= b.value;
 		}
 
+		#include "../partials/operators.partial"
+		#define STDMATH_COMPARISON_BOOLEAN_TYPE bool
+		#include "../partials/operators.comparison.partial"
+
 		T degree() const;
 		T radian() const { return value; }
 	};
 
 	template<typename T>
-	struct basic_degree : public operators_crtp<basic_degree<T>>, public comparison_operators_crtp<basic_degree<T>, bool> {
+	struct basic_degree {
 		using underlying_type = T;
+		using self = basic_degree;
 		T value;
 
 		template<typename To> basic_degree(To basic_degree) : value(basic_degree) {}
@@ -109,8 +111,8 @@ namespace stdmath {
 			return a.value - b.value;
 		}
 
-		basic_degree negate() const {
-			return -value;
+		static basic_degree negate(const basic_degree v) {
+			return -v.value;
 		}
 
 		static basic_degree multiply(const basic_degree a, const basic_degree b) {
@@ -147,6 +149,10 @@ namespace stdmath {
 
 		T degree() const { return value; }
 		T radian() const { return basic_radian<T>(*this); }
+
+		#include "../partials/operators.partial"
+		#define STDMATH_COMPARISON_BOOLEAN_TYPE bool
+		#include "../partials/operators.comparison.partial"
 	};
 
 	template<typename T>
