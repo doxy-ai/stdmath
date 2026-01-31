@@ -10,7 +10,10 @@ include(cmake/c++20modules.cmake)
 option(STDMATH_BUILD_TESTS "Should we build the unit tests?" ${PROJECT_IS_TOP_LEVEL})
 
 add_library(stdmath)
-target_sources(stdmath PUBLIC
+target_sources(stdmath
+	PRIVATE
+		C/stdmath.cpp
+	PUBLIC
 	FILE_SET stdmath TYPE CXX_MODULES
 	# BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
 	FILES 
@@ -26,7 +29,7 @@ target_sources(stdmath PUBLIC
 		math/quaternion.cppm
 		math/vector.cppm
 )
-target_include_directories(stdmath PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(stdmath PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/C)
 add_library(std::math ALIAS stdmath)
 
 if(STDMATH_BUILD_TESTS)

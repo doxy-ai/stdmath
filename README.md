@@ -128,6 +128,21 @@ int main() {
 }
 ```
 
+### Example: C API
+
+```c
+#include <stdmath.h>
+#include <stdio.h>
+
+int main() {
+    math_float3 a = {1.0f, 2.0f, 3.0f};
+    math_float3 b = {4.0f, 5.0f, 6.0f};
+    math_float3 c = math_float3_add(a, b);
+
+    printf("c = (%f, %f, %f)\n", c.x, c.y, c.z);
+}
+```
+
 ## Installation
 
 Right now we only support cmake...
