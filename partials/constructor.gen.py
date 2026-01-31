@@ -8,7 +8,7 @@ def compositions(n):
     return result
 
 def build_constructors(compositions):
-    out = "template<typename To>\nvector(const vector<To, N>& o) {\n\tauto range = std::views::iota(size_t{0}, N);\n#ifdef __clang__\n\tstd::for_each(range.begin(), range.end(), [&](size_t i) {\n#else\n\tstd::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {\n#endif\n\t\tdata[i] = o[i];\n\t});\n}\n\n"
+    out = "template<typename To>\nvector(const vector<To, N>& o) {\n\tauto range = std::views::iota(size_t{0}, N);\n#ifdef __clang__\n\tstd::for_each(range.begin(), range.end(), [&](size_t i) {\n#else\n\tstd::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {\n#endif\n\t\tdata[i] = T(o[i]);\n\t});\n}\n\n"
     out += "constexpr vector() {}\nvector(const vector&) = default;\nconstexpr vector(vector&&) = default;\nconstexpr vector& operator=(const vector&) = default;\nconstexpr vector& operator=(vector&&) = default;\n"
     for comp in compositions:
         if len(comp) <= 1: continue

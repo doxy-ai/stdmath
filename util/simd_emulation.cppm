@@ -68,13 +68,14 @@ namespace stdmath { namespace stl {
 		}
 
 		inline friend T hmin(const simd_emulation& a) {
-			return std::min_element(a.begin(), a.end());
+			return *std::min_element(a.begin(), a.end());
 		}
 		inline friend T hmax(const simd_emulation& a) {
-			return std::max_element(a.begin(), a.end());
+			return *std::max_element(a.begin(), a.end());
 		}
-		inline friend T reduce(const simd_emulation& a) {
-			return std::reduce(a.begin(), a.end());
+		template<typename Tfunction = std::plus<T>>
+		inline friend T reduce(const simd_emulation& a, const T initial_value, const Tfunction& binary_op = {}) {
+			return std::reduce(a.begin(), a.end(), initial_value, binary_op);
 		}
 
 #ifndef __clang__

@@ -6,21 +6,21 @@
 #endif
 
 #define STDMATH_BINARY_OP(name, symbol)\
-	friend self operator symbol(const self& a, const self& b)\
+	inline friend self operator symbol(const self& a, const self& b)\
 		requires(requires(self v) { {name(v, v)} -> std::convertible_to<self>; })\
 	{\
 		return name(a, b);\
 	}\
 \
 	template<typename Tlike> STDMATH_REQUIRES_TLIKE_NOT_SAME\
-	friend self operator symbol(const self& a, const Tlike& b)\
+	inline friend self operator symbol(const self& a, const Tlike& b)\
 		requires(requires(self a, Tlike b) { {name(a, b)} -> std::convertible_to<self>; })\
 	{\
 		return name(a, b);\
 	}\
 \
 	template<typename Tlike> STDMATH_REQUIRES_TLIKE_NOT_SAME\
-	friend self operator symbol(const Tlike& a, const self& b)\
+	inline friend self operator symbol(const Tlike& a, const self& b)\
 		requires(requires(Tlike a, self b) { {name(a, b)} -> std::convertible_to<self>; })\
 	{\
 		return name(a, b);\
@@ -29,21 +29,21 @@
 #define STDMATH_BINARY_OP_WITH_EQ(name, symbol)\
 	STDMATH_BINARY_OP(name, symbol)\
 \
-	friend self& operator symbol##=(self& a, const self& b)\
+	inline friend self& operator symbol##=(self& a, const self& b)\
 		requires(requires(self v) { {name(v, v)} -> std::convertible_to<self>; })\
 	{\
 		return a = name(a, b);\
 	}\
 \
 	template<typename Tlike> STDMATH_REQUIRES_TLIKE_NOT_SAME\
-	friend self& operator symbol##=(self& a, const Tlike& b)\
+	inline friend self& operator symbol##=(self& a, const Tlike& b)\
 		requires(requires(self a, Tlike b) { {name(a, b)} -> std::convertible_to<self>; })\
 	{\
 		return a = name(a, b);\
 	}
 
 #define STDMATH_UNARY_OP(name, symbol)\
-	friend self operator symbol(const self& v)\
+	inline friend self operator symbol(const self& v)\
 		requires(requires(self v) { {name(v)} -> std::convertible_to<self>; })\
 	{\
 		return name(v);\

@@ -5,12 +5,10 @@ import stdmath.types;
 
 namespace stdmath {
 	export constexpr f64 PI = std::numbers::pi_v<f64>;
-#pragma GCC diagnostic ignored "-Wnarrowing"
 	export template<typename T>
-	constexpr T rad2deg = T{180}/T{PI};
+	constexpr T rad2deg = T(180)/T(PI);
 	export template<typename T>
-	constexpr T deg2rad = T{PI}/T{180};
-// #pragma GCC diagnostic pop
+	constexpr T deg2rad = T(PI)/T(180);
 
 	export template<typename T>
 	struct basic_degree;
@@ -21,7 +19,7 @@ namespace stdmath {
 		using self = basic_radian;
 		T value;
 
-		template<typename To> basic_radian(const To radian) : value(radian) {}
+		template<typename To> basic_radian(const To radian) : value(T(radian)) {}
 		basic_radian(const basic_radian&) = default;
 		basic_radian(basic_radian&&) = default;
 		basic_radian() : basic_radian(0) {}
@@ -91,7 +89,7 @@ namespace stdmath {
 		using self = basic_degree;
 		T value;
 
-		template<typename To> basic_degree(To basic_degree) : value(basic_degree) {}
+		template<typename To> basic_degree(To basic_degree) : value(T(basic_degree)) {}
 		basic_degree(const basic_degree&) = default;
 		basic_degree(basic_degree&&) = default;
 		basic_degree() : basic_degree(0) {}

@@ -64,15 +64,15 @@ namespace stdmath {
 		}
 
 		bool contains(const vec& p) const {
-			return none_of(logical_or(p < min, p > max));
+			return none_of(p < min || p > max);
 		}
 
 		bool contains(const AABB& o) const {
-			return none_of(logical_or(o.min < min, o.max > max));
+			return none_of(o.min < min || o.max > max);
 		}
 
 		bool overlaps(const AABB& o) const {
-			return none_of(logical_or(max < o.min, min > o.max));
+			return none_of(max < o.min || min > o.max);
 		}
 
 		AABB& expand(const vec& p) {

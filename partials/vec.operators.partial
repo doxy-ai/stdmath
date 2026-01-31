@@ -175,15 +175,15 @@ explicit operator bool() {
 }
 
 T length_squared() const {
-	return reduce(to_simd() * to_simd());
+	return reduce(to_simd() * to_simd(), T{1});
 }
 
 T length() const {
 	return sqrt(length_squared());
 }
 
-friend T dot(const self& a, const self& b) {
-	return reduce(a.to_simd() * b.to_simd());
+inline friend T dot(const self& a, const self& b) {
+	return reduce(a.to_simd() * b.to_simd(), T{1});
 }
 
 
@@ -196,7 +196,7 @@ T min_element()
 	return hmin(to_simd());
 }
 
-self max_element()
+T max_element()
 #ifndef SWIG
 	requires(requires(T t) { { t > t } -> std::convertible_to<T>; })
 #endif
@@ -204,9 +204,28 @@ self max_element()
 	return hmax(to_simd());
 }
 
+// template<typename Tfunction> // TODO: Do we want this function to be able to change the type of the vector? vector<int, 4> -> vector<floats, 4> // Probably not?
+// constexpr self elementwise_transform(const Tfunction& function) const {
+// 	self out = *this;
+// 	auto range = std::views::iota(size_t{0}, N);
+// #ifdef __clang__
+// 	std::for_each(range.begin(), range.end(), [&](size_t i) {
+// #else
+// 	std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
+// #endif
+// 		if constexpr(requires(T t, size_t i) { { function(t, i) } -> std::convertible_to<T>; })
+// 			out[i] = function(out[i], i);
+// 		else out[i] = function(out[i]);
+// 	});
+// 	return out;
+// }
 template<typename Tfunction> // TODO: Do we want this function to be able to change the type of the vector? vector<int, 4> -> vector<floats, 4> // Probably not?
-constexpr self elementwise_transform(const Tfunction& function) const {
-	self out = *this;
+constexpr auto elementwise_transform(const Tfunction& function) const {
+	using out_t = std::conditional_t<std::is_same_v<return_or_void_t<Tfunction, T, size_t>, void>,
+		return_or_void_t<Tfunction, T>, return_or_void_t<Tfunction, T, size_t>
+	>;
+
+	vector<out_t, N> out;
 	auto range = std::views::iota(size_t{0}, N);
 #ifdef __clang__
 	std::for_each(range.begin(), range.end(), [&](size_t i) {
@@ -214,8 +233,8 @@ constexpr self elementwise_transform(const Tfunction& function) const {
 	std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
 #endif
 		if constexpr(requires(T t, size_t i) { { function(t, i) } -> std::convertible_to<T>; })
-			out[i] = function(out[i], i);
-		else out[i] = function(out[i]);
+			out[i] = out_t(function(this->data[i], i));
+		else out[i] = out_t(function(this->data[i]));
 	});
 	return out;
 }
