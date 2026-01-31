@@ -1,0 +1,33 @@
+#ifndef STDMATH_COMPARISON_BOOLEAN_TYPE
+#error "Comparison partials need to be told what boolean type to use"
+#endif
+
+#define STDMATH_COMPARISON_OP(name, symbol)\
+	friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const self& a, const self& b)\
+		requires(requires(self v) { {name(v, v)} -> std::convertible_to<STDMATH_COMPARISON_BOOLEAN_TYPE>; })\
+	{\
+		return name(a, b);\
+	}\
+	\
+	template<typename Tlike>\
+	friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const self& a, const Tlike& b)\
+		requires(requires(self v) { {name(v, v)} -> std::convertible_to<STDMATH_COMPARISON_BOOLEAN_TYPE>; })\
+	{\
+		return name(a, b);\
+	}\
+	\
+	template<typename Tlike>\
+	friend STDMATH_COMPARISON_BOOLEAN_TYPE operator symbol(const Tlike& a, const self& b)\
+		requires(requires(self v) { {name(v, v)} -> std::convertible_to<STDMATH_COMPARISON_BOOLEAN_TYPE>; })\
+	{\
+		return name(a, b);\
+	}\
+
+	STDMATH_COMPARISON_OP(equal_to, ==)
+	STDMATH_COMPARISON_OP(not_equal_to, !=)
+	STDMATH_COMPARISON_OP(less_than, <)
+	STDMATH_COMPARISON_OP(less_than_or_equal_to, <=)
+	STDMATH_COMPARISON_OP(greater_than, >)
+	STDMATH_COMPARISON_OP(greater_than_or_equal_to, >=)
+
+#undef STDMATH_COMPARISON_OP

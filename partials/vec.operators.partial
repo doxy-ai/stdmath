@@ -21,10 +21,12 @@ static self subtract(const self& a, const self& b) {
 	return make_from_simd(a.to_simd() - b.to_simd());
 }
 
-self negate() const
+static self negate(const self& v)
+#ifndef SWIG
 	requires(requires(T t) { { -t } -> std::convertible_to<T>; })
+#endif
 {
-	return make_from_simd(-this->to_simd());
+	return make_from_simd(-v.to_simd());
 }
 
 static self multiply(const self& a, const self& b) {
@@ -32,7 +34,9 @@ static self multiply(const self& a, const self& b) {
 }
 
 template<std::convertible_to<T> Tlike>
+#ifndef SWIG
 	requires(!std::is_same_v<Tlike, self>)
+#endif
 static self multiply(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() * vector<T, N>(b).to_simd());
 }
@@ -46,62 +50,82 @@ static self divide(const self& a, const Tlike& b) {
 }
 
 static self modulus(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() % b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
 static self modulus(const self& a, const Tlike& b)
+#ifndef SWIG
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() % vector<T, N>(b).to_simd());
 }
 
 
-self logical_not() const
+static self logical_not(const self& v)
+#ifndef SWIG
 	requires(requires(T t) { { !t } -> std::convertible_to<T>; })
+#endif
 {
-	return make_from_simd(!to_simd());
+	return make_from_simd(!v.to_simd());
 }
 
-self bitwise_not() const
+static self bitwise_not(const self& v)
+#ifndef SWIG
 	requires(requires(T t) { { ~t } -> std::convertible_to<T>; })
+#endif
 {
-	return make_from_simd(~to_simd());
+	return make_from_simd(~v.to_simd());
 }
 
 static self logical_and(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t && t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() && b.to_simd());
 }
 
 static self bitwise_and(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t & t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() & b.to_simd());
 }
 
 static self logical_or(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t || t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() || b.to_simd());
 }
 
 static self bitwise_or(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t | t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() | b.to_simd());
 }
 
 static self bitwise_xor(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t ^ t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() ^ b.to_simd());
 }
 
 static self shift_left(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t << t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() << b.to_simd());
 }
@@ -112,7 +136,9 @@ static self shift_left(const self& a, const Tlike& b) {
 template<std::convertible_to<T> Tlike>
 
 static self shift_right(const self& a, const self& b)
+#ifndef SWIG
 	requires(requires(T t) { { t >> t } -> std::convertible_to<T>; })
+#endif
 {
 	return make_from_simd(a.to_simd() >> b.to_simd());
 }
@@ -163,13 +189,17 @@ friend T dot(const self& a, const self& b) {
 
 
 T min_element()
+#ifndef SWIG
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
+#endif
 {
 	return hmin(to_simd());
 }
 
 self max_element()
-	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
+#ifndef SWIG
+	requires(requires(T t) { { t > t } -> std::convertible_to<T>; })
+#endif
 {
 	return hmax(to_simd());
 }

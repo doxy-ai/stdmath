@@ -1,7 +1,5 @@
 module;
 
-#include "../util/operators.hpp"
-
 // #if !__has_include(<mdspan>)
 	#define MDSPAN_IMPL_STANDARD_NAMESPACE stdmath
 	#define MDSPAN_IMPL_PROPOSED_NAMESPACE experimental
@@ -35,7 +33,7 @@ namespace stdmath {
 
 	// Note: Matrices are stored row major.
 	export template<typename T, size_t X, size_t Y>
-	struct matrix : public operators_crtp<matrix<T, X, Y>>{
+	struct matrix {
 		using self = matrix;
 		using simd = stl::simd_or_mask<T, X * Y>;
 		using underlying_type = T;
@@ -69,28 +67,32 @@ namespace stdmath {
 		auto begin() { return data.begin(); }
 		auto end() { return data.end(); }
 
-		inline simd to_simd() const { return {data.data(), stl::vector_aligned}; }
-		inline void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
-		inline static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
+		simd to_simd() const { return {data.data(), stl::vector_aligned}; }
+		void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
+		static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
 
 
 
-		inline static self add(const self& a, const self& b) {
+		static self add(const self& a, const self& b) {
 			return make_from_simd(a.to_simd() + b.to_simd());
 		}
 
-		inline static self subtract(const self& a, const self& b) {
+		static self subtract(const self& a, const self& b) {
 			return make_from_simd(a.to_simd() - b.to_simd());
 		}
 
-		inline static self negate(const self& a)
+		static self negate(const self& a)
+#ifndef SWIG
 			requires(requires(T t) { { -t } -> std::convertible_to<T>; })
+#endif
 		{
 			return make_from_simd(-a.to_simd());
 		}
 
-		inline static self modulus(const self& a, const self& b)
+		static self modulus(const self& a, const self& b)
+#ifndef SWIG
 			requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
+#endif
 		{
 			return make_from_simd(a.to_simd() % b.to_simd());
 		}
@@ -149,9 +151,13 @@ namespace stdmath {
 
 		auto mdspan() { return stl::mdspan<T, stl::extents<size_t, X, Y>, stl::layout_right>{data.data()}; }
 		auto mdspan() const { return stl::mdspan<const T, stl::extents<size_t, X, Y>, stl::layout_right>{data.data()}; }
-		
+
 		operator std::span<T>() { return data; }
 		operator std::span<const T>() const { return data; }
+
+		#include "../partials/operators.partial"
+		// #define STDMATH_COMPARISON_BOOLEAN_TYPE bool
+		// #include "../partials/operators.comparison.partial"
 	};
 
 	export template<typename T, size_t X, size_t Y>

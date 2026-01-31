@@ -1,7 +1,3 @@
-module;
-
-#include "../util/operators.hpp"
-
 export module stdmath.quaternion;
 
 import std.compat;
@@ -12,8 +8,9 @@ import stdmath.types;
 namespace stdmath {
 
 	export template<std::floating_point F = real_t>
-	struct basic_quaternion: protected vector<F, 4>, public operators_crtp<basic_quaternion<F>>, public comparison_operators_crtp<basic_quaternion<F>, vector<bool, 4>> {
+	struct basic_quaternion: protected vector<F, 4> {
 		using underlying_type = F;
+		using self = basic_quaternion;
 		using super = vector<F, 4>;
 		using super::super;
 
@@ -75,10 +72,12 @@ namespace stdmath {
 		static basic_quaternion multiply(Flike scalar, const basic_quaternion& q) {
 			return from_vector(q.to_vector() * scalar);
 		}
+#ifndef _MSC_VER // TODO: Divide breaks MSVC?
 		template<std::convertible_to<F> Flike>
 		static basic_quaternion divide(const basic_quaternion& q, Flike scalar) {
 			return from_vector(q.to_vector() / scalar);
 		}
+#endif
 
 		static basic_quaternion multiply(const basic_quaternion& a, const basic_quaternion& b) {
 			// sa = a.w, sb = b.w
@@ -92,7 +91,7 @@ namespace stdmath {
 		}
 
 		basic_quaternion conjugate() const {
-			auto xyz = this->xyz().to_vector().negate();
+			auto xyz = vector<F, 3>::negate(this->xyz());
 			return from_vector({xyz.x, xyz.y, xyz.z, this->w});
 		}
 
@@ -104,11 +103,17 @@ namespace stdmath {
 		friend vector<Fo, 3> rotate_vector(const basic_quaternion& q, const vector<Fo, 3>& v) {
 			auto vQuat = basic_quaternion(v, 0); // TODO: Is there a more efficient way to write this?
 			auto outQuat = (q * vQuat) * q.conjugate();
-			return outQuat.xyz().to_vector();
+			return outQuat.xyz();
 		}
-		// TODO: It would be nice to support rotating vectors with operator*
+
 		// template<std::floating_point Fo>
-		// friend vector<Fo, 3> multiply(const basic_quaternion &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
+		// static vector<Fo, 3> multiply(const basic_quaternion &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
+		template<std::floating_point Fo>
+		friend vector<Fo, 3> operator*(const basic_quaternion &q, const vector<Fo, 3>& v) { return rotate_vector(q, v); }
+
+		#include "../partials/operators.partial"
+		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 4>
+		#include "../partials/operators.comparison.partial"
 
 		// TODO: Does this produce a value in radians?
 		friend radian angle_between(const basic_quaternion& a, const basic_quaternion& b) {
@@ -117,7 +122,7 @@ namespace stdmath {
 		}
 
 		constexpr static basic_quaternion from_axis_angle(const vector<F, 3> axis, radian angle) {
-			auto sin = stdmath::sin(angle / radian{2});
+			auto sin = stdmath::sin<F>(angle / radian{2});
 			return {static_cast<F>(axis.x * sin), static_cast<F>(axis.y * sin), static_cast<F>(axis.z * sin), static_cast<F>(stdmath::cos(angle / radian{2}))};
 		}
 

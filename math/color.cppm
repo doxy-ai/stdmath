@@ -20,7 +20,7 @@ namespace stdmath {
 			if (!hex.empty() && hex[0] == '#')
 				hex.remove_prefix(1);
 
-			constexpr auto hex_digit = [](char c) -> int { 
+			constexpr auto hex_digit = [](char c) -> int {
 				if (c >= '0' && c <= '9') return c - '0';
 				if (c >= 'a' && c <= 'f') return c - 'a' + 10;
 				if (c >= 'A' && c <= 'F') return c - 'A' + 10;
@@ -55,7 +55,7 @@ namespace stdmath {
 
 		template<typename Tfunction>
 		constexpr inline basic_color elementwise_transform_ignoring_alpha(const Tfunction& function) const {
-			auto out = this->elementwise_transform(function); 
+			auto out = this->elementwise_transform(function);
 			out.w = this->w; // Written this way in case we find a way to simd accelerate elementwise_transform in the future
 			return out;
 		}
@@ -258,6 +258,6 @@ namespace stdmath {
 	export using color32 = basic_color<float>;
 	export using color8 = basic_color<uint8_t>;
 
-	export inline color8 denormalize(color32 c32) { return c32.color32_normalized_to_color8(); } 
-	export inline color32 normalize(color8 c8) { return c8.color8_to_color32_normalized(); } 
+	export inline color8 denormalize(color32 c32) { return c32.color32_normalized_to_color8(); }
+	export inline color32 normalize(color8 c8) { return c8.color8_to_color32_normalized(); }
 }

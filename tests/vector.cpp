@@ -123,9 +123,9 @@ TEST_CASE("vector<f32, 4>") {
 
 	std::math::vector<f32, 4> normalized_vector_from_swizzle4 = normalize(sw4.to_vector());
 	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.x, 0.537579));
-	CHECK(stdmath::approximately_equal(normalized_vector_from_swizzle4.y, 0.460782));
-	CHECK(stdmath::approximately_equal(normalized_vector_from_swizzle4.z, 0.486381));
-	CHECK(stdmath::approximately_equal(normalized_vector_from_swizzle4.w, 0.51198));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.y, 0.460782));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.z, 0.486381));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.w, 0.51198));
 
 	auto v11x4 = v11 * 4;
 	CHECK(bool{v11x4 == std::math::vector<f32, 4>{18 * 4, 19 * 4, 20 * 4, 21 * 4}});
