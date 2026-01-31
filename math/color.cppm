@@ -2,6 +2,7 @@ export module stdmath.color;
 
 import std.compat;
 import stdmath.vector;
+import stdmath.types;
 
 namespace stdmath {
 
@@ -31,25 +32,25 @@ namespace stdmath {
 				return hex_digit(hex[i]) * 16 + hex_digit(hex[i + 1]);
 			};
 
-			T r = 0, g = 0, b = 0, a = T(1);
+			real_t r = 0, g = 0, b = 0, a = real_t(1);
 
 			if (hex.size() == 3 || hex.size() == 4) {
-				r = hex_digit(hex[0]) / T(15);
-				g = hex_digit(hex[1]) / T(15);
-				b = hex_digit(hex[2]) / T(15);
+				r = hex_digit(hex[0]) / real_t(15);
+				g = hex_digit(hex[1]) / real_t(15);
+				b = hex_digit(hex[2]) / real_t(15);
 				if (hex.size() == 4)
-					a = hex_digit(hex[3]) / T(15);
+					a = hex_digit(hex[3]) / real_t(15);
 			}
 			else if (hex.size() == 6 || hex.size() == 8) {
-				r = read(0) / T(255);
-				g = read(2) / T(255);
-				b = read(4) / T(255);
+				r = read(0) / real_t(255);
+				g = read(2) / real_t(255);
+				b = read(4) / real_t(255);
 				if (hex.size() == 8)
-					a = read(6) / T(255);
+					a = read(6) / real_t(255);
 			}
 
 			if constexpr(std::is_same_v<T, uint8_t>)
-				return basic_color{ r, g, b, a }.color32_normalized_to_color8();
+				return basic_color<real_t>{ r, g, b, a }.color32_normalized_to_color8();
 			else return { r, g, b, a };
 		}
 
@@ -84,11 +85,11 @@ namespace stdmath {
 
 
 		basic_color srgb_to_linear(){
-			return gamma(1/2.2);
+			return gamma(2.2);
 		}
 
 		basic_color linear_to_srgb() {
-			return gamma(2.2);
+			return gamma(1/2.2);
 		}
 
 		basic_color linear_to_hsv() {
@@ -116,8 +117,8 @@ namespace stdmath {
 			return { h, s, v, this->data[3] };
 		}
 
-		basic_color<T> hsv_to_linear(const basic_color<T>& c) {
-			T h = fract(this->data[0]) * T(6);
+		basic_color<T> hsv_to_linear() {
+			T h = T(fract(this->data[0])) * T(6);
 			T s = this->data[1];
 			T v = this->data[2];
 
@@ -199,7 +200,7 @@ namespace stdmath {
 		}
 		basic_color unpremultiply_alpha() {
 			if (this->data[3] == T(0))
-				return this->data;
+				return *this;
 
 			T inv = T(1) / this->data[3];
 			return elementwise_transform_ignoring_alpha([inv](T c){
@@ -214,15 +215,16 @@ namespace stdmath {
 			});
 		}
 
-		basic_color color8_to_color32_normalized() {
-			return elementwise_transform_ignoring_alpha([](T c){
-				return c / 255;
+		basic_color<real_t> color8_to_color32_normalized() {
+			basic_color<real_t> out = *this;
+			return out.elementwise_transform([](T c){
+				return c / 255.;
 			});
 		}
 
-		basic_color color32_normalized_to_color8() {
-			return elementwise_transform_ignoring_alpha([](T c){
-				return c * 255;
+		basic_color<uint8_t> color32_normalized_to_color8() {
+			return this->elementwise_transform([](T c){
+				return c * 255.;
 			});
 		}
 

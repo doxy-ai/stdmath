@@ -6,7 +6,7 @@ vector(const vector<To, N>& o) {
 #else
 	std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
 #endif
-		data[i] = o[i];
+		data[i] = T(o[i]);
 	});
 }
 

@@ -1,3 +1,7 @@
+module;
+
+#include "../util/return_or_void.hpp"
+
 export module stdmath.vector;
 
 import std.compat;
