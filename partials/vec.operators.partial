@@ -7,8 +7,8 @@ constexpr auto end() const { return data.end(); }
 constexpr T& operator[](size_t i) { return data[i]; }
 constexpr const T& operator[](size_t i) const { return data[i]; }
 
-simd to_simd() const { return {data.data(), stl::vector_aligned}; }
-void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
+simd to_simd() const { return {data.data(), stl::element_aligned}; }
+void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::element_aligned); }
 static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
 
 
@@ -175,7 +175,7 @@ explicit operator bool() {
 }
 
 T length_squared() const {
-	return reduce(to_simd() * to_simd(), T{1});
+	return reduce(to_simd() * to_simd());
 }
 
 T length() const {
@@ -183,7 +183,7 @@ T length() const {
 }
 
 inline friend T dot(const self& a, const self& b) {
-	return reduce(a.to_simd() * b.to_simd(), T{1});
+	return reduce(a.to_simd() * b.to_simd());
 }
 
 
@@ -240,6 +240,6 @@ constexpr auto elementwise_transform(const Tfunction& function) const {
 }
 
 template<typename Tfunction = std::plus<T>>
-constexpr T reduce_elements(const T initial_value, const Tfunction& binary_op = {}) const {
+constexpr T reduce_elements(const T initial_value = T(0), const Tfunction& binary_op = {}) const {
 	return reduce(to_simd(), initial_value, binary_op);
 }

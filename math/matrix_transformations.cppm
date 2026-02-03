@@ -11,6 +11,25 @@ import stdmath.types;
 // NOTE: Slang uses a ROW MAJOR matrices in a LEFT HANDED coordinate system!
 
 namespace stdmath {
+	export template<typename T = real_t>
+	constexpr matrix<T, 4, 4> make_homogenous(const matrix<T, 3, 3>& small) {
+		return {{
+			small[0, 0], small[0, 1], small[0, 2], 0,
+			small[1, 0], small[1, 1], small[1, 2], 0,
+			small[2, 0], small[2, 1], small[2, 2], 0,
+			0, 0, 0, 1,
+		}};
+	}
+
+	export template<typename T = real_t>
+	constexpr matrix<T, 3, 3> strip_homogenous(const matrix<T, 4, 4>& big) {
+		return {{
+			big[0, 0], big[0, 1], big[0, 2],
+			big[1, 0], big[1, 1], big[1, 2],
+			big[2, 0], big[2, 1], big[2, 2],
+		}};
+	}
+
 	export template<typename T = real_t, typename Tq = real_t>
 	constexpr matrix<T, 3, 3> rotation_matrix(const basic_quaternion<Tq>& q, bool assume_quaternion_is_unit = true) {
 		if(assume_quaternion_is_unit)
@@ -24,6 +43,10 @@ namespace stdmath {
 			2*(q.x*q.y + q.w*q.z), q.w*q.w - q.x*q.x + q.y*q.y - q.z*q.z, 2*(q.y*q.z - q.w*q.x),
 			2*(q.x*q.z - q.w*q.y), 2*(q.w*q.x + q.y*q.z), q.w*q.w - q.x*q.x - q.y*q.y + q.z*q.z
 		}};
+	}
+	export template<typename T = real_t, typename Tq = real_t>
+	constexpr matrix<T, 4, 4> homogenous_rotation_matrix(const basic_quaternion<Tq>& q, bool assume_quaternion_is_unit = true) {
+		return make_homogenous(rotation_matrix<T, Tq>(q, assume_quaternion_is_unit));
 	}
 
 	// Long term todo: Rotation matrix to quaternion conversion
@@ -45,24 +68,9 @@ namespace stdmath {
 		out[2, 2] = scale.z;
 		return out;
 	}
-
 	export template<typename T = real_t>
-	constexpr matrix<T, 4, 4> make_homogenous(const matrix<T, 3, 3>& small) {
-		return {{
-			small[0, 0], small[0, 1], small[0, 2], 0,
-			small[1, 0], small[1, 1], small[1, 2], 0,
-			small[2, 0], small[2, 1], small[2, 2], 0,
-			0, 0, 0, 1,
-		}};
-	}
-
-	export template<typename T = real_t>
-	constexpr matrix<T, 3, 3> strip_homogenous(const matrix<T, 4, 4>& big) {
-		return {{
-			big[0, 0], big[0, 1], big[0, 2],
-			big[1, 0], big[1, 1], big[1, 2],
-			big[2, 0], big[2, 1], big[2, 2],
-		}};
+	constexpr matrix<T, 4, 4> homogenous_scale_matrix(const vector<T, 3>& scale) {
+		return make_homogenous(scale_matrix<T>(scale));
 	}
 
 	export template<typename T = real_t>
