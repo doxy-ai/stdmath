@@ -46,11 +46,11 @@ namespace stdmath { namespace stl {
 		simd_emulation& operator=(const simd_emulation&) = default;
 		simd_emulation& operator=(simd_emulation&&) = default;
 
-		simd_emulation(const T* data, vector_aligned_tag) {
+		simd_emulation(const T* data, element_aligned_tag) {
 			std::copy(data, data + N, this->data());
 		}
 
-		void copy_to(T* data, vector_aligned_tag) const {
+		void copy_to(T* data, element_aligned_tag) const {
 			std::copy(this->begin(), this->end(), data);
 		}
 
@@ -74,7 +74,7 @@ namespace stdmath { namespace stl {
 			return *std::max_element(a.begin(), a.end());
 		}
 		template<typename Tfunction = std::plus<T>>
-		inline friend T reduce(const simd_emulation& a, const T initial_value, const Tfunction& binary_op = {}) {
+		inline friend T reduce(const simd_emulation& a, const T initial_value = T(0), const Tfunction& binary_op = {}) {
 			return std::reduce(a.begin(), a.end(), initial_value, binary_op);
 		}
 

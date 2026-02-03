@@ -19,17 +19,18 @@ namespace stdmath {
 		using self = basic_radian;
 		T value;
 
-		template<typename To> basic_radian(const To radian) : value(T(radian)) {}
+		template<std::convertible_to<T> To>
+		basic_radian(To value = T(0)) : value(value) {}
 		basic_radian(const basic_radian&) = default;
 		basic_radian(basic_radian&&) = default;
-		basic_radian() : basic_radian(0) {}
-		template<typename To> basic_radian(const basic_radian<To>& other) : basic_radian(other.value) {}
-		basic_radian(const basic_degree<T> d);
+		basic_radian() : value(0) {}
+		template<typename To> basic_radian(const basic_radian<To>& other) : value(other.value) {}
+		template<typename To> basic_radian(const basic_degree<To> d);
 
 		basic_radian& operator=(const basic_radian& other) = default;
 		basic_radian& operator=(basic_radian&& other) = default;
 
-		operator T() const { return value; }
+		explicit operator T() const { return value; }
 
 		static basic_radian add(const basic_radian a, const basic_radian b) {
 			return a.value + b.value;
@@ -89,17 +90,17 @@ namespace stdmath {
 		using self = basic_degree;
 		T value;
 
-		template<typename To> basic_degree(To basic_degree) : value(T(basic_degree)) {}
+		template<std::convertible_to<T> To>
+		basic_degree(To value = T(0)) : value(value) {}
 		basic_degree(const basic_degree&) = default;
 		basic_degree(basic_degree&&) = default;
-		basic_degree() : basic_degree(0) {}
-		template<typename To> basic_degree(const basic_degree<To>& other) : basic_degree(other.value) {}
-		basic_degree(const basic_radian<T> r) : basic_degree(T(r) * rad2deg<T>) {}
+		template<typename To> basic_degree(const basic_degree<To>& other) : value(other.value) {}
+		template<typename To> basic_degree(const basic_radian<To> r) : value(T(r.value) * rad2deg<T>) {}
 
 		basic_degree& operator=(const basic_degree&) = default;
 		basic_degree& operator=(basic_degree&&) = default;
 
-		operator T() const { return value; }
+		explicit operator T() const { return value; }
 
 		static basic_degree add(const basic_degree a, const basic_degree b) {
 			return a.value + b.value;
@@ -146,17 +147,18 @@ namespace stdmath {
 		}
 
 		T degree() const { return value; }
-		T radian() const { return basic_radian<T>(*this); }
+		T radian() const { return basic_radian<T>(*this).value; }
 
 		#include "../partials/operators.partial"
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE bool
 		#include "../partials/operators.comparison.partial"
 	};
 
+	template<typename T> 
+	template<typename To>
+	basic_radian<T>::basic_radian(const stdmath::basic_degree<To> d) : value(T(d.value) * deg2rad<T>) {}
 	template<typename T>
-	basic_radian<T>::basic_radian(const stdmath::basic_degree<T> d) : basic_radian(T(d) * deg2rad<T>) {}
-	template<typename T>
-	T basic_radian<T>::degree() const { return basic_degree<T>(*this); }
+	T basic_radian<T>::degree() const { return basic_degree<T>(*this).value; }
 
 
 
@@ -168,14 +170,23 @@ namespace stdmath {
 	export using degree64 = basic_degree<f64>;
 	export using degree = basic_degree<real_t>;
 
+	export namespace literals {
+		radian64 operator""_radians(long double d) {
+			return f64(d);
+		};
+
+		degree64 operator""_degrees(long double d) {
+			return f64(d);
+		};
+	}
 
 
 	export template<typename T>
-	constexpr T sin(basic_radian<T> rad) { return std::sin(rad); }
+	constexpr T sin(basic_radian<T> rad) { return std::sin(rad.radian()); }
 	export template<typename T>
-	constexpr T cos(basic_radian<T> rad) { return std::cos(rad); }
+	constexpr T cos(basic_radian<T> rad) { return std::cos(rad.radian()); }
 	export template<typename T>
-	constexpr T tan(basic_radian<T> rad) { return std::tan(rad); }
+	constexpr T tan(basic_radian<T> rad) { return std::tan(rad.radian()); }
 	export template<typename T>
 	constexpr basic_radian<T> asin(T v) { return std::asin(v); }
 	export template<typename T>
@@ -207,8 +218,8 @@ namespace stdmath {
 	template<typename T>
 	struct angle_wrapper<basic_degree<T>> {
 		basic_degree<T> operator()(const basic_degree<T> deg) {
-			std::ptrdiff_t whole = deg;
-			T decimal = T{deg} - whole;
+			std::ptrdiff_t whole = deg.value;
+			T decimal = T{deg.value} - whole;
 
 			whole %= 360;
 			auto res = whole + decimal;

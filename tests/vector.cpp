@@ -39,8 +39,8 @@ TEST_CASE("vector<f32, 2>") {
 	CHECK(bool{sw2.to_vector() == std::math::vector<f32, 2>{4, 5}});
 
 	std::math::vector<f32, 2> normalized_vector_from_swizzle2 = normalize(sw2.to_vector());
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle2.x, 0.617213428));
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle2.y, 0.77151674));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle2.x, 0.6246950476));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle2.y, 0.7808688094));
 }
 
 TEST_CASE("vector<f32, 3>") {
@@ -77,9 +77,9 @@ TEST_CASE("vector<f32, 3>") {
 	CHECK(bool{sw3.to_vector() == std::math::vector<f32, 3>{9, 10, 11}});
 
 	std::math::vector<f32, 3> normalized_vector_from_swizzle3 = normalize(sw3.to_vector());
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle3.x, 0.517036498));
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle3.y, 0.574485004));
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle3.z, 0.63193351));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle3.x, 0.5178918039));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle3.y, 0.5754353376));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle3.z, 0.6329788714));
 }
 
 TEST_CASE("vector<f32, 4>") {
@@ -122,10 +122,10 @@ TEST_CASE("vector<f32, 4>") {
 	CHECK(bool{sw4.to_vector() == std::math::vector<f32, 4>{21.f, 18.f, 19.f, 20.f}});
 
 	std::math::vector<f32, 4> normalized_vector_from_swizzle4 = normalize(sw4.to_vector());
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.x, 0.53740263));
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.y, 0.460630804));
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.z, 0.486221433));
-	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.w, 0.511812031));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.x, 0.5375786693));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.y, 0.4607817165));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.z, 0.4863807008));
+	CHECK(std::math::approximately_equal(normalized_vector_from_swizzle4.w, 0.5119796850));
 
 	auto v11x4 = v11 * 4;
 	CHECK(bool{v11x4 == std::math::vector<f32, 4>{18 * 4, 19 * 4, 20 * 4, 21 * 4}});

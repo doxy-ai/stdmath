@@ -13,7 +13,7 @@ TEST_CASE("angles") {
 	CHECK(std::math::approximately_equal(std::math::deg2rad<f32> * 180, std::math::PI));
 
 	// basic_radian and basic_degree
-	std::math::radian32 r(std::math::PI / 4);
+	std::math::radian32 r(f32(std::math::PI / 4));
 	std::math::degree32 d(45);
 	CHECK(r.degree() == d.degree());
 	CHECK(d.radian() == r.radian());
@@ -41,7 +41,7 @@ TEST_CASE("angles") {
 	CHECK(d3 == 3);
 
 	// trig functions
-	std::math::radian32 r_pi_div_2(std::math::PI / 2);
+	std::math::radian32 r_pi_div_2(f32(std::math::PI / 2));
 	CHECK(std::math::approximately_equal(std::math::cos(r_pi_div_2), 0));
 	CHECK(std::math::approximately_equal(std::math::sin(r_pi_div_2), 1));
 
@@ -51,15 +51,15 @@ TEST_CASE("angles") {
 
 	// atan2
 	auto r_atan2_1_1 = std::math::atan2(1.f, 1.f);
-	CHECK(std::math::approximately_equal(r_atan2_1_1, .785398f));
+	CHECK(std::math::approximately_equal(r_atan2_1_1.value, .785398f));
 
 	// angle_normalize
-	// auto d_norm = std::math::angle_wrap<std::math::degree>(540);
-	// CHECK(std::math::approximately_equal(d_norm, 180)); // TODO: Why is this not working!?!?
+	auto d_norm = std::math::angle_wrap<std::math::degree>(540);
+	// CHECK(std::math::approximately_equal(d_norm.value, 180)); // TODO: Why is this not working!?!?
 
 	auto d_norm2 = std::math::angle_wrap<std::math::degree>(-180);
-	CHECK(std::math::approximately_equal(d_norm2, 180));
+	CHECK(std::math::approximately_equal(d_norm2.value, 180));
 
-	// auto r_norm = std::math::angle_wrap<std::math::radian>(7 * std::math::PI);
-	// CHECK(std::math::approximately_equal(r_norm, std::math::PI)); // TODO: Why is this not working!?!?
+	auto r_norm = std::math::angle_wrap<std::math::radian>(f32(7 * std::math::PI));
+	// CHECK(std::math::approximately_equal(r_norm.value, std::math::PI)); // TODO: Why is this not working!?!?
 }

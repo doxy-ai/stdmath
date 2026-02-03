@@ -38,6 +38,8 @@ namespace stdmath {
 		using simd = stl::simd_or_mask<T, X * Y>;
 		using underlying_type = T;
 
+		std::array<T, X * Y> data;
+
 		matrix() { data.fill(0); }
 		matrix(const std::array<T, X * Y>& data) : data(data) {}
 		matrix(const matrix&) = default;
@@ -45,7 +47,17 @@ namespace stdmath {
 		matrix& operator=(const matrix&) = default;
 		matrix& operator=(matrix&&) = default;
 
-		std::array<T, X * Y> data;
+		template<typename To>
+		matrix(const matrix<To, X, Y>& o) {
+			auto range = std::views::iota(size_t{0}, X * Y);
+		#ifdef __clang__
+			std::for_each(range.begin(), range.end(), [&](size_t i) {
+		#else
+			std::for_each(std::execution::par_unseq, range.begin(), range.end(), [&](size_t i) {
+		#endif
+				data[i] = T(o.data[i]);
+			});
+		}
 
 		constexpr static matrix identity(const T& scaler = 1) {
 			matrix out;
