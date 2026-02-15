@@ -180,4 +180,35 @@ namespace stdmath {
 	export using quaternion32 = basic_quaternion<f32>;
 	export using quaternion64 = basic_quaternion<f64>;
 	export using quaternion = basic_quaternion<real_t>;
+
+	export template<typename T>
+	std::ostream& operator<<(std::ostream& out, const basic_quaternion<T>& q) {
+		out << "quaternion(";
+		for(size_t i = 0; i < 4; ++i) {
+			if(i > 0) out << ", ";
+			if constexpr(sizeof(T) == 1)
+				out << (int)q[i];
+			else out << q[i];
+		}
+		return out << ")";
+	}
 }
+
+template<typename T>
+struct std::formatter<stdmath::basic_quaternion<T>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::basic_quaternion<T>& q, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "quaternion(");
+		for (std::size_t i = 0; i < 4; ++i) {
+			if (i > 0) out = std::format_to(out, ", ");
+			out = elem_formatter.format(q[i], ctx);
+		}
+		return std::format_to(out, ")");
+	}
+};

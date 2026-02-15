@@ -37,6 +37,9 @@ TEST_CASE("color from_hex") {
 	CHECK(c3.g == 128);
 	CHECK(c3.b == 0);
 	CHECK(c3.a == 255);
+
+	std::cout << c3 << std::endl;
+	std::println("{}", c3);
 }
 
 TEST_CASE("color sRGB/Linear conversions") {

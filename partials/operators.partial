@@ -1,10 +1,4 @@
 
-#ifndef SWIG
-	#define STDMATH_REQUIRES_TLIKE_NOT_SAME requires(!std::same_as<Tlike, self>)
-#else
-	#define STDMATH_REQUIRES_TLIKE_NOT_SAME
-#endif
-
 #define STDMATH_BINARY_OP(name, symbol)\
 	inline friend self operator symbol(const self& a, const self& b)\
 		requires(requires(self v) { {name(v, v)} -> std::convertible_to<self>; })\
@@ -12,14 +6,16 @@
 		return name(a, b);\
 	}\
 \
-	template<typename Tlike> STDMATH_REQUIRES_TLIKE_NOT_SAME\
+	template<typename Tlike>\
+		requires(!std::same_as<Tlike, self>)\
 	inline friend self operator symbol(const self& a, const Tlike& b)\
 		requires(requires(self a, Tlike b) { {name(a, b)} -> std::convertible_to<self>; })\
 	{\
 		return name(a, b);\
 	}\
 \
-	template<typename Tlike> STDMATH_REQUIRES_TLIKE_NOT_SAME\
+	template<typename Tlike>\
+		requires(!std::same_as<Tlike, self>)\
 	inline friend self operator symbol(const Tlike& a, const self& b)\
 		requires(requires(Tlike a, self b) { {name(a, b)} -> std::convertible_to<self>; })\
 	{\
@@ -35,7 +31,8 @@
 		return a = name(a, b);\
 	}\
 \
-	template<typename Tlike> STDMATH_REQUIRES_TLIKE_NOT_SAME\
+	template<typename Tlike>\
+		requires(!std::same_as<Tlike, self>)\
 	inline friend self& operator symbol##=(self& a, const Tlike& b)\
 		requires(requires(self a, Tlike b) { {name(a, b)} -> std::convertible_to<self>; })\
 	{\

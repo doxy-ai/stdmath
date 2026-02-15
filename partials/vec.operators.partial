@@ -22,9 +22,7 @@ static self subtract(const self& a, const self& b) {
 }
 
 static self negate(const self& v)
-#ifndef SWIG
 	requires(requires(T t) { { -t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(-v.to_simd());
 }
@@ -34,9 +32,7 @@ static self multiply(const self& a, const self& b) {
 }
 
 template<std::convertible_to<T> Tlike>
-#ifndef SWIG
 	requires(!std::is_same_v<Tlike, self>)
-#endif
 static self multiply(const self& a, const Tlike& b) {
 	return make_from_simd(a.to_simd() * vector<T, N>(b).to_simd());
 }
@@ -50,82 +46,62 @@ static self divide(const self& a, const Tlike& b) {
 }
 
 static self modulus(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() % b.to_simd());
 }
 template<std::convertible_to<T> Tlike>
 static self modulus(const self& a, const Tlike& b)
-#ifndef SWIG
 	requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() % vector<T, N>(b).to_simd());
 }
 
 
 static self logical_not(const self& v)
-#ifndef SWIG
 	requires(requires(T t) { { !t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(!v.to_simd());
 }
 
 static self bitwise_not(const self& v)
-#ifndef SWIG
 	requires(requires(T t) { { ~t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(~v.to_simd());
 }
 
 static self logical_and(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t && t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() && b.to_simd());
 }
 
 static self bitwise_and(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t & t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() & b.to_simd());
 }
 
 static self logical_or(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t || t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() || b.to_simd());
 }
 
 static self bitwise_or(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t | t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() | b.to_simd());
 }
 
 static self bitwise_xor(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t ^ t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() ^ b.to_simd());
 }
 
 static self shift_left(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t << t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() << b.to_simd());
 }
@@ -136,9 +112,7 @@ static self shift_left(const self& a, const Tlike& b) {
 template<std::convertible_to<T> Tlike>
 
 static self shift_right(const self& a, const self& b)
-#ifndef SWIG
 	requires(requires(T t) { { t >> t } -> std::convertible_to<T>; })
-#endif
 {
 	return make_from_simd(a.to_simd() >> b.to_simd());
 }
@@ -189,22 +163,18 @@ inline friend T dot(const self& a, const self& b) {
 
 
 T min_element() const
-#ifndef SWIG
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
-#endif
 {
 	return hmin(to_simd());
 }
 
 T max_element() const
-#ifndef SWIG
 	requires(requires(T t) { { t > t } -> std::convertible_to<T>; })
-#endif
 {
 	return hmax(to_simd());
 }
 
-// template<typename Tfunction> // TODO: Do we want this function to be able to change the type of the vector? vector<int, 4> -> vector<floats, 4> // Probably not?
+// template<typename Tfunction>
 // constexpr self elementwise_transform(const Tfunction& function) const {
 // 	self out = *this;
 // 	auto range = std::views::iota(size_t{0}, N);
@@ -219,7 +189,7 @@ T max_element() const
 // 	});
 // 	return out;
 // }
-template<typename Tfunction> // TODO: Do we want this function to be able to change the type of the vector? vector<int, 4> -> vector<floats, 4> // Probably not?
+template<typename Tfunction>
 constexpr auto elementwise_transform(const Tfunction& function) const {
 	using out_t = std::conditional_t<std::is_same_v<return_or_void_t<Tfunction, T, size_t>, void>,
 		return_or_void_t<Tfunction, T>, return_or_void_t<Tfunction, T, size_t>

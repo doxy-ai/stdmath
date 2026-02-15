@@ -44,6 +44,9 @@ TEST_CASE("Quaternion Basics") {
 	CHECK(all_of(approximately_equal(rotate(b, v), {std::math::float3(-.71f, .71f, 0)}, .01)));
 	// CHECK(all_of(approximately_equal(rotate(ab, v), {std::math::float3(-.71f, .5f, .5f)}, .01)));
 	CHECK(all_of(approximately_equal(rotate(ab, v), {std::math::float3(-.65f, .48f, .55f)}, .01))); // TODO: Is this correct?
+
+	std::cout << ab << std::endl;
+	std::println("{}", ab);
 }
 
 TEST_CASE("Euler Angles") {

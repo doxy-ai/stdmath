@@ -388,4 +388,35 @@ namespace stdmath {
 
 	export inline color8 denormalize(color32 c32) { return c32.color32_normalized_to_color8(); }
 	export inline color32 normalize(color8 c8) { return c8.color8_to_color32_normalized(); }
+
+	export template<typename T>
+	std::ostream& operator<<(std::ostream& out, const basic_color<T>& c) {
+		out << "color(";
+		for(size_t i = 0; i < 4; ++i) {
+			if(i > 0) out << ", ";
+			if constexpr(sizeof(T) == 1)
+				out << (int)c[i];
+			else out << c[i];
+		}
+		return out << ")";
+	}
 }
+
+template<typename T>
+struct std::formatter<stdmath::basic_color<T>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::basic_color<T>& c, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "color(");
+		for (std::size_t i = 0; i < 4; ++i) {
+			if (i > 0) out = std::format_to(out, ", ");
+			out = elem_formatter.format(c[i], ctx);
+		}
+		return std::format_to(out, ")");
+	}
+};

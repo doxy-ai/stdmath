@@ -12,6 +12,9 @@ TEST_CASE("matrix<f32, 2, 2>::identity()") {
 	CHECK(identity_matrix[0, 1] == 0.f);
 	CHECK(identity_matrix[1, 1] == 1.f);
 	CHECK(identity_matrix[1, 0] == 0.f);
+
+	std::cout << identity_matrix << std::endl;
+	std::println("{}", identity_matrix);
 }
 
 TEST_CASE("matrix<f32, 2, 2>::transpose()") {

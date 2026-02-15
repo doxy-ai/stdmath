@@ -142,4 +142,27 @@ namespace stdmath {
 	AABB<T, Dims> normalize(AABB<T, Dims> aabb) {
 		return aabb.normalize();
 	}
+
+	export template<typename T, size_t Dims>
+	std::ostream& operator<<(std::ostream& out, const AABB<T, Dims>& aabb) {
+		return out << "AABB(" << aabb.min << ", " << aabb.max << ")";
+	}
 }
+
+template<typename T, size_t Dims>
+struct std::formatter<stdmath::AABB<T, Dims>> {
+	std::formatter<stdmath::vector<T, Dims>> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::AABB<T, Dims>& aabb, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "AABB(");
+		out = elem_formatter.format(aabb.min, ctx);
+		out = std::format_to(out, ", ");
+		out = elem_formatter.format(aabb.max, ctx);
+		return std::format_to(out, ")");
+	}
+};

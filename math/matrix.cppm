@@ -94,9 +94,7 @@ namespace stdmath {
 		}
 
 		static self negate(const self& a)
-#ifndef SWIG
 			requires(requires(T t) { { -t } -> std::convertible_to<T>; })
-#endif
 		{
 			return make_from_simd(-a.to_simd());
 		}
@@ -252,4 +250,35 @@ namespace stdmath {
 		}
 		return I;
 	}
+
+	export template<typename T, size_t X, size_t Y>
+	std::ostream& operator<<(std::ostream& out, const matrix<T, X, Y>& m) {
+		out << "[";
+		for(size_t i = 0; i < X * Y; ++i) {
+			if(i > 0) out << ", ";
+			if constexpr(sizeof(T) == 1)
+				out << (int)m.data[i];
+			else out << m.data[i];
+		}
+		return out << "]";
+	}
 }
+
+export template<typename T, size_t X, size_t Y>
+struct std::formatter<stdmath::matrix<T, X, Y>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::matrix<T, X, Y>& m, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "[");
+		for (std::size_t i = 0; i < X * Y; ++i) {
+			if (i > 0) out = std::format_to(out, ", ");
+			out = elem_formatter.format(m.data[i], ctx);
+		}
+		return std::format_to(out, "]");
+	}
+};

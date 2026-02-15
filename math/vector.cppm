@@ -20,7 +20,7 @@ namespace stdmath {
 
 		constexpr vector(T broadcast) { data.fill(broadcast); }
 		constexpr vector(std::initializer_list<T> data) : data(data) {}
-	#ifndef SWIG
+
 		#include "../partials/vec1.constructors.partial.gen"
 
 		#include "../partials/vec.operators.partial"
@@ -28,15 +28,6 @@ namespace stdmath {
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, N>
 		#include "../partials/operators.comparison.partial"
 		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#else
-		%include "../partials/vec1.constructors.partial.gen"
-
-		%include "../partials/vec.operators.partial"
-		%include "../partials/operators.partial"
-		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, N>
-		%include "../partials/operators.comparison.partial"
-		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#endif
 	};
 
 	export template<typename T, size_t N>
@@ -50,11 +41,7 @@ namespace stdmath {
 		using underlying_type = T;
 		T* x;
 
-	#ifndef SWIG
 		#include "../partials/vec1.swizzles.partial.gen"
-	#else
-		%include "../partials/vec1.swizzles.partial.gen"
-	#endif
 
 		template<typename To>
 		using vector = stdmath::vector<To, 1>;
@@ -71,11 +58,7 @@ namespace stdmath {
 		using underlying_type = T;
 		T *x, *y;
 
-	#ifndef SWIG
 		#include "../partials/vec2.swizzles.partial.gen"
-	#else
-		%include "../partials/vec2.swizzles.partial.gen"
-	#endif
 
 		template<typename To>
 		using vector = stdmath::vector<To, 2>;
@@ -92,11 +75,7 @@ namespace stdmath {
 		using underlying_type = T;
 		T *x, *y, *z;
 
-	#ifndef SWIG
 		#include "../partials/vec3.swizzles.partial.gen"
-	#else
-		%include "../partials/vec3.swizzles.partial.gen"
-	#endif
 
 		template<typename To>
 		using vector = stdmath::vector<To, 3>;
@@ -113,11 +92,7 @@ namespace stdmath {
 		using underlying_type = T;
 		T *x, *y, *z, *w;
 
-	#ifndef SWIG
 		#include "../partials/vec4.swizzles.partial.gen"
-	#else
-		%include "../partials/vec4.swizzles.partial.gen"
-	#endif
 
 		template<typename To>
 		using vector = stdmath::vector<To, 4>;
@@ -146,7 +121,6 @@ namespace stdmath {
 		};
 
 		constexpr vector(T x) : x(x) {}
-	#ifndef SWIG
 		#include "../partials/vec1.constructors.partial.gen"
 
 		#include "../partials/vec.operators.partial"
@@ -155,16 +129,6 @@ namespace stdmath {
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 1>
 		#include "../partials/operators.comparison.partial"
 		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#else
-		%include "../partials/vec1.constructors.partial.gen"
-
-		%include "../partials/vec.operators.partial"
-		%include "../partials/vec1.swizzles.address_of.partial.gen"
-		%include "../partials/operators.partial"
-		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 1>
-		%include "../partials/operators.comparison.partial"
-		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#endif
 	};
 
 	template<typename T>
@@ -192,7 +156,7 @@ namespace stdmath {
 
 		constexpr vector(T broadcast) : x(broadcast), y(broadcast) {}
 		constexpr vector(T x, T y) : x(x), y(y) {}
-	#ifndef SWIG
+
 		#include "../partials/vec2.constructors.partial.gen"
 
 		#include "../partials/vec.operators.partial"
@@ -201,16 +165,6 @@ namespace stdmath {
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 2>
 		#include "../partials/operators.comparison.partial"
 		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#else
-		%include "../partials/vec2.constructors.partial.gen"
-
-		%include "../partials/vec.operators.partial"
-		%include "../partials/vec2.swizzles.address_of.partial.gen"
-		%include "../partials/operators.partial"
-		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 2>
-		%include "../partials/operators.comparison.partial"
-		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#endif
 	};
 
 	template<typename T>
@@ -230,30 +184,23 @@ namespace stdmath {
 
 		union {
 			struct {
-#ifndef SWIG
 				alignas(std::array<T, 4>)
-#endif
 				T x;
 				T y;
 				T z;
 			};
 			struct {
-#ifndef SWIG
 				alignas(std::array<T, 4>)
-#endif
 				T r;
 				T g;
 				T b;
 			};
-#ifndef SWIG
 			alignas(std::array<T, 4>)
-#endif
 			std::array<T, 3> data;
 		};
 
 		constexpr vector(T broadcast) : x(broadcast), y(broadcast), z(broadcast) {}
 		constexpr vector(T x, T y, T z = {}) : x(x), y(y), z(z) {}
-	#ifndef SWIG
 		#include "../partials/vec3.constructors.partial.gen"
 
 		#include "../partials/vec.operators.partial"
@@ -262,21 +209,12 @@ namespace stdmath {
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 3>
 		#include "../partials/operators.comparison.partial"
 		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#else
-		%include "../partials/vec3.constructors.partial.gen"
-
-		%include "../partials/vec.operators.partial"
-		%include "../partials/vec3.swizzles.address_of.partial.gen"
-		%include "../partials/operators.partial"
-		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 3>
-		%include "../partials/operators.comparison.partial"
-	#endif
 
 		inline friend vector cross(const vector& a, const vector& b) {
 			return {
-				a.y * b.z - a.z * b.y,
-				a.z * b.x - a.x * b.z,
-				a.x * b.y - a.y * b.x
+				T(a.y * b.z - a.z * b.y),
+				T(a.z * b.x - a.x * b.z),
+				T(a.x * b.y - a.y * b.x)
 			};
 		}
 	};
@@ -314,7 +252,7 @@ namespace stdmath {
 
 		constexpr vector(T broadcast) : x(broadcast), y(broadcast), z(broadcast), w(broadcast) {}
 		constexpr vector(T x, T y, T z = {}, T w = {}) : x(x), y(y), z(z), w(w) {}
-	#ifndef SWIG
+
 		#include "../partials/vec4.constructors.partial.gen"
 
 		#include "../partials/vec.operators.partial"
@@ -323,16 +261,6 @@ namespace stdmath {
 		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 4>
 		#include "../partials/operators.comparison.partial"
 		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#else
-		%include "../partials/vec4.constructors.partial.gen"
-
-		%include "../partials/vec.operators.partial"
-		%include "../partials/vec4.swizzles.address_of.partial.gen"
-		%include "../partials/operators.partial"
-		#define STDMATH_COMPARISON_BOOLEAN_TYPE vector<bool, 4>
-		%include "../partials/operators.comparison.partial"
-		#undef STDMATH_COMPARISON_BOOLEAN_TYPE
-	#endif
 	};
 
 	template<typename T>
@@ -345,18 +273,14 @@ namespace stdmath {
 
 	export template<typename T, size_t N>
 	vector<T, N> min(const vector<T, N>& a, const vector<T, N>& b)
-#ifndef SWIG
 		requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
-#endif
 	{
 		return vector<T, N>::make_from_simd(min(a.to_simd(), b.to_simd()));
 	}
 
 	export template<typename T, size_t N>
 	vector<T, N> max(const vector<T, N>& a, const vector<T, N>& b)
-#ifndef SWIG
 		requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
-#endif
 	{
 		return vector<T, N>::make_from_simd(max(a.to_simd(), b.to_simd()));
 	}
@@ -407,4 +331,35 @@ namespace stdmath {
 			return approximately_equal(a, b.data[i], epsilon);
 		});
 	}
+
+	export template<typename T, size_t N>
+	std::ostream& operator<<(std::ostream& out, const vector<T, N>& v) {
+		out << "(";
+		for(size_t i = 0; i < N; ++i) {
+			if(i > 0) out << ", ";
+			if constexpr(sizeof(T) == 1)
+				out << (int)v[i];
+			else out << v[i];
+		}
+		return out << ")";
+	}
 }
+
+template<typename T, std::size_t N>
+struct std::formatter<stdmath::vector<T, N>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::vector<T, N>& v, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "(");
+		for (std::size_t i = 0; i < N; ++i) {
+			if (i > 0) out = std::format_to(out, ", ");
+			out = elem_formatter.format(v[i], ctx);
+		}
+		return std::format_to(out, ")");
+	}
+};

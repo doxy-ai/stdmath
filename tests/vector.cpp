@@ -314,4 +314,7 @@ TEST_CASE("vector<f32, 4> operators") {
 	d = a;
 	d /= 2;
 	CHECK(all_of(d == vec4(0.5f, 1, 1.5f, 2)));
+
+	std::cout << d << std::endl;
+	std::println("{}", d);
 }

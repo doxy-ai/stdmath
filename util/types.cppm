@@ -6,6 +6,7 @@ namespace stdmath { inline namespace types {
 	export using byte = std::byte;
 	export using u32 = uint32_t;
 	export using i32 = int32_t;
+	export using u8 = uint8_t;
 	export using bool32 = u32;
 
 #ifdef __STDCPP_FLOAT16_T__

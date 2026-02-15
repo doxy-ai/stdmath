@@ -18,6 +18,11 @@ TEST_CASE("angles") {
 	CHECK(r.degree() == d.degree());
 	CHECK(d.radian() == r.radian());
 
+	std::cout << r << std::endl;
+	std::println("{}", r);
+	std::cout << d << std::endl;
+	std::println("{}", d);
+
 	// basic_radian operators
 	std::math::radian32 r1(1);
 	std::math::radian32 r2(2);

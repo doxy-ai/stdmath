@@ -243,4 +243,46 @@ namespace stdmath {
 	constexpr T angle_wrap(const T angle) {
 		return angle_wrapper<std::remove_cvref_t<T>>{}(angle);
 	}
+
+	export template<typename T>
+	std::ostream& operator<<(std::ostream& out, const basic_radian<T>& r) {
+		return out << "radian(" << r.value << ")";
+	}
+
+	export template<typename T>
+	std::ostream& operator<<(std::ostream& out, const basic_degree<T>& d) {
+		return out << "degree(" << d.value << ")";
+	}
 }
+
+template<typename T>
+struct std::formatter<stdmath::basic_radian<T>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::basic_radian<T>& r, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "radian(");
+		out = elem_formatter.format(r.value, ctx);
+		return std::format_to(out, ")");
+	}
+};
+
+template<typename T>
+struct std::formatter<stdmath::basic_degree<T>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::basic_degree<T>& d, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "degree(");
+		out = elem_formatter.format(d.value, ctx);
+		return std::format_to(out, ")");
+	}
+};

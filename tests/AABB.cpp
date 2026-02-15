@@ -23,6 +23,9 @@ TEST_CASE("AABB<f32, 2> basics") {
 	CHECK(rect.is_valid());
 	CHECK(rect.volume() == 4);
 	CHECK(rect.surface_area() == 8); // 2 * (2*2) = 8
+
+	std::cout << rect << std::endl;
+	std::println("{}", rect);
 }
 
 TEST_CASE("AABB<f32, 3> basics") {
