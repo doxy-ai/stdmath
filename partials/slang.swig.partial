@@ -95,7 +95,7 @@
 %template(__byte4_comps) comparison_operators_crtp<vector<uint8_t, 4>, vector<bool, 4>>;
 
 
-/*%template(bool2x2) matrix<bool, 2, 2>;
+%template(bool2x2) matrix<bool, 2, 2>;
 %template(__bool2x2_ops) operators_crtp<matrix<bool, 2, 2>>;
 %template(__bool2x2_comps) comparison_operators_crtp<matrix<bool, 2, 2>, vector<bool, 2>;
 
@@ -309,4 +309,4 @@
 
 %template(byte4x4) matrix<uint8_t, 4, 4>;
 %template(__byte4x4_ops) operators_crtp<matrix<uint8_t, 4, 4>>;
-%template(__byte4x4_comps) comparison_operators_crtp<matrix<uint8_t, 4, 4>, vector<bool, 4>;*/
+%template(__byte4x4_comps) comparison_operators_crtp<matrix<uint8_t, 4, 4>, vector<bool, 4>;

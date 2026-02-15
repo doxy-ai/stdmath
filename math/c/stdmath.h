@@ -1,0 +1,30 @@
+#ifndef STDMATH_INCLUDED
+#define STDMATH_INCLUDED
+
+#include "bool1.h"
+#include "bool2.h"
+#include "bool3.h"
+#include "bool4.h"
+#include "byte1.h"
+#include "byte2.h"
+#include "byte3.h"
+#include "byte4.h"
+#include "double1.h"
+#include "double2.h"
+#include "double3.h"
+#include "double4.h"
+#include "float1.h"
+#include "float2.h"
+#include "float3.h"
+#include "float4.h"
+#include "int1.h"
+#include "int2.h"
+#include "int3.h"
+#include "int4.h"
+#include "uint1.h"
+#include "uint2.h"
+#include "uint3.h"
+#include "uint4.h"
+#include "util.h"
+
+#endif

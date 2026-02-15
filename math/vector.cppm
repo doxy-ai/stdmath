@@ -402,9 +402,9 @@ namespace stdmath {
 	}
 
 	export template<typename T, size_t N>
-	constexpr bool approximately_equal(const vector<T, N>& a, const vector<T, N>& b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
-		return all_of(a.elementwise_transform([&b, epsilon](const T& a, size_t i) -> bool {
+	constexpr vector<bool, N> approximately_equal(const vector<T, N>& a, const vector<T, N>& b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
+		return a.elementwise_transform([&b, epsilon](const T& a, size_t i) -> bool {
 			return approximately_equal(a, b.data[i], epsilon);
-		}));
+		});
 	}
 }

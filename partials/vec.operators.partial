@@ -188,7 +188,7 @@ inline friend T dot(const self& a, const self& b) {
 
 
 
-T min_element()
+T min_element() const
 #ifndef SWIG
 	requires(requires(T t) { { t < t } -> std::convertible_to<T>; })
 #endif
@@ -196,7 +196,7 @@ T min_element()
 	return hmin(to_simd());
 }
 
-T max_element()
+T max_element() const
 #ifndef SWIG
 	requires(requires(T t) { { t > t } -> std::convertible_to<T>; })
 #endif

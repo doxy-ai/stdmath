@@ -1,0 +1,238 @@
+#ifndef __STDMATH_{type}3_H__
+#define __STDMATH_{type}3_H__
+
+#include <stdint.h>
+#if !{is_bool}
+#include "bool3.h"
+#endif
+#include "{name}2.h"
+#include "{name}1.h"
+#include "util.h"
+
+union stdmath_{name}3 {
+	struct {
+		{type} x, y, z;
+	};
+	struct {
+		{type} r, g, b;
+	};
+	struct {
+		{type} h, s, v;
+	};
+	{type} data[3]; // {name}3s are aligned as if they were {name}3s
+};
+
+stdmath_{name}3 stdmath_{name}3_broadcast({type} all);
+
+stdmath_{name}3 stdmath_{name}3_add(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_subtract(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_negate(stdmath_{name}3 v);
+stdmath_{name}3 stdmath_{name}3_multiply(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_divide(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_scale(stdmath_{name}3 v, {type} s);
+
+#if {is_int}
+stdmath_{name}3 stdmath_{name}3_modulus(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_logical_not(stdmath_{name}3 v);
+stdmath_{name}3 stdmath_{name}3_bitwise_not(stdmath_{name}3 v);
+stdmath_{name}3 stdmath_{name}3_logical_and(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_bitwise_and(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_logical_or(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_bitwise_or(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_bitwise_xor(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_shift_left(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_shift_right(stdmath_{name}3 a, stdmath_{name}3 b);
+#endif
+
+stdmath_bool3 stdmath_{name}3_equal_to(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_bool3 stdmath_{name}3_not_equal_to(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_bool3 stdmath_{name}3_less_than(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_bool3 stdmath_{name}3_less_than_or_equal_to(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_bool3 stdmath_{name}3_greater_than(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_bool3 stdmath_{name}3_greater_than_or_equal_to(stdmath_{name}3 a, stdmath_{name}3 b);
+
+{type} stdmath_{name}3_length_squared(stdmath_{name}3 v);
+{type} stdmath_{name}3_length(stdmath_{name}3 v);
+{type} stdmath_{name}3_dot(stdmath_{name}3 v);
+{type} stdmath_{name}3_min_element(stdmath_{name}3 v);
+{type} stdmath_{name}3_max_element(stdmath_{name}3 v);
+
+stdmath_{name}3 stdmath_{name}3_elementwise_transform(stdmath_{name}3 v, {type}(*func)({type}));
+// {type} stdmath_{name}3_reduce_elements(stdmath_{name}3 v, {type} initial_value, {type}(*reducer)(stdmath_{name}3, stdmath_{name}3));
+
+stdmath_{name}3 stdmath_{name}3_cross(stdmath_{name}3 a, stdmath_{name}3 b);
+
+stdmath_{name}3 stdmath_{name}3_min(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_max(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_{name}3 stdmath_{name}3_normalize(stdmath_{name}3 v);
+stdmath_{name}3 stdmath_{name}3_lerp(stdmath_{name}3 a, stdmath_{name}3 b, float t);
+stdmath_{name}3 stdmath_{name}3_clamp(stdmath_{name}3 a, stdmath_{name}3 min, stdmath_{name}3 max);
+stdmath_{name}3 stdmath_{name}3_reflect(stdmath_{name}3 a, stdmath_{name}3 b);
+stdmath_bool3 stdmath_{name}3_approximately_equal(stdmath_{name}3 a, stdmath_{name}3 b);
+
+#if {is_bool}
+bool stdmath_bool3_all_of(stdmath_bool3 v);
+bool stdmath_bool3_any_of(stdmath_bool3 v);
+bool stdmath_bool3_none_of(stdmath_bool3 v);
+bool stdmath_bool3_some_of(stdmath_bool3 v);
+#endif
+
+{swizzles}
+
+#ifdef STDMATH_IMPLEMENTATION
+#ifndef __cplusplus
+#error "The stdmath implementations require a C++ compiler"
+#endif
+
+import stdmath.slang;
+
+stdmath::{name}3 c(stdmath_{name}3 c) {
+	return (stdmath::{name}3&)c;
+}
+stdmath_{name}3 c(stdmath::{name}3 c) {
+	return (stdmath_{name}3&)c;
+}
+
+stdmath_{name}3 stdmath_{name}3_broadcast({type} all) {
+	return c(stdmath::{name}3((stdmath::{name}3::underlying_type)all));
+}
+
+stdmath_{name}3 stdmath_{name}3_add(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) + c(b));
+}
+stdmath_{name}3 stdmath_{name}3_subtract(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) - c(b));
+}
+stdmath_{name}3 stdmath_{name}3_negate(stdmath_{name}3 v) {
+	return c(stdmath::{name}3(-(stdmath::vector<{type}, 3>)c(v)));
+}
+stdmath_{name}3 stdmath_{name}3_multiply(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) * c(b));
+}
+stdmath_{name}3 stdmath_{name}3_divide(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) / c(b));
+}
+stdmath_{name}3 stdmath_{name}3_scale(stdmath_{name}3 v, {type} s) {
+	return c(c(v) * (stdmath::{name}3::underlying_type)s);
+}
+
+#if {is_int}
+stdmath_{name}3 stdmath_{name}3_modulus(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) % c(b));
+}
+stdmath_{name}3 stdmath_{name}3_logical_not(stdmath_{name}3 v) {
+	return c(!c(v));
+}
+stdmath_{name}3 stdmath_{name}3_bitwise_not(stdmath_{name}3 v) {
+	return c(~c(v));
+}
+stdmath_{name}3 stdmath_{name}3_logical_and(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) && c(b));
+}
+stdmath_{name}3 stdmath_{name}3_bitwise_and(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) & c(b));
+}
+stdmath_{name}3 stdmath_{name}3_logical_or(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) || c(b));
+}
+stdmath_{name}3 stdmath_{name}3_bitwise_or(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) | c(b));
+}
+stdmath_{name}3 stdmath_{name}3_bitwise_xor(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) ^ c(b));
+}
+stdmath_{name}3 stdmath_{name}3_shift_left(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) << c(b));
+}
+stdmath_{name}3 stdmath_{name}3_shift_right(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) >> c(b));
+}
+#endif
+
+stdmath_bool3 stdmath_{name}3_equal_to(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) == c(b));
+}
+stdmath_bool3 stdmath_{name}3_not_equal_to(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) != c(b));
+}
+stdmath_bool3 stdmath_{name}3_less_than(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) < c(b));
+}
+stdmath_bool3 stdmath_{name}3_less_than_or_equal_to(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) <= c(b));
+}
+stdmath_bool3 stdmath_{name}3_greater_than(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) > c(b));
+}
+stdmath_bool3 stdmath_{name}3_greater_than_or_equal_to(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(c(a) >= c(b));
+}
+
+{type} stdmath_{name}3_length_squared(stdmath_{name}3 v)  {
+	return ({type})c(v).length_squared();
+}
+{type} stdmath_{name}3_length(stdmath_{name}3 v)  {
+	return ({type})c(v).length();
+}
+{type} stdmath_{name}3_dot(stdmath_{name}3 a, stdmath_{name}3 b)  {
+	return ({type})dot(c(a), c(b));
+}
+{type} stdmath_{name}3_min_element(stdmath_{name}3 v)  {
+	return ({type})c(v).min_element();
+}
+{type} stdmath_{name}3_max_element(stdmath_{name}3 v)  {
+	return ({type})c(v).max_element();
+}
+
+
+stdmath_{name}3 stdmath_{name}3_elementwise_transform(stdmath_{name}3 v, {type}(*func)({type})) {
+	return c(c(v).elementwise_transform(func));
+}
+// {type} stdmath_{name}3_reduce_elements(stdmath_{name}3 v, {type} initial_value, {type}(*reducer)(stdmath_{name}3, stdmath_{name}3)) {
+// 	return c(v).reduce_elements(initial_value, reducer);
+// }
+
+stdmath_{name}3 stdmath_{name}3_cross(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(cross(c(a), c(b)));
+}
+
+stdmath_{name}3 stdmath_{name}3_min(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(min(c(a), c(b)));
+}
+stdmath_{name}3 stdmath_{name}3_max(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(max(c(a), c(b)));
+}
+stdmath_{name}3 stdmath_{name}3_normalize(stdmath_{name}3 v) {
+	return c(normalize(c(v)));
+}
+stdmath_{name}3 stdmath_{name}3_lerp(stdmath_{name}3 a, stdmath_{name}3 b, float t) {
+	return c(lerp(c(a), c(b), t));
+}
+stdmath_{name}3 stdmath_{name}3_clamp(stdmath_{name}3 a, stdmath_{name}3 min, stdmath_{name}3 max) {
+	return c(clamp(c(a), c(min), c(max)));
+}
+stdmath_{name}3 stdmath_{name}3_reflect(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(reflect(c(a), c(b)));
+}
+stdmath_bool3 stdmath_{name}3_approximately_equal(stdmath_{name}3 a, stdmath_{name}3 b) {
+	return c(approximately_equal(c(a), c(b)));
+}
+
+#if {is_bool}
+bool stdmath_bool3_all_of(stdmath_bool3 v) {
+	return all_of(c(v));
+}
+bool stdmath_bool3_any_of(stdmath_bool3 v) {
+	return any_of(c(v));
+}
+bool stdmath_bool3_none_of(stdmath_bool3 v) {
+	return none_of(c(v));
+}
+bool stdmath_bool3_some_of(stdmath_bool3 v) {
+	return some_of(c(v));
+}
+#endif
+
+#endif // STDMATH_IMPLEMENTATION
+
+#endif // __STDMATH_{type}3_H__

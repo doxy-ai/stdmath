@@ -1,0 +1,239 @@
+#ifndef __STDMATH_uint32_t2_H__
+#define __STDMATH_uint32_t2_H__
+
+#include <stdint.h>
+#if !false
+#include "bool2.h"
+#endif
+#include "uint1.h"
+#include "util.h"
+
+union stdmath_uint2 {
+	struct {
+		uint32_t x, y;
+	};
+	struct {
+		uint32_t u, v;
+	};
+	uint32_t data[2];
+};
+
+stdmath_uint2 stdmath_uint2_broadcast(uint32_t all);
+
+stdmath_uint2 stdmath_uint2_add(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_subtract(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_negate(stdmath_uint2 v);
+stdmath_uint2 stdmath_uint2_multiply(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_divide(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_scale(stdmath_uint2 v, uint32_t s);
+
+#if false
+stdmath_uint2 stdmath_uint2_modulus(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_logical_not(stdmath_uint2 v);
+stdmath_uint2 stdmath_uint2_bitwise_not(stdmath_uint2 v);
+stdmath_uint2 stdmath_uint2_logical_and(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_bitwise_and(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_logical_or(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_bitwise_or(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_bitwise_xor(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_shift_left(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_shift_right(stdmath_uint2 a, stdmath_uint2 b);
+#endif
+
+stdmath_bool2 stdmath_uint2_equal_to(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_bool2 stdmath_uint2_not_equal_to(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_bool2 stdmath_uint2_less_than(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_bool2 stdmath_uint2_less_than_or_equal_to(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_bool2 stdmath_uint2_greater_than(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_bool2 stdmath_uint2_greater_than_or_equal_to(stdmath_uint2 a, stdmath_uint2 b);
+
+uint32_t stdmath_uint2_length_squared(stdmath_uint2 v);
+uint32_t stdmath_uint2_length(stdmath_uint2 v);
+uint32_t stdmath_uint2_dot(stdmath_uint2 v);
+uint32_t stdmath_uint2_min_element(stdmath_uint2 v);
+uint32_t stdmath_uint2_max_element(stdmath_uint2 v);
+
+stdmath_uint2 stdmath_uint2_elementwise_transform(stdmath_uint2 v, uint32_t(*func)(uint32_t));
+// uint32_t stdmath_uint2_reduce_elements(stdmath_uint2 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint2, stdmath_uint2));
+
+stdmath_uint2 stdmath_uint2_min(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_max(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_uint2 stdmath_uint2_normalize(stdmath_uint2 v);
+stdmath_uint2 stdmath_uint2_lerp(stdmath_uint2 a, stdmath_uint2 b, float t);
+stdmath_uint2 stdmath_uint2_clamp(stdmath_uint2 a, stdmath_uint2 min, stdmath_uint2 max);
+stdmath_uint2 stdmath_uint2_reflect(stdmath_uint2 a, stdmath_uint2 b);
+stdmath_bool2 stdmath_uint2_approximately_equal(stdmath_uint2 a, stdmath_uint2 b);
+
+#if false
+bool stdmath_bool2_all_of(stdmath_bool2 v);
+bool stdmath_bool2_any_of(stdmath_bool2 v);
+bool stdmath_bool2_none_of(stdmath_bool2 v);
+bool stdmath_bool2_some_of(stdmath_bool2 v);
+#endif
+
+inline static stdmath_uint1 stdmath_uint2_x(stdmath_uint2 v) { return {v.x}; }
+inline static stdmath_uint2 stdmath_uint2_x_value(stdmath_uint2 v, stdmath_uint1 value) { v.x = value.x; return v; }
+inline static stdmath_uint1 stdmath_uint2_y(stdmath_uint2 v) { return {v.y}; }
+inline static stdmath_uint2 stdmath_uint2_y_value(stdmath_uint2 v, stdmath_uint1 value) { v.y = value.x; return v; }
+inline static stdmath_uint2 stdmath_uint2_xx(stdmath_uint2 v) { return {v.x,v.x}; }
+inline static stdmath_uint2 stdmath_uint2_xx_value(stdmath_uint2 v, stdmath_uint2 value) { v.x = value.x; v.x = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_xy(stdmath_uint2 v) { return {v.x,v.y}; }
+inline static stdmath_uint2 stdmath_uint2_xy_value(stdmath_uint2 v, stdmath_uint2 value) { v.x = value.x; v.y = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_yx(stdmath_uint2 v) { return {v.y,v.x}; }
+inline static stdmath_uint2 stdmath_uint2_yx_value(stdmath_uint2 v, stdmath_uint2 value) { v.y = value.x; v.x = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_yy(stdmath_uint2 v) { return {v.y,v.y}; }
+inline static stdmath_uint2 stdmath_uint2_yy_value(stdmath_uint2 v, stdmath_uint2 value) { v.y = value.x; v.y = value.y; return v; }
+
+
+#ifdef STDMATH_IMPLEMENTATION
+#ifndef __cplusplus
+#error "The stdmath implementations require a C++ compiler"
+#endif
+
+import stdmath.slang;
+
+stdmath::uint2 c(stdmath_uint2 c) {
+	return (stdmath::uint2&)c;
+}
+stdmath_uint2 c(stdmath::uint2 c) {
+	return (stdmath_uint2&)c;
+}
+
+stdmath_uint2 stdmath_uint2_broadcast(uint32_t all) {
+	return c(stdmath::uint2((stdmath::uint2::underlying_type)all));
+}
+
+stdmath_uint2 stdmath_uint2_add(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) + c(b));
+}
+stdmath_uint2 stdmath_uint2_subtract(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) - c(b));
+}
+stdmath_uint2 stdmath_uint2_negate(stdmath_uint2 v) {
+	return c(stdmath::uint2(-(stdmath::vector<uint32_t, 2>)c(v)));
+}
+stdmath_uint2 stdmath_uint2_multiply(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) * c(b));
+}
+stdmath_uint2 stdmath_uint2_divide(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) / c(b));
+}
+stdmath_uint2 stdmath_uint2_scale(stdmath_uint2 v, uint32_t s) {
+	return c(c(v) * (stdmath::uint2::underlying_type)s);
+}
+
+#if false
+stdmath_uint2 stdmath_uint2_modulus(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) % c(b));
+}
+stdmath_uint2 stdmath_uint2_logical_not(stdmath_uint2 v) {
+	return c(!c(v));
+}
+stdmath_uint2 stdmath_uint2_bitwise_not(stdmath_uint2 v) {
+	return c(~c(v));
+}
+stdmath_uint2 stdmath_uint2_logical_and(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) && c(b));
+}
+stdmath_uint2 stdmath_uint2_bitwise_and(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) & c(b));
+}
+stdmath_uint2 stdmath_uint2_logical_or(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) || c(b));
+}
+stdmath_uint2 stdmath_uint2_bitwise_or(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) | c(b));
+}
+stdmath_uint2 stdmath_uint2_bitwise_xor(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) ^ c(b));
+}
+stdmath_uint2 stdmath_uint2_shift_left(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) << c(b));
+}
+stdmath_uint2 stdmath_uint2_shift_right(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) >> c(b));
+}
+#endif
+
+stdmath_bool2 stdmath_uint2_equal_to(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) == c(b));
+}
+stdmath_bool2 stdmath_uint2_not_equal_to(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) != c(b));
+}
+stdmath_bool2 stdmath_uint2_less_than(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) < c(b));
+}
+stdmath_bool2 stdmath_uint2_less_than_or_equal_to(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) <= c(b));
+}
+stdmath_bool2 stdmath_uint2_greater_than(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) > c(b));
+}
+stdmath_bool2 stdmath_uint2_greater_than_or_equal_to(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(c(a) >= c(b));
+}
+
+uint32_t stdmath_uint2_length_squared(stdmath_uint2 v)  {
+	return (uint32_t)c(v).length_squared();
+}
+uint32_t stdmath_uint2_length(stdmath_uint2 v)  {
+	return (uint32_t)c(v).length();
+}
+uint32_t stdmath_uint2_dot(stdmath_uint2 a, stdmath_uint2 b)  {
+	return (uint32_t)dot(c(a), c(b));
+}
+uint32_t stdmath_uint2_min_element(stdmath_uint2 v)  {
+	return (uint32_t)c(v).min_element();
+}
+uint32_t stdmath_uint2_max_element(stdmath_uint2 v)  {
+	return (uint32_t)c(v).max_element();
+}
+
+stdmath_uint2 stdmath_uint2_elementwise_transform(stdmath_uint2 v, uint32_t(*func)(uint32_t)) {
+	return c(c(v).elementwise_transform(func));
+}
+// uint32_t stdmath_uint2_reduce_elements(stdmath_uint2 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint2, stdmath_uint2)) {
+// 	return c(v).reduce_elements(initial_value, reducer);
+// }
+
+stdmath_uint2 stdmath_uint2_min(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(min(c(a), c(b)));
+}
+stdmath_uint2 stdmath_uint2_max(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(max(c(a), c(b)));
+}
+stdmath_uint2 stdmath_uint2_normalize(stdmath_uint2 v) {
+	return c(normalize(c(v)));
+}
+stdmath_uint2 stdmath_uint2_lerp(stdmath_uint2 a, stdmath_uint2 b, float t) {
+	return c(lerp(c(a), c(b), t));
+}
+stdmath_uint2 stdmath_uint2_clamp(stdmath_uint2 a, stdmath_uint2 min, stdmath_uint2 max) {
+	return c(clamp(c(a), c(min), c(max)));
+}
+stdmath_uint2 stdmath_uint2_reflect(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(reflect(c(a), c(b)));
+}
+stdmath_bool2 stdmath_uint2_approximately_equal(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(approximately_equal(c(a), c(b)));
+}
+
+#if false
+bool stdmath_bool2_all_of(stdmath_bool2 v) {
+	return all_of(c(v));
+}
+bool stdmath_bool2_any_of(stdmath_bool2 v) {
+	return any_of(c(v));
+}
+bool stdmath_bool2_none_of(stdmath_bool2 v) {
+	return none_of(c(v));
+}
+bool stdmath_bool2_some_of(stdmath_bool2 v) {
+	return some_of(c(v));
+}
+#endif
+
+#endif // STDMATH_IMPLEMENTATION
+
+#endif // __STDMATH_uint32_t2_H__

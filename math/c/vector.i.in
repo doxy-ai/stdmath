@@ -1,0 +1,205 @@
+%rename({name}{N}) stdmath_{name}{N};
+%include "{name}{N}.h"
+
+%rename(length_squared) _length_squared;
+%rename(length) _length;
+%rename(dot) _dot;
+%rename(min_element) _min_element;
+%rename(max_element) _max_element;
+%rename(min) _min;
+%rename(max) _max;
+%rename(normalize) _normalize;
+%rename(lerp) _lerp;
+%rename(clamp) _clamp;
+%rename(reflect) _reflect;
+%rename(approximately_equal) _approximately_equal;
+%rename(all_of) _all_of;
+%rename(any_of) _any_of;
+%rename(none_of) _none_of;
+%rename(some_of) _some_of;
+
+%extend stdmath_{name}{N} {
+	stdmath_{name}{N}({type} broadcast) {
+		stdmath_{name}{N} *v;
+		v = (stdmath_{name}{N} *) malloc(sizeof(stdmath_{name}{N}));
+		*v = stdmath_{name}{N}_broadcast(broadcast);
+		return v;
+	}
+
+#if {N} == 4
+	stdmath_{name}{N}({type} x = 0, {type} y = 0, {type} z = 0, {type} w = 0) {
+		stdmath_{name}{N} *v;
+		v = (stdmath_{name}{N} *) malloc(sizeof(stdmath_{name}{N}));
+		v->x = x;
+		v->y = y;
+		v->z = z;
+		v->w = w;
+		return v;
+	}
+#elif {N} == 3
+	stdmath_{name}{N}({type} x = 0, {type} y = 0, {type} z = 0) {
+		stdmath_{name}{N} *v;
+		v = (stdmath_{name}{N} *) malloc(sizeof(stdmath_{name}{N}));
+		v->x = x;
+		v->y = y;
+		v->z = z;
+		return v;
+	}
+#elif {N} == 2
+	stdmath_{name}{N}({type} x = 0, {type} y = 0) {
+		stdmath_{name}{N} *v;
+		v = (stdmath_{name}{N} *) malloc(sizeof(stdmath_{name}{N}));
+		v->x = x;
+		v->y = y;
+		return v;
+	}
+#elif {N} == 1
+	stdmath_{name}{N}({type} x = 0) {
+		stdmath_{name}{N} *v;
+		v = (stdmath_{name}{N} *) malloc(sizeof(stdmath_{name}{N}));
+		v->x = x;
+		return v;
+	}
+#endif
+
+{swizzles}
+
+	stdmath_{name}{N} _add(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_add(*self, o);
+	}
+	stdmath_{name}{N} _subtract(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_subtract(*self, o);
+	}
+	stdmath_{name}{N} _negate() {
+		return stdmath_{name}{N}_negate(*self);
+	}
+	stdmath_{name}{N} _multiply(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_multiply(*self, o);
+	}
+	stdmath_{name}{N} _divide(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_divide(*self, o);
+	}
+	stdmath_{name}{N} _scale({type} o) {
+		return stdmath_{name}{N}_scale(*self, o);
+	}
+
+#if {is_int}
+	stdmath_{name}{N} _modulus(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_modulus(*self, o);
+	}
+	stdmath_{name}{N} _logical_not() {
+		return stdmath_{name}{N}_logical_not(*self);
+	}
+	stdmath_{name}{N} _bitwise_not() {
+		return stdmath_{name}{N}_bitwise_not(*self);
+	}
+	stdmath_{name}{N} _logical_and(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_logical_and(*self, o);
+	}
+	stdmath_{name}{N} _bitwise_and(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_bitwise_and(*self, o);
+	}
+	stdmath_{name}{N} _logical_or(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_logical_or(*self, o);
+	}
+	stdmath_{name}{N} _bitwise_or(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_bitwise_or(*self, o);
+	}
+	stdmath_{name}{N} _bitwise_xor(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_bitwise_xor(*self, o);
+	}
+	stdmath_{name}{N} _shift_left(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_shift_left(*self, o);
+	}
+	stdmath_{name}{N} _shift_right(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_shift_right(*self, o);
+	}
+#endif
+
+	bool{N} _equal_to(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_equal_to(*self, o);
+	}
+	bool{N} _not_equal_to(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_not_equal_to(*self, o);
+	}
+	bool{N} _less_than(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_less_than(*self, o);
+	}
+	bool{N} _less_than_or_equal_to(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_less_than_or_equal_to(*self, o);
+	}
+	bool{N} _greater_than(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_greater_than(*self, o);
+	}
+	bool{N} _greater_than_or_equal_to(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_greater_than_or_equal_to(*self, o);
+	}
+	
+	{type} _length_squared() {
+		return stdmath_{name}{N}_length_squared(*self);
+	}
+	{type} _length() {
+		return stdmath_{name}{N}_length(*self);
+	}
+	{type} _dot() {
+		return stdmath_{name}{N}_dot(*self);
+	}
+	{type} _min_element() {
+		return stdmath_{name}{N}_min_element(*self);
+	}
+	{type} _max_element() {
+		return stdmath_{name}{N}_max_element(*self);
+	}
+
+	// {type} elementwise_transform()
+	// {type} reduce_element
+	
+	stdmath_{name}{N} _min(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_min(*self, o);
+	}
+	stdmath_{name}{N} _max(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_max(*self, o);
+	}
+	stdmath_{name}{N} _normalize() {
+		return stdmath_{name}{N}_normalize(*self);
+	}
+	stdmath_{name}{N} _lerp(stdmath_{name}{N} o, {name} t) {
+		return stdmath_{name}{N}_lerp(*self, o, t);
+	}
+	stdmath_{name}{N} _clamp(stdmath_{name}{N} min, stdmath_{name}{N} max) {
+		return stdmath_{name}{N}_clamp(*self, min, max);
+	}
+	stdmath_{name}{N} _reflect(stdmath_{name}{N} n) {
+		return stdmath_{name}{N}_reflect(*self, n);
+	}
+	bool{N} _approximately_equal(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_approximately_equal()
+	}
+
+#if {is_bool}
+	bool{N} _all_of() {
+		return bool{N}_all_of(*self);
+	}
+	bool{N} _any_of() {
+		return bool{N}_any_of(*self);
+	}
+	bool{N} _none_of() {
+		return bool{N}_none_of(*self);
+	}
+	bool{N} _some_of() {
+		return bool{N}_some_of(*self);
+	}
+#endif
+
+	size_t _size() {
+		return {N};
+	}
+
+	{type} _get_element(size_t i) {
+		return self->data[i];
+	}
+
+	{type} _set_element(size_t i, {type} value) {
+		return self->data[i] = value;
+	}
+}

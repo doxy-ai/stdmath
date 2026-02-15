@@ -173,7 +173,7 @@ namespace stdmath {
 	}
 
 	export template<typename F>
-	constexpr bool approximately_equal(const basic_quaternion<F>& a, const basic_quaternion<F>& b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
+	constexpr vector<bool, 4> approximately_equal(const basic_quaternion<F>& a, const basic_quaternion<F>& b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
 		return approximately_equal(a.to_vector(), b.to_vector(), epsilon);
 	}
 

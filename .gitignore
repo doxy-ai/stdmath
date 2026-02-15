@@ -1,4 +1,6 @@
 .cache
-.vs
+.vs*
 build*
 out
+
+__pycache__
