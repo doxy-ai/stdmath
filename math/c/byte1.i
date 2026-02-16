@@ -116,22 +116,22 @@
 	}
 #endif
 
-	bool1 _equal_to(stdmath_byte1 o) {
+	stdmath_bool1 _equal_to(stdmath_byte1 o) {
 		return stdmath_byte1_equal_to(*self, o);
 	}
-	bool1 _not_equal_to(stdmath_byte1 o) {
+	stdmath_bool1 _not_equal_to(stdmath_byte1 o) {
 		return stdmath_byte1_not_equal_to(*self, o);
 	}
-	bool1 _less_than(stdmath_byte1 o) {
+	stdmath_bool1 _less_than(stdmath_byte1 o) {
 		return stdmath_byte1_less_than(*self, o);
 	}
-	bool1 _less_than_or_equal_to(stdmath_byte1 o) {
+	stdmath_bool1 _less_than_or_equal_to(stdmath_byte1 o) {
 		return stdmath_byte1_less_than_or_equal_to(*self, o);
 	}
-	bool1 _greater_than(stdmath_byte1 o) {
+	stdmath_bool1 _greater_than(stdmath_byte1 o) {
 		return stdmath_byte1_greater_than(*self, o);
 	}
-	bool1 _greater_than_or_equal_to(stdmath_byte1 o) {
+	stdmath_bool1 _greater_than_or_equal_to(stdmath_byte1 o) {
 		return stdmath_byte1_greater_than_or_equal_to(*self, o);
 	}
 
@@ -141,8 +141,8 @@
 	uint8_t _length() {
 		return stdmath_byte1_length(*self);
 	}
-	uint8_t _dot() {
-		return stdmath_byte1_dot(*self);
+	uint8_t _dot(stdmath_byte1 o) {
+		return stdmath_byte1_dot(*self, o);
 	}
 	uint8_t _min_element() {
 		return stdmath_byte1_min_element(*self);
@@ -163,7 +163,7 @@
 	stdmath_byte1 _normalize() {
 		return stdmath_byte1_normalize(*self);
 	}
-	stdmath_byte1 _lerp(stdmath_byte1 o, byte t) {
+	stdmath_byte1 _lerp(stdmath_byte1 o, float t) {
 		return stdmath_byte1_lerp(*self, o, t);
 	}
 	stdmath_byte1 _clamp(stdmath_byte1 min, stdmath_byte1 max) {
@@ -172,22 +172,22 @@
 	stdmath_byte1 _reflect(stdmath_byte1 n) {
 		return stdmath_byte1_reflect(*self, n);
 	}
-	bool1 _approximately_equal(stdmath_byte1 o) {
-		return stdmath_byte1_approximately_equal()
+	stdmath_bool1 _approximately_equal(stdmath_byte1 o) {
+		return stdmath_byte1_approximately_equal(*self, o);
 	}
 
 #if false
-	bool1 _all_of() {
-		return bool1_all_of(*self);
+	stdmath_bool1 _all_of() {
+		return stdmath_bool1_all_of(*self);
 	}
-	bool1 _any_of() {
-		return bool1_any_of(*self);
+	stdmath_bool1 _any_of() {
+		return stdmath_bool1_any_of(*self);
 	}
-	bool1 _none_of() {
-		return bool1_none_of(*self);
+	stdmath_bool1 _none_of() {
+		return stdmath_bool1_none_of(*self);
 	}
-	bool1 _some_of() {
-		return bool1_some_of(*self);
+	stdmath_bool1 _some_of() {
+		return stdmath_bool1_some_of(*self);
 	}
 #endif
 

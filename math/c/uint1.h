@@ -101,7 +101,7 @@ stdmath_bool1 stdmath_uint1_greater_than_or_equal_to(stdmath_uint1 a, stdmath_ui
 
 uint32_t stdmath_uint1_length_squared(stdmath_uint1 v);
 uint32_t stdmath_uint1_length(stdmath_uint1 v);
-uint32_t stdmath_uint1_dot(stdmath_uint1 v);
+uint32_t stdmath_uint1_dot(stdmath_uint1 a, stdmath_uint1 b);
 uint32_t stdmath_uint1_min_element(stdmath_uint1 v);
 uint32_t stdmath_uint1_max_element(stdmath_uint1 v);
 
@@ -128,7 +128,8 @@ bool stdmath_bool1_some_of(stdmath_bool1 v);
 #endif
 
 inline static stdmath_uint1 stdmath_uint1_x(stdmath_uint1 v) { return {v.x}; }
-inline static stdmath_uint1 stdmath_uint1_x_value(stdmath_uint1 v, stdmath_uint1 value) { v.x = value.x; return v; }
+inline static stdmath_uint1 stdmath_uint1_x_get(stdmath_uint1* p) { return stdmath_uint1_x(*p); }
+inline static stdmath_uint1 stdmath_uint1_x_set(stdmath_uint1* p, stdmath_uint1 value) { p->x = value.x; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION

@@ -16,21 +16,17 @@ def generate_swizzles(name, N, permutations, swig = False):
         for p in permutations:
             out += f"inline static stdmath_{name}{len(p)} stdmath_{name}{N}_{''.join(p)}(stdmath_{name}{N} v) "
             out += "{ return {v." + ",v.".join(p) + "}; }\n"
+            out += f"inline static stdmath_{name}{len(p)} stdmath_{name}{N}_{''.join(p)}_get(stdmath_{name}{N}* p) "
+            out += f"{{ return stdmath_{name}{N}_{''.join(p)}(*p); }}\n"
 
-            out += f"inline static stdmath_{name}{N} stdmath_{name}{N}_{''.join(p)}_value(stdmath_{name}{N} v, stdmath_{name}{len(p)} value) " + "{ "
-            out += "; ".join([f"v.{c} = value.{ordered[i]}" for i, c in enumerate(p)])
-            out += "; return v; }\n"
+            out += f"inline static stdmath_{name}{N} stdmath_{name}{N}_{''.join(p)}_set(stdmath_{name}{N}* p, stdmath_{name}{len(p)} value) " + "{ "
+            out += "; ".join([f"p->{c} = value.{ordered[i]}" for i, c in enumerate(p)])
+            out += "; return *p; }\n"
     else:
         for p in permutations:
             if len(p) == 1: continue
             out += f"\tstdmath_{name}{len(p)} {''.join(p)};\n"
 
-            out += f"\tstdmath_{name}{len(p)} get_{''.join(p)}() "
-            out += "{ return {self->" + ",self->".join(p) + "}; }\n"
-
-            out += f"\tstdmath_{name}{N} set_{''.join(p)}(stdmath_{name}{len(p)} value) " + "{ "
-            out += "; ".join([f"self->{c} = value.{ordered[i]}" for i, c in enumerate(p)])
-            out += "; return *self; }\n\n"
     return out
 
 
@@ -61,11 +57,10 @@ for type in slang_gen.scalar_types:
                 .replace("{is_bool}", "true" if is_bool else "false")
             )
         with open(f"{name}{N}.i", "w") as f:
-            swizzles = generate_swizzles(name, N, permutations, True)
             f.write(
                 template_swig.replace("{type}", type)
                 .replace("{name}", name)
-                .replace("{swizzles}", swizzles)
+                .replace("{swizzles}", generate_swizzles(name, N, permutations, True))
                 .replace("{N}", f"{N}")
                 .replace("{is_int}", "true" if is_int else "false")
                 .replace("{is_bool}", "true" if is_bool else "false")

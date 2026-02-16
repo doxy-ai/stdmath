@@ -101,7 +101,7 @@ stdmath_bool1 stdmath_byte1_greater_than_or_equal_to(stdmath_byte1 a, stdmath_by
 
 uint8_t stdmath_byte1_length_squared(stdmath_byte1 v);
 uint8_t stdmath_byte1_length(stdmath_byte1 v);
-uint8_t stdmath_byte1_dot(stdmath_byte1 v);
+uint8_t stdmath_byte1_dot(stdmath_byte1 a, stdmath_byte1 b);
 uint8_t stdmath_byte1_min_element(stdmath_byte1 v);
 uint8_t stdmath_byte1_max_element(stdmath_byte1 v);
 
@@ -128,7 +128,8 @@ bool stdmath_bool1_some_of(stdmath_bool1 v);
 #endif
 
 inline static stdmath_byte1 stdmath_byte1_x(stdmath_byte1 v) { return {v.x}; }
-inline static stdmath_byte1 stdmath_byte1_x_value(stdmath_byte1 v, stdmath_byte1 value) { v.x = value.x; return v; }
+inline static stdmath_byte1 stdmath_byte1_x_get(stdmath_byte1* p) { return stdmath_byte1_x(*p); }
+inline static stdmath_byte1 stdmath_byte1_x_set(stdmath_byte1* p, stdmath_byte1 value) { p->x = value.x; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION

@@ -116,22 +116,22 @@
 	}
 #endif
 
-	bool1 _equal_to(stdmath_float1 o) {
+	stdmath_bool1 _equal_to(stdmath_float1 o) {
 		return stdmath_float1_equal_to(*self, o);
 	}
-	bool1 _not_equal_to(stdmath_float1 o) {
+	stdmath_bool1 _not_equal_to(stdmath_float1 o) {
 		return stdmath_float1_not_equal_to(*self, o);
 	}
-	bool1 _less_than(stdmath_float1 o) {
+	stdmath_bool1 _less_than(stdmath_float1 o) {
 		return stdmath_float1_less_than(*self, o);
 	}
-	bool1 _less_than_or_equal_to(stdmath_float1 o) {
+	stdmath_bool1 _less_than_or_equal_to(stdmath_float1 o) {
 		return stdmath_float1_less_than_or_equal_to(*self, o);
 	}
-	bool1 _greater_than(stdmath_float1 o) {
+	stdmath_bool1 _greater_than(stdmath_float1 o) {
 		return stdmath_float1_greater_than(*self, o);
 	}
-	bool1 _greater_than_or_equal_to(stdmath_float1 o) {
+	stdmath_bool1 _greater_than_or_equal_to(stdmath_float1 o) {
 		return stdmath_float1_greater_than_or_equal_to(*self, o);
 	}
 
@@ -141,8 +141,8 @@
 	float _length() {
 		return stdmath_float1_length(*self);
 	}
-	float _dot() {
-		return stdmath_float1_dot(*self);
+	float _dot(stdmath_float1 o) {
+		return stdmath_float1_dot(*self, o);
 	}
 	float _min_element() {
 		return stdmath_float1_min_element(*self);
@@ -172,22 +172,22 @@
 	stdmath_float1 _reflect(stdmath_float1 n) {
 		return stdmath_float1_reflect(*self, n);
 	}
-	bool1 _approximately_equal(stdmath_float1 o) {
-		return stdmath_float1_approximately_equal()
+	stdmath_bool1 _approximately_equal(stdmath_float1 o) {
+		return stdmath_float1_approximately_equal(*self, o);
 	}
 
 #if false
-	bool1 _all_of() {
-		return bool1_all_of(*self);
+	stdmath_bool1 _all_of() {
+		return stdmath_bool1_all_of(*self);
 	}
-	bool1 _any_of() {
-		return bool1_any_of(*self);
+	stdmath_bool1 _any_of() {
+		return stdmath_bool1_any_of(*self);
 	}
-	bool1 _none_of() {
-		return bool1_none_of(*self);
+	stdmath_bool1 _none_of() {
+		return stdmath_bool1_none_of(*self);
 	}
-	bool1 _some_of() {
-		return bool1_some_of(*self);
+	stdmath_bool1 _some_of() {
+		return stdmath_bool1_some_of(*self);
 	}
 #endif
 

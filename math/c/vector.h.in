@@ -101,7 +101,7 @@ stdmath_bool{N} stdmath_{name}{N}_greater_than_or_equal_to(stdmath_{name}{N} a, 
 
 {type} stdmath_{name}{N}_length_squared(stdmath_{name}{N} v);
 {type} stdmath_{name}{N}_length(stdmath_{name}{N} v);
-{type} stdmath_{name}{N}_dot(stdmath_{name}{N} v);
+{type} stdmath_{name}{N}_dot(stdmath_{name}{N} a, stdmath_{name}{N} b);
 {type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v);
 {type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v);
 

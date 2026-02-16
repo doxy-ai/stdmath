@@ -116,22 +116,22 @@
 	}
 #endif
 
-	bool{N} _equal_to(stdmath_{name}{N} o) {
+	stdmath_bool{N} _equal_to(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_equal_to(*self, o);
 	}
-	bool{N} _not_equal_to(stdmath_{name}{N} o) {
+	stdmath_bool{N} _not_equal_to(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_not_equal_to(*self, o);
 	}
-	bool{N} _less_than(stdmath_{name}{N} o) {
+	stdmath_bool{N} _less_than(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_less_than(*self, o);
 	}
-	bool{N} _less_than_or_equal_to(stdmath_{name}{N} o) {
+	stdmath_bool{N} _less_than_or_equal_to(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_less_than_or_equal_to(*self, o);
 	}
-	bool{N} _greater_than(stdmath_{name}{N} o) {
+	stdmath_bool{N} _greater_than(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_greater_than(*self, o);
 	}
-	bool{N} _greater_than_or_equal_to(stdmath_{name}{N} o) {
+	stdmath_bool{N} _greater_than_or_equal_to(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_greater_than_or_equal_to(*self, o);
 	}
 
@@ -141,8 +141,8 @@
 	{type} _length() {
 		return stdmath_{name}{N}_length(*self);
 	}
-	{type} _dot() {
-		return stdmath_{name}{N}_dot(*self);
+	{type} _dot(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_dot(*self, o);
 	}
 	{type} _min_element() {
 		return stdmath_{name}{N}_min_element(*self);
@@ -163,7 +163,7 @@
 	stdmath_{name}{N} _normalize() {
 		return stdmath_{name}{N}_normalize(*self);
 	}
-	stdmath_{name}{N} _lerp(stdmath_{name}{N} o, {name} t) {
+	stdmath_{name}{N} _lerp(stdmath_{name}{N} o, float t) {
 		return stdmath_{name}{N}_lerp(*self, o, t);
 	}
 	stdmath_{name}{N} _clamp(stdmath_{name}{N} min, stdmath_{name}{N} max) {
@@ -172,22 +172,22 @@
 	stdmath_{name}{N} _reflect(stdmath_{name}{N} n) {
 		return stdmath_{name}{N}_reflect(*self, n);
 	}
-	bool{N} _approximately_equal(stdmath_{name}{N} o) {
-		return stdmath_{name}{N}_approximately_equal()
+	stdmath_bool{N} _approximately_equal(stdmath_{name}{N} o) {
+		return stdmath_{name}{N}_approximately_equal(*self, o);
 	}
 
 #if {is_bool}
-	bool{N} _all_of() {
-		return bool{N}_all_of(*self);
+	stdmath_bool{N} _all_of() {
+		return stdmath_bool{N}_all_of(*self);
 	}
-	bool{N} _any_of() {
-		return bool{N}_any_of(*self);
+	stdmath_bool{N} _any_of() {
+		return stdmath_bool{N}_any_of(*self);
 	}
-	bool{N} _none_of() {
-		return bool{N}_none_of(*self);
+	stdmath_bool{N} _none_of() {
+		return stdmath_bool{N}_none_of(*self);
 	}
-	bool{N} _some_of() {
-		return bool{N}_some_of(*self);
+	stdmath_bool{N} _some_of() {
+		return stdmath_bool{N}_some_of(*self);
 	}
 #endif
 

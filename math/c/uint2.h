@@ -101,7 +101,7 @@ stdmath_bool2 stdmath_uint2_greater_than_or_equal_to(stdmath_uint2 a, stdmath_ui
 
 uint32_t stdmath_uint2_length_squared(stdmath_uint2 v);
 uint32_t stdmath_uint2_length(stdmath_uint2 v);
-uint32_t stdmath_uint2_dot(stdmath_uint2 v);
+uint32_t stdmath_uint2_dot(stdmath_uint2 a, stdmath_uint2 b);
 uint32_t stdmath_uint2_min_element(stdmath_uint2 v);
 uint32_t stdmath_uint2_max_element(stdmath_uint2 v);
 
@@ -128,17 +128,23 @@ bool stdmath_bool2_some_of(stdmath_bool2 v);
 #endif
 
 inline static stdmath_uint1 stdmath_uint2_x(stdmath_uint2 v) { return {v.x}; }
-inline static stdmath_uint2 stdmath_uint2_x_value(stdmath_uint2 v, stdmath_uint1 value) { v.x = value.x; return v; }
+inline static stdmath_uint1 stdmath_uint2_x_get(stdmath_uint2* p) { return stdmath_uint2_x(*p); }
+inline static stdmath_uint2 stdmath_uint2_x_set(stdmath_uint2* p, stdmath_uint1 value) { p->x = value.x; return *p; }
 inline static stdmath_uint1 stdmath_uint2_y(stdmath_uint2 v) { return {v.y}; }
-inline static stdmath_uint2 stdmath_uint2_y_value(stdmath_uint2 v, stdmath_uint1 value) { v.y = value.x; return v; }
+inline static stdmath_uint1 stdmath_uint2_y_get(stdmath_uint2* p) { return stdmath_uint2_y(*p); }
+inline static stdmath_uint2 stdmath_uint2_y_set(stdmath_uint2* p, stdmath_uint1 value) { p->y = value.x; return *p; }
 inline static stdmath_uint2 stdmath_uint2_xx(stdmath_uint2 v) { return {v.x,v.x}; }
-inline static stdmath_uint2 stdmath_uint2_xx_value(stdmath_uint2 v, stdmath_uint2 value) { v.x = value.x; v.x = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_xx_get(stdmath_uint2* p) { return stdmath_uint2_xx(*p); }
+inline static stdmath_uint2 stdmath_uint2_xx_set(stdmath_uint2* p, stdmath_uint2 value) { p->x = value.x; p->x = value.y; return *p; }
 inline static stdmath_uint2 stdmath_uint2_xy(stdmath_uint2 v) { return {v.x,v.y}; }
-inline static stdmath_uint2 stdmath_uint2_xy_value(stdmath_uint2 v, stdmath_uint2 value) { v.x = value.x; v.y = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_xy_get(stdmath_uint2* p) { return stdmath_uint2_xy(*p); }
+inline static stdmath_uint2 stdmath_uint2_xy_set(stdmath_uint2* p, stdmath_uint2 value) { p->x = value.x; p->y = value.y; return *p; }
 inline static stdmath_uint2 stdmath_uint2_yx(stdmath_uint2 v) { return {v.y,v.x}; }
-inline static stdmath_uint2 stdmath_uint2_yx_value(stdmath_uint2 v, stdmath_uint2 value) { v.y = value.x; v.x = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_yx_get(stdmath_uint2* p) { return stdmath_uint2_yx(*p); }
+inline static stdmath_uint2 stdmath_uint2_yx_set(stdmath_uint2* p, stdmath_uint2 value) { p->y = value.x; p->x = value.y; return *p; }
 inline static stdmath_uint2 stdmath_uint2_yy(stdmath_uint2 v) { return {v.y,v.y}; }
-inline static stdmath_uint2 stdmath_uint2_yy_value(stdmath_uint2 v, stdmath_uint2 value) { v.y = value.x; v.y = value.y; return v; }
+inline static stdmath_uint2 stdmath_uint2_yy_get(stdmath_uint2* p) { return stdmath_uint2_yy(*p); }
+inline static stdmath_uint2 stdmath_uint2_yy_set(stdmath_uint2* p, stdmath_uint2 value) { p->y = value.x; p->y = value.y; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION

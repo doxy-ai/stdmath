@@ -63,149 +63,41 @@
 #endif
 
 	stdmath_uint2 xx;
-	stdmath_uint2 get_xx() { return {self->x,self->x}; }
-	stdmath_uint3 set_xx(stdmath_uint2 value) { self->x = value.x; self->x = value.y; return *self; }
-
 	stdmath_uint2 xy;
-	stdmath_uint2 get_xy() { return {self->x,self->y}; }
-	stdmath_uint3 set_xy(stdmath_uint2 value) { self->x = value.x; self->y = value.y; return *self; }
-
 	stdmath_uint2 xz;
-	stdmath_uint2 get_xz() { return {self->x,self->z}; }
-	stdmath_uint3 set_xz(stdmath_uint2 value) { self->x = value.x; self->z = value.y; return *self; }
-
 	stdmath_uint2 yx;
-	stdmath_uint2 get_yx() { return {self->y,self->x}; }
-	stdmath_uint3 set_yx(stdmath_uint2 value) { self->y = value.x; self->x = value.y; return *self; }
-
 	stdmath_uint2 yy;
-	stdmath_uint2 get_yy() { return {self->y,self->y}; }
-	stdmath_uint3 set_yy(stdmath_uint2 value) { self->y = value.x; self->y = value.y; return *self; }
-
 	stdmath_uint2 yz;
-	stdmath_uint2 get_yz() { return {self->y,self->z}; }
-	stdmath_uint3 set_yz(stdmath_uint2 value) { self->y = value.x; self->z = value.y; return *self; }
-
 	stdmath_uint2 zx;
-	stdmath_uint2 get_zx() { return {self->z,self->x}; }
-	stdmath_uint3 set_zx(stdmath_uint2 value) { self->z = value.x; self->x = value.y; return *self; }
-
 	stdmath_uint2 zy;
-	stdmath_uint2 get_zy() { return {self->z,self->y}; }
-	stdmath_uint3 set_zy(stdmath_uint2 value) { self->z = value.x; self->y = value.y; return *self; }
-
 	stdmath_uint2 zz;
-	stdmath_uint2 get_zz() { return {self->z,self->z}; }
-	stdmath_uint3 set_zz(stdmath_uint2 value) { self->z = value.x; self->z = value.y; return *self; }
-
 	stdmath_uint3 xxx;
-	stdmath_uint3 get_xxx() { return {self->x,self->x,self->x}; }
-	stdmath_uint3 set_xxx(stdmath_uint3 value) { self->x = value.x; self->x = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 xxy;
-	stdmath_uint3 get_xxy() { return {self->x,self->x,self->y}; }
-	stdmath_uint3 set_xxy(stdmath_uint3 value) { self->x = value.x; self->x = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 xxz;
-	stdmath_uint3 get_xxz() { return {self->x,self->x,self->z}; }
-	stdmath_uint3 set_xxz(stdmath_uint3 value) { self->x = value.x; self->x = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 xyx;
-	stdmath_uint3 get_xyx() { return {self->x,self->y,self->x}; }
-	stdmath_uint3 set_xyx(stdmath_uint3 value) { self->x = value.x; self->y = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 xyy;
-	stdmath_uint3 get_xyy() { return {self->x,self->y,self->y}; }
-	stdmath_uint3 set_xyy(stdmath_uint3 value) { self->x = value.x; self->y = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 xyz;
-	stdmath_uint3 get_xyz() { return {self->x,self->y,self->z}; }
-	stdmath_uint3 set_xyz(stdmath_uint3 value) { self->x = value.x; self->y = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 xzx;
-	stdmath_uint3 get_xzx() { return {self->x,self->z,self->x}; }
-	stdmath_uint3 set_xzx(stdmath_uint3 value) { self->x = value.x; self->z = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 xzy;
-	stdmath_uint3 get_xzy() { return {self->x,self->z,self->y}; }
-	stdmath_uint3 set_xzy(stdmath_uint3 value) { self->x = value.x; self->z = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 xzz;
-	stdmath_uint3 get_xzz() { return {self->x,self->z,self->z}; }
-	stdmath_uint3 set_xzz(stdmath_uint3 value) { self->x = value.x; self->z = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 yxx;
-	stdmath_uint3 get_yxx() { return {self->y,self->x,self->x}; }
-	stdmath_uint3 set_yxx(stdmath_uint3 value) { self->y = value.x; self->x = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 yxy;
-	stdmath_uint3 get_yxy() { return {self->y,self->x,self->y}; }
-	stdmath_uint3 set_yxy(stdmath_uint3 value) { self->y = value.x; self->x = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 yxz;
-	stdmath_uint3 get_yxz() { return {self->y,self->x,self->z}; }
-	stdmath_uint3 set_yxz(stdmath_uint3 value) { self->y = value.x; self->x = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 yyx;
-	stdmath_uint3 get_yyx() { return {self->y,self->y,self->x}; }
-	stdmath_uint3 set_yyx(stdmath_uint3 value) { self->y = value.x; self->y = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 yyy;
-	stdmath_uint3 get_yyy() { return {self->y,self->y,self->y}; }
-	stdmath_uint3 set_yyy(stdmath_uint3 value) { self->y = value.x; self->y = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 yyz;
-	stdmath_uint3 get_yyz() { return {self->y,self->y,self->z}; }
-	stdmath_uint3 set_yyz(stdmath_uint3 value) { self->y = value.x; self->y = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 yzx;
-	stdmath_uint3 get_yzx() { return {self->y,self->z,self->x}; }
-	stdmath_uint3 set_yzx(stdmath_uint3 value) { self->y = value.x; self->z = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 yzy;
-	stdmath_uint3 get_yzy() { return {self->y,self->z,self->y}; }
-	stdmath_uint3 set_yzy(stdmath_uint3 value) { self->y = value.x; self->z = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 yzz;
-	stdmath_uint3 get_yzz() { return {self->y,self->z,self->z}; }
-	stdmath_uint3 set_yzz(stdmath_uint3 value) { self->y = value.x; self->z = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 zxx;
-	stdmath_uint3 get_zxx() { return {self->z,self->x,self->x}; }
-	stdmath_uint3 set_zxx(stdmath_uint3 value) { self->z = value.x; self->x = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 zxy;
-	stdmath_uint3 get_zxy() { return {self->z,self->x,self->y}; }
-	stdmath_uint3 set_zxy(stdmath_uint3 value) { self->z = value.x; self->x = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 zxz;
-	stdmath_uint3 get_zxz() { return {self->z,self->x,self->z}; }
-	stdmath_uint3 set_zxz(stdmath_uint3 value) { self->z = value.x; self->x = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 zyx;
-	stdmath_uint3 get_zyx() { return {self->z,self->y,self->x}; }
-	stdmath_uint3 set_zyx(stdmath_uint3 value) { self->z = value.x; self->y = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 zyy;
-	stdmath_uint3 get_zyy() { return {self->z,self->y,self->y}; }
-	stdmath_uint3 set_zyy(stdmath_uint3 value) { self->z = value.x; self->y = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 zyz;
-	stdmath_uint3 get_zyz() { return {self->z,self->y,self->z}; }
-	stdmath_uint3 set_zyz(stdmath_uint3 value) { self->z = value.x; self->y = value.y; self->z = value.z; return *self; }
-
 	stdmath_uint3 zzx;
-	stdmath_uint3 get_zzx() { return {self->z,self->z,self->x}; }
-	stdmath_uint3 set_zzx(stdmath_uint3 value) { self->z = value.x; self->z = value.y; self->x = value.z; return *self; }
-
 	stdmath_uint3 zzy;
-	stdmath_uint3 get_zzy() { return {self->z,self->z,self->y}; }
-	stdmath_uint3 set_zzy(stdmath_uint3 value) { self->z = value.x; self->z = value.y; self->y = value.z; return *self; }
-
 	stdmath_uint3 zzz;
-	stdmath_uint3 get_zzz() { return {self->z,self->z,self->z}; }
-	stdmath_uint3 set_zzz(stdmath_uint3 value) { self->z = value.x; self->z = value.y; self->z = value.z; return *self; }
-
 
 
 	stdmath_uint3 _add(stdmath_uint3 o) {
@@ -260,22 +152,22 @@
 	}
 #endif
 
-	bool3 _equal_to(stdmath_uint3 o) {
+	stdmath_bool3 _equal_to(stdmath_uint3 o) {
 		return stdmath_uint3_equal_to(*self, o);
 	}
-	bool3 _not_equal_to(stdmath_uint3 o) {
+	stdmath_bool3 _not_equal_to(stdmath_uint3 o) {
 		return stdmath_uint3_not_equal_to(*self, o);
 	}
-	bool3 _less_than(stdmath_uint3 o) {
+	stdmath_bool3 _less_than(stdmath_uint3 o) {
 		return stdmath_uint3_less_than(*self, o);
 	}
-	bool3 _less_than_or_equal_to(stdmath_uint3 o) {
+	stdmath_bool3 _less_than_or_equal_to(stdmath_uint3 o) {
 		return stdmath_uint3_less_than_or_equal_to(*self, o);
 	}
-	bool3 _greater_than(stdmath_uint3 o) {
+	stdmath_bool3 _greater_than(stdmath_uint3 o) {
 		return stdmath_uint3_greater_than(*self, o);
 	}
-	bool3 _greater_than_or_equal_to(stdmath_uint3 o) {
+	stdmath_bool3 _greater_than_or_equal_to(stdmath_uint3 o) {
 		return stdmath_uint3_greater_than_or_equal_to(*self, o);
 	}
 
@@ -285,8 +177,8 @@
 	uint32_t _length() {
 		return stdmath_uint3_length(*self);
 	}
-	uint32_t _dot() {
-		return stdmath_uint3_dot(*self);
+	uint32_t _dot(stdmath_uint3 o) {
+		return stdmath_uint3_dot(*self, o);
 	}
 	uint32_t _min_element() {
 		return stdmath_uint3_min_element(*self);
@@ -307,7 +199,7 @@
 	stdmath_uint3 _normalize() {
 		return stdmath_uint3_normalize(*self);
 	}
-	stdmath_uint3 _lerp(stdmath_uint3 o, uint t) {
+	stdmath_uint3 _lerp(stdmath_uint3 o, float t) {
 		return stdmath_uint3_lerp(*self, o, t);
 	}
 	stdmath_uint3 _clamp(stdmath_uint3 min, stdmath_uint3 max) {
@@ -316,22 +208,22 @@
 	stdmath_uint3 _reflect(stdmath_uint3 n) {
 		return stdmath_uint3_reflect(*self, n);
 	}
-	bool3 _approximately_equal(stdmath_uint3 o) {
-		return stdmath_uint3_approximately_equal()
+	stdmath_bool3 _approximately_equal(stdmath_uint3 o) {
+		return stdmath_uint3_approximately_equal(*self, o);
 	}
 
 #if false
-	bool3 _all_of() {
-		return bool3_all_of(*self);
+	stdmath_bool3 _all_of() {
+		return stdmath_bool3_all_of(*self);
 	}
-	bool3 _any_of() {
-		return bool3_any_of(*self);
+	stdmath_bool3 _any_of() {
+		return stdmath_bool3_any_of(*self);
 	}
-	bool3 _none_of() {
-		return bool3_none_of(*self);
+	stdmath_bool3 _none_of() {
+		return stdmath_bool3_none_of(*self);
 	}
-	bool3 _some_of() {
-		return bool3_some_of(*self);
+	stdmath_bool3 _some_of() {
+		return stdmath_bool3_some_of(*self);
 	}
 #endif
 

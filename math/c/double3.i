@@ -63,149 +63,41 @@
 #endif
 
 	stdmath_double2 xx;
-	stdmath_double2 get_xx() { return {self->x,self->x}; }
-	stdmath_double3 set_xx(stdmath_double2 value) { self->x = value.x; self->x = value.y; return *self; }
-
 	stdmath_double2 xy;
-	stdmath_double2 get_xy() { return {self->x,self->y}; }
-	stdmath_double3 set_xy(stdmath_double2 value) { self->x = value.x; self->y = value.y; return *self; }
-
 	stdmath_double2 xz;
-	stdmath_double2 get_xz() { return {self->x,self->z}; }
-	stdmath_double3 set_xz(stdmath_double2 value) { self->x = value.x; self->z = value.y; return *self; }
-
 	stdmath_double2 yx;
-	stdmath_double2 get_yx() { return {self->y,self->x}; }
-	stdmath_double3 set_yx(stdmath_double2 value) { self->y = value.x; self->x = value.y; return *self; }
-
 	stdmath_double2 yy;
-	stdmath_double2 get_yy() { return {self->y,self->y}; }
-	stdmath_double3 set_yy(stdmath_double2 value) { self->y = value.x; self->y = value.y; return *self; }
-
 	stdmath_double2 yz;
-	stdmath_double2 get_yz() { return {self->y,self->z}; }
-	stdmath_double3 set_yz(stdmath_double2 value) { self->y = value.x; self->z = value.y; return *self; }
-
 	stdmath_double2 zx;
-	stdmath_double2 get_zx() { return {self->z,self->x}; }
-	stdmath_double3 set_zx(stdmath_double2 value) { self->z = value.x; self->x = value.y; return *self; }
-
 	stdmath_double2 zy;
-	stdmath_double2 get_zy() { return {self->z,self->y}; }
-	stdmath_double3 set_zy(stdmath_double2 value) { self->z = value.x; self->y = value.y; return *self; }
-
 	stdmath_double2 zz;
-	stdmath_double2 get_zz() { return {self->z,self->z}; }
-	stdmath_double3 set_zz(stdmath_double2 value) { self->z = value.x; self->z = value.y; return *self; }
-
 	stdmath_double3 xxx;
-	stdmath_double3 get_xxx() { return {self->x,self->x,self->x}; }
-	stdmath_double3 set_xxx(stdmath_double3 value) { self->x = value.x; self->x = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 xxy;
-	stdmath_double3 get_xxy() { return {self->x,self->x,self->y}; }
-	stdmath_double3 set_xxy(stdmath_double3 value) { self->x = value.x; self->x = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 xxz;
-	stdmath_double3 get_xxz() { return {self->x,self->x,self->z}; }
-	stdmath_double3 set_xxz(stdmath_double3 value) { self->x = value.x; self->x = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 xyx;
-	stdmath_double3 get_xyx() { return {self->x,self->y,self->x}; }
-	stdmath_double3 set_xyx(stdmath_double3 value) { self->x = value.x; self->y = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 xyy;
-	stdmath_double3 get_xyy() { return {self->x,self->y,self->y}; }
-	stdmath_double3 set_xyy(stdmath_double3 value) { self->x = value.x; self->y = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 xyz;
-	stdmath_double3 get_xyz() { return {self->x,self->y,self->z}; }
-	stdmath_double3 set_xyz(stdmath_double3 value) { self->x = value.x; self->y = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 xzx;
-	stdmath_double3 get_xzx() { return {self->x,self->z,self->x}; }
-	stdmath_double3 set_xzx(stdmath_double3 value) { self->x = value.x; self->z = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 xzy;
-	stdmath_double3 get_xzy() { return {self->x,self->z,self->y}; }
-	stdmath_double3 set_xzy(stdmath_double3 value) { self->x = value.x; self->z = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 xzz;
-	stdmath_double3 get_xzz() { return {self->x,self->z,self->z}; }
-	stdmath_double3 set_xzz(stdmath_double3 value) { self->x = value.x; self->z = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 yxx;
-	stdmath_double3 get_yxx() { return {self->y,self->x,self->x}; }
-	stdmath_double3 set_yxx(stdmath_double3 value) { self->y = value.x; self->x = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 yxy;
-	stdmath_double3 get_yxy() { return {self->y,self->x,self->y}; }
-	stdmath_double3 set_yxy(stdmath_double3 value) { self->y = value.x; self->x = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 yxz;
-	stdmath_double3 get_yxz() { return {self->y,self->x,self->z}; }
-	stdmath_double3 set_yxz(stdmath_double3 value) { self->y = value.x; self->x = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 yyx;
-	stdmath_double3 get_yyx() { return {self->y,self->y,self->x}; }
-	stdmath_double3 set_yyx(stdmath_double3 value) { self->y = value.x; self->y = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 yyy;
-	stdmath_double3 get_yyy() { return {self->y,self->y,self->y}; }
-	stdmath_double3 set_yyy(stdmath_double3 value) { self->y = value.x; self->y = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 yyz;
-	stdmath_double3 get_yyz() { return {self->y,self->y,self->z}; }
-	stdmath_double3 set_yyz(stdmath_double3 value) { self->y = value.x; self->y = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 yzx;
-	stdmath_double3 get_yzx() { return {self->y,self->z,self->x}; }
-	stdmath_double3 set_yzx(stdmath_double3 value) { self->y = value.x; self->z = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 yzy;
-	stdmath_double3 get_yzy() { return {self->y,self->z,self->y}; }
-	stdmath_double3 set_yzy(stdmath_double3 value) { self->y = value.x; self->z = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 yzz;
-	stdmath_double3 get_yzz() { return {self->y,self->z,self->z}; }
-	stdmath_double3 set_yzz(stdmath_double3 value) { self->y = value.x; self->z = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 zxx;
-	stdmath_double3 get_zxx() { return {self->z,self->x,self->x}; }
-	stdmath_double3 set_zxx(stdmath_double3 value) { self->z = value.x; self->x = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 zxy;
-	stdmath_double3 get_zxy() { return {self->z,self->x,self->y}; }
-	stdmath_double3 set_zxy(stdmath_double3 value) { self->z = value.x; self->x = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 zxz;
-	stdmath_double3 get_zxz() { return {self->z,self->x,self->z}; }
-	stdmath_double3 set_zxz(stdmath_double3 value) { self->z = value.x; self->x = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 zyx;
-	stdmath_double3 get_zyx() { return {self->z,self->y,self->x}; }
-	stdmath_double3 set_zyx(stdmath_double3 value) { self->z = value.x; self->y = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 zyy;
-	stdmath_double3 get_zyy() { return {self->z,self->y,self->y}; }
-	stdmath_double3 set_zyy(stdmath_double3 value) { self->z = value.x; self->y = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 zyz;
-	stdmath_double3 get_zyz() { return {self->z,self->y,self->z}; }
-	stdmath_double3 set_zyz(stdmath_double3 value) { self->z = value.x; self->y = value.y; self->z = value.z; return *self; }
-
 	stdmath_double3 zzx;
-	stdmath_double3 get_zzx() { return {self->z,self->z,self->x}; }
-	stdmath_double3 set_zzx(stdmath_double3 value) { self->z = value.x; self->z = value.y; self->x = value.z; return *self; }
-
 	stdmath_double3 zzy;
-	stdmath_double3 get_zzy() { return {self->z,self->z,self->y}; }
-	stdmath_double3 set_zzy(stdmath_double3 value) { self->z = value.x; self->z = value.y; self->y = value.z; return *self; }
-
 	stdmath_double3 zzz;
-	stdmath_double3 get_zzz() { return {self->z,self->z,self->z}; }
-	stdmath_double3 set_zzz(stdmath_double3 value) { self->z = value.x; self->z = value.y; self->z = value.z; return *self; }
-
 
 
 	stdmath_double3 _add(stdmath_double3 o) {
@@ -260,22 +152,22 @@
 	}
 #endif
 
-	bool3 _equal_to(stdmath_double3 o) {
+	stdmath_bool3 _equal_to(stdmath_double3 o) {
 		return stdmath_double3_equal_to(*self, o);
 	}
-	bool3 _not_equal_to(stdmath_double3 o) {
+	stdmath_bool3 _not_equal_to(stdmath_double3 o) {
 		return stdmath_double3_not_equal_to(*self, o);
 	}
-	bool3 _less_than(stdmath_double3 o) {
+	stdmath_bool3 _less_than(stdmath_double3 o) {
 		return stdmath_double3_less_than(*self, o);
 	}
-	bool3 _less_than_or_equal_to(stdmath_double3 o) {
+	stdmath_bool3 _less_than_or_equal_to(stdmath_double3 o) {
 		return stdmath_double3_less_than_or_equal_to(*self, o);
 	}
-	bool3 _greater_than(stdmath_double3 o) {
+	stdmath_bool3 _greater_than(stdmath_double3 o) {
 		return stdmath_double3_greater_than(*self, o);
 	}
-	bool3 _greater_than_or_equal_to(stdmath_double3 o) {
+	stdmath_bool3 _greater_than_or_equal_to(stdmath_double3 o) {
 		return stdmath_double3_greater_than_or_equal_to(*self, o);
 	}
 
@@ -285,8 +177,8 @@
 	double _length() {
 		return stdmath_double3_length(*self);
 	}
-	double _dot() {
-		return stdmath_double3_dot(*self);
+	double _dot(stdmath_double3 o) {
+		return stdmath_double3_dot(*self, o);
 	}
 	double _min_element() {
 		return stdmath_double3_min_element(*self);
@@ -307,7 +199,7 @@
 	stdmath_double3 _normalize() {
 		return stdmath_double3_normalize(*self);
 	}
-	stdmath_double3 _lerp(stdmath_double3 o, double t) {
+	stdmath_double3 _lerp(stdmath_double3 o, float t) {
 		return stdmath_double3_lerp(*self, o, t);
 	}
 	stdmath_double3 _clamp(stdmath_double3 min, stdmath_double3 max) {
@@ -316,22 +208,22 @@
 	stdmath_double3 _reflect(stdmath_double3 n) {
 		return stdmath_double3_reflect(*self, n);
 	}
-	bool3 _approximately_equal(stdmath_double3 o) {
-		return stdmath_double3_approximately_equal()
+	stdmath_bool3 _approximately_equal(stdmath_double3 o) {
+		return stdmath_double3_approximately_equal(*self, o);
 	}
 
 #if false
-	bool3 _all_of() {
-		return bool3_all_of(*self);
+	stdmath_bool3 _all_of() {
+		return stdmath_bool3_all_of(*self);
 	}
-	bool3 _any_of() {
-		return bool3_any_of(*self);
+	stdmath_bool3 _any_of() {
+		return stdmath_bool3_any_of(*self);
 	}
-	bool3 _none_of() {
-		return bool3_none_of(*self);
+	stdmath_bool3 _none_of() {
+		return stdmath_bool3_none_of(*self);
 	}
-	bool3 _some_of() {
-		return bool3_some_of(*self);
+	stdmath_bool3 _some_of() {
+		return stdmath_bool3_some_of(*self);
 	}
 #endif
 

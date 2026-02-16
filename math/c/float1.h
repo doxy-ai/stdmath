@@ -101,7 +101,7 @@ stdmath_bool1 stdmath_float1_greater_than_or_equal_to(stdmath_float1 a, stdmath_
 
 float stdmath_float1_length_squared(stdmath_float1 v);
 float stdmath_float1_length(stdmath_float1 v);
-float stdmath_float1_dot(stdmath_float1 v);
+float stdmath_float1_dot(stdmath_float1 a, stdmath_float1 b);
 float stdmath_float1_min_element(stdmath_float1 v);
 float stdmath_float1_max_element(stdmath_float1 v);
 
@@ -128,7 +128,8 @@ bool stdmath_bool1_some_of(stdmath_bool1 v);
 #endif
 
 inline static stdmath_float1 stdmath_float1_x(stdmath_float1 v) { return {v.x}; }
-inline static stdmath_float1 stdmath_float1_x_value(stdmath_float1 v, stdmath_float1 value) { v.x = value.x; return v; }
+inline static stdmath_float1 stdmath_float1_x_get(stdmath_float1* p) { return stdmath_float1_x(*p); }
+inline static stdmath_float1 stdmath_float1_x_set(stdmath_float1* p, stdmath_float1 value) { p->x = value.x; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION

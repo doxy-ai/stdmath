@@ -101,7 +101,7 @@ stdmath_bool3 stdmath_byte3_greater_than_or_equal_to(stdmath_byte3 a, stdmath_by
 
 uint8_t stdmath_byte3_length_squared(stdmath_byte3 v);
 uint8_t stdmath_byte3_length(stdmath_byte3 v);
-uint8_t stdmath_byte3_dot(stdmath_byte3 v);
+uint8_t stdmath_byte3_dot(stdmath_byte3 a, stdmath_byte3 b);
 uint8_t stdmath_byte3_min_element(stdmath_byte3 v);
 uint8_t stdmath_byte3_max_element(stdmath_byte3 v);
 
@@ -128,83 +128,122 @@ bool stdmath_bool3_some_of(stdmath_bool3 v);
 #endif
 
 inline static stdmath_byte1 stdmath_byte3_x(stdmath_byte3 v) { return {v.x}; }
-inline static stdmath_byte3 stdmath_byte3_x_value(stdmath_byte3 v, stdmath_byte1 value) { v.x = value.x; return v; }
+inline static stdmath_byte1 stdmath_byte3_x_get(stdmath_byte3* p) { return stdmath_byte3_x(*p); }
+inline static stdmath_byte3 stdmath_byte3_x_set(stdmath_byte3* p, stdmath_byte1 value) { p->x = value.x; return *p; }
 inline static stdmath_byte1 stdmath_byte3_y(stdmath_byte3 v) { return {v.y}; }
-inline static stdmath_byte3 stdmath_byte3_y_value(stdmath_byte3 v, stdmath_byte1 value) { v.y = value.x; return v; }
+inline static stdmath_byte1 stdmath_byte3_y_get(stdmath_byte3* p) { return stdmath_byte3_y(*p); }
+inline static stdmath_byte3 stdmath_byte3_y_set(stdmath_byte3* p, stdmath_byte1 value) { p->y = value.x; return *p; }
 inline static stdmath_byte1 stdmath_byte3_z(stdmath_byte3 v) { return {v.z}; }
-inline static stdmath_byte3 stdmath_byte3_z_value(stdmath_byte3 v, stdmath_byte1 value) { v.z = value.x; return v; }
+inline static stdmath_byte1 stdmath_byte3_z_get(stdmath_byte3* p) { return stdmath_byte3_z(*p); }
+inline static stdmath_byte3 stdmath_byte3_z_set(stdmath_byte3* p, stdmath_byte1 value) { p->z = value.x; return *p; }
 inline static stdmath_byte2 stdmath_byte3_xx(stdmath_byte3 v) { return {v.x,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_xx_value(stdmath_byte3 v, stdmath_byte2 value) { v.x = value.x; v.x = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_xx_get(stdmath_byte3* p) { return stdmath_byte3_xx(*p); }
+inline static stdmath_byte3 stdmath_byte3_xx_set(stdmath_byte3* p, stdmath_byte2 value) { p->x = value.x; p->x = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_xy(stdmath_byte3 v) { return {v.x,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_xy_value(stdmath_byte3 v, stdmath_byte2 value) { v.x = value.x; v.y = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_xy_get(stdmath_byte3* p) { return stdmath_byte3_xy(*p); }
+inline static stdmath_byte3 stdmath_byte3_xy_set(stdmath_byte3* p, stdmath_byte2 value) { p->x = value.x; p->y = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_xz(stdmath_byte3 v) { return {v.x,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_xz_value(stdmath_byte3 v, stdmath_byte2 value) { v.x = value.x; v.z = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_xz_get(stdmath_byte3* p) { return stdmath_byte3_xz(*p); }
+inline static stdmath_byte3 stdmath_byte3_xz_set(stdmath_byte3* p, stdmath_byte2 value) { p->x = value.x; p->z = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_yx(stdmath_byte3 v) { return {v.y,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_yx_value(stdmath_byte3 v, stdmath_byte2 value) { v.y = value.x; v.x = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_yx_get(stdmath_byte3* p) { return stdmath_byte3_yx(*p); }
+inline static stdmath_byte3 stdmath_byte3_yx_set(stdmath_byte3* p, stdmath_byte2 value) { p->y = value.x; p->x = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_yy(stdmath_byte3 v) { return {v.y,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_yy_value(stdmath_byte3 v, stdmath_byte2 value) { v.y = value.x; v.y = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_yy_get(stdmath_byte3* p) { return stdmath_byte3_yy(*p); }
+inline static stdmath_byte3 stdmath_byte3_yy_set(stdmath_byte3* p, stdmath_byte2 value) { p->y = value.x; p->y = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_yz(stdmath_byte3 v) { return {v.y,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_yz_value(stdmath_byte3 v, stdmath_byte2 value) { v.y = value.x; v.z = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_yz_get(stdmath_byte3* p) { return stdmath_byte3_yz(*p); }
+inline static stdmath_byte3 stdmath_byte3_yz_set(stdmath_byte3* p, stdmath_byte2 value) { p->y = value.x; p->z = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_zx(stdmath_byte3 v) { return {v.z,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_zx_value(stdmath_byte3 v, stdmath_byte2 value) { v.z = value.x; v.x = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_zx_get(stdmath_byte3* p) { return stdmath_byte3_zx(*p); }
+inline static stdmath_byte3 stdmath_byte3_zx_set(stdmath_byte3* p, stdmath_byte2 value) { p->z = value.x; p->x = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_zy(stdmath_byte3 v) { return {v.z,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_zy_value(stdmath_byte3 v, stdmath_byte2 value) { v.z = value.x; v.y = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_zy_get(stdmath_byte3* p) { return stdmath_byte3_zy(*p); }
+inline static stdmath_byte3 stdmath_byte3_zy_set(stdmath_byte3* p, stdmath_byte2 value) { p->z = value.x; p->y = value.y; return *p; }
 inline static stdmath_byte2 stdmath_byte3_zz(stdmath_byte3 v) { return {v.z,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_zz_value(stdmath_byte3 v, stdmath_byte2 value) { v.z = value.x; v.z = value.y; return v; }
+inline static stdmath_byte2 stdmath_byte3_zz_get(stdmath_byte3* p) { return stdmath_byte3_zz(*p); }
+inline static stdmath_byte3 stdmath_byte3_zz_set(stdmath_byte3* p, stdmath_byte2 value) { p->z = value.x; p->z = value.y; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xxx(stdmath_byte3 v) { return {v.x,v.x,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_xxx_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.x = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xxx_get(stdmath_byte3* p) { return stdmath_byte3_xxx(*p); }
+inline static stdmath_byte3 stdmath_byte3_xxx_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->x = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xxy(stdmath_byte3 v) { return {v.x,v.x,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_xxy_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.x = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xxy_get(stdmath_byte3* p) { return stdmath_byte3_xxy(*p); }
+inline static stdmath_byte3 stdmath_byte3_xxy_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->x = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xxz(stdmath_byte3 v) { return {v.x,v.x,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_xxz_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.x = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xxz_get(stdmath_byte3* p) { return stdmath_byte3_xxz(*p); }
+inline static stdmath_byte3 stdmath_byte3_xxz_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->x = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xyx(stdmath_byte3 v) { return {v.x,v.y,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_xyx_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.y = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xyx_get(stdmath_byte3* p) { return stdmath_byte3_xyx(*p); }
+inline static stdmath_byte3 stdmath_byte3_xyx_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->y = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xyy(stdmath_byte3 v) { return {v.x,v.y,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_xyy_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.y = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xyy_get(stdmath_byte3* p) { return stdmath_byte3_xyy(*p); }
+inline static stdmath_byte3 stdmath_byte3_xyy_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->y = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xyz(stdmath_byte3 v) { return {v.x,v.y,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_xyz_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.y = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xyz_get(stdmath_byte3* p) { return stdmath_byte3_xyz(*p); }
+inline static stdmath_byte3 stdmath_byte3_xyz_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->y = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xzx(stdmath_byte3 v) { return {v.x,v.z,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_xzx_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.z = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xzx_get(stdmath_byte3* p) { return stdmath_byte3_xzx(*p); }
+inline static stdmath_byte3 stdmath_byte3_xzx_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->z = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xzy(stdmath_byte3 v) { return {v.x,v.z,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_xzy_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.z = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xzy_get(stdmath_byte3* p) { return stdmath_byte3_xzy(*p); }
+inline static stdmath_byte3 stdmath_byte3_xzy_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->z = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_xzz(stdmath_byte3 v) { return {v.x,v.z,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_xzz_value(stdmath_byte3 v, stdmath_byte3 value) { v.x = value.x; v.z = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_xzz_get(stdmath_byte3* p) { return stdmath_byte3_xzz(*p); }
+inline static stdmath_byte3 stdmath_byte3_xzz_set(stdmath_byte3* p, stdmath_byte3 value) { p->x = value.x; p->z = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yxx(stdmath_byte3 v) { return {v.y,v.x,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_yxx_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.x = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yxx_get(stdmath_byte3* p) { return stdmath_byte3_yxx(*p); }
+inline static stdmath_byte3 stdmath_byte3_yxx_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->x = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yxy(stdmath_byte3 v) { return {v.y,v.x,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_yxy_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.x = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yxy_get(stdmath_byte3* p) { return stdmath_byte3_yxy(*p); }
+inline static stdmath_byte3 stdmath_byte3_yxy_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->x = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yxz(stdmath_byte3 v) { return {v.y,v.x,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_yxz_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.x = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yxz_get(stdmath_byte3* p) { return stdmath_byte3_yxz(*p); }
+inline static stdmath_byte3 stdmath_byte3_yxz_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->x = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yyx(stdmath_byte3 v) { return {v.y,v.y,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_yyx_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.y = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yyx_get(stdmath_byte3* p) { return stdmath_byte3_yyx(*p); }
+inline static stdmath_byte3 stdmath_byte3_yyx_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->y = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yyy(stdmath_byte3 v) { return {v.y,v.y,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_yyy_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.y = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yyy_get(stdmath_byte3* p) { return stdmath_byte3_yyy(*p); }
+inline static stdmath_byte3 stdmath_byte3_yyy_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->y = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yyz(stdmath_byte3 v) { return {v.y,v.y,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_yyz_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.y = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yyz_get(stdmath_byte3* p) { return stdmath_byte3_yyz(*p); }
+inline static stdmath_byte3 stdmath_byte3_yyz_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->y = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yzx(stdmath_byte3 v) { return {v.y,v.z,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_yzx_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.z = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yzx_get(stdmath_byte3* p) { return stdmath_byte3_yzx(*p); }
+inline static stdmath_byte3 stdmath_byte3_yzx_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->z = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yzy(stdmath_byte3 v) { return {v.y,v.z,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_yzy_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.z = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yzy_get(stdmath_byte3* p) { return stdmath_byte3_yzy(*p); }
+inline static stdmath_byte3 stdmath_byte3_yzy_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->z = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_yzz(stdmath_byte3 v) { return {v.y,v.z,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_yzz_value(stdmath_byte3 v, stdmath_byte3 value) { v.y = value.x; v.z = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_yzz_get(stdmath_byte3* p) { return stdmath_byte3_yzz(*p); }
+inline static stdmath_byte3 stdmath_byte3_yzz_set(stdmath_byte3* p, stdmath_byte3 value) { p->y = value.x; p->z = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zxx(stdmath_byte3 v) { return {v.z,v.x,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_zxx_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.x = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zxx_get(stdmath_byte3* p) { return stdmath_byte3_zxx(*p); }
+inline static stdmath_byte3 stdmath_byte3_zxx_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->x = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zxy(stdmath_byte3 v) { return {v.z,v.x,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_zxy_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.x = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zxy_get(stdmath_byte3* p) { return stdmath_byte3_zxy(*p); }
+inline static stdmath_byte3 stdmath_byte3_zxy_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->x = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zxz(stdmath_byte3 v) { return {v.z,v.x,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_zxz_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.x = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zxz_get(stdmath_byte3* p) { return stdmath_byte3_zxz(*p); }
+inline static stdmath_byte3 stdmath_byte3_zxz_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->x = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zyx(stdmath_byte3 v) { return {v.z,v.y,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_zyx_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.y = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zyx_get(stdmath_byte3* p) { return stdmath_byte3_zyx(*p); }
+inline static stdmath_byte3 stdmath_byte3_zyx_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->y = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zyy(stdmath_byte3 v) { return {v.z,v.y,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_zyy_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.y = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zyy_get(stdmath_byte3* p) { return stdmath_byte3_zyy(*p); }
+inline static stdmath_byte3 stdmath_byte3_zyy_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->y = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zyz(stdmath_byte3 v) { return {v.z,v.y,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_zyz_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.y = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zyz_get(stdmath_byte3* p) { return stdmath_byte3_zyz(*p); }
+inline static stdmath_byte3 stdmath_byte3_zyz_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->y = value.y; p->z = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zzx(stdmath_byte3 v) { return {v.z,v.z,v.x}; }
-inline static stdmath_byte3 stdmath_byte3_zzx_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.z = value.y; v.x = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zzx_get(stdmath_byte3* p) { return stdmath_byte3_zzx(*p); }
+inline static stdmath_byte3 stdmath_byte3_zzx_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->z = value.y; p->x = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zzy(stdmath_byte3 v) { return {v.z,v.z,v.y}; }
-inline static stdmath_byte3 stdmath_byte3_zzy_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.z = value.y; v.y = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zzy_get(stdmath_byte3* p) { return stdmath_byte3_zzy(*p); }
+inline static stdmath_byte3 stdmath_byte3_zzy_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->z = value.y; p->y = value.z; return *p; }
 inline static stdmath_byte3 stdmath_byte3_zzz(stdmath_byte3 v) { return {v.z,v.z,v.z}; }
-inline static stdmath_byte3 stdmath_byte3_zzz_value(stdmath_byte3 v, stdmath_byte3 value) { v.z = value.x; v.z = value.y; v.z = value.z; return v; }
+inline static stdmath_byte3 stdmath_byte3_zzz_get(stdmath_byte3* p) { return stdmath_byte3_zzz(*p); }
+inline static stdmath_byte3 stdmath_byte3_zzz_set(stdmath_byte3* p, stdmath_byte3 value) { p->z = value.x; p->z = value.y; p->z = value.z; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION

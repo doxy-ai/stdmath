@@ -39,7 +39,17 @@ def generate_aggregate_header(root_dir: Path, output_file: Path):
             include_path = rel_path.as_posix()
             f.write(f'{"%" if swig else "#"}include "{include_path}"\n')
 
-        if not swig: f.write("\n#endif\n")
+        if not swig: 
+            f.write(f"\n// NOTE: we include the headers again so that implementations which rely on other headers being available can be materialized\n")
+            f.write(f"#ifdef {output_file.stem.upper()}_IMPLEMENTATION\n")
+            for header in headers:
+                rel_path = header.relative_to(output_file.parent)
+                # Use forward slashes for portability
+                include_path = rel_path.as_posix()
+                f.write(f'#include "{include_path}"\n')
+            f.write(f"\n#endif //{output_file.stem.upper()}_IMPLEMENTATION\n")
+            
+            f.write("\n#endif\n")
 
     print(f"Generated {output_file} with {len(headers)} includes.")
 

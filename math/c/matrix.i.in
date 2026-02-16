@@ -1,0 +1,71 @@
+%rename({name}{X}x{Y}) stdmath_{name}{X}x{Y};
+%include "{name}{X}x{Y}.h"
+
+%rename(transpose) _transpose;
+%rename(scale) _scale;
+%rename(inverse) _inverse;
+%rename(identity) _identity;
+%rename(fill) _fill;
+
+%extend stdmath_{name}{X}x{Y} {
+
+	static stdmath_{name}{X}x{Y} _identity({type} v) {
+		return stdmath_{name}{X}x{Y}_identity_scaled(v);
+	}
+	static stdmath_{name}{X}x{Y} _identity() {
+		return stdmath_{name}{X}x{Y}_identity();
+	}
+	static stdmath_{name}{X}x{Y} _fill({type} v) {
+		return stdmath_{name}{X}x{Y}_fill(v);
+	}
+
+	const size_t rows;
+	const size_t columns;
+
+	size_t _size() {
+		return stdmath_{name}{X}x{Y}_size(self);
+	}
+
+	{type} _get_element(size_t x, size_t y) {
+		return stdmath_{name}{X}x{Y}_get_element(self, x, y);
+	}
+	stdmath_{name}{X}x{Y} _set_element(size_t x, size_t y, {type} value) {
+		return stdmath_{name}{X}x{Y}_set_element(self, x, y, value);
+	}
+
+	stdmath_{name}{X}x{Y} _add(const stdmath_{name}{X}x{Y}* b) {
+		return stdmath_{name}{X}x{Y}_add(self, b);
+	}
+	stdmath_{name}{X}x{Y} _subtract(const stdmath_{name}{X}x{Y}* b) {
+		return stdmath_{name}{X}x{Y}_subtract(self, b);
+	}
+	stdmath_{name}{X}x{Y} _negate() {
+		return stdmath_{name}{X}x{Y}_negate(self);
+	}
+	stdmath_{name}{Y}x{X} _transpose() {
+		return stdmath_{name}{X}x{Y}_transpose(self);
+	}
+
+	stdmath_{name}{X}x2 _multiply(const stdmath_{name}{Y}x2* o) {
+		return stdmath_{name}{X}x{Y}_multiply2(self, o);
+	}
+	stdmath_{name}{X}x3 _multiply(const stdmath_{name}{Y}x3* o) {
+		return stdmath_{name}{X}x{Y}_multiply3(self, o);
+	}
+	stdmath_{name}{X}x4 _multiply(const stdmath_{name}{Y}x4* o) {
+		return stdmath_{name}{X}x{Y}_multiply4(self, o);
+	}
+	stdmath_{name}{Y} _multiply(stdmath_{name}{Y} v) {
+		return stdmath_{name}{X}x{Y}_multiply(self, v);
+	}
+
+#if {X} == {Y}
+	stdmath_{name}{X}x{X} _scale({type} s) {
+		return stdmath_{name}{X}x{X}_scale(self, s);
+	}
+	stdmath_{name}{X}x{X} _inverse() {
+		return stdmath_{name}{X}x{X}_inverse(self);
+	}
+#endif
+
+}

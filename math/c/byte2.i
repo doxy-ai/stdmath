@@ -63,21 +63,9 @@
 #endif
 
 	stdmath_byte2 xx;
-	stdmath_byte2 get_xx() { return {self->x,self->x}; }
-	stdmath_byte2 set_xx(stdmath_byte2 value) { self->x = value.x; self->x = value.y; return *self; }
-
 	stdmath_byte2 xy;
-	stdmath_byte2 get_xy() { return {self->x,self->y}; }
-	stdmath_byte2 set_xy(stdmath_byte2 value) { self->x = value.x; self->y = value.y; return *self; }
-
 	stdmath_byte2 yx;
-	stdmath_byte2 get_yx() { return {self->y,self->x}; }
-	stdmath_byte2 set_yx(stdmath_byte2 value) { self->y = value.x; self->x = value.y; return *self; }
-
 	stdmath_byte2 yy;
-	stdmath_byte2 get_yy() { return {self->y,self->y}; }
-	stdmath_byte2 set_yy(stdmath_byte2 value) { self->y = value.x; self->y = value.y; return *self; }
-
 
 
 	stdmath_byte2 _add(stdmath_byte2 o) {
@@ -132,22 +120,22 @@
 	}
 #endif
 
-	bool2 _equal_to(stdmath_byte2 o) {
+	stdmath_bool2 _equal_to(stdmath_byte2 o) {
 		return stdmath_byte2_equal_to(*self, o);
 	}
-	bool2 _not_equal_to(stdmath_byte2 o) {
+	stdmath_bool2 _not_equal_to(stdmath_byte2 o) {
 		return stdmath_byte2_not_equal_to(*self, o);
 	}
-	bool2 _less_than(stdmath_byte2 o) {
+	stdmath_bool2 _less_than(stdmath_byte2 o) {
 		return stdmath_byte2_less_than(*self, o);
 	}
-	bool2 _less_than_or_equal_to(stdmath_byte2 o) {
+	stdmath_bool2 _less_than_or_equal_to(stdmath_byte2 o) {
 		return stdmath_byte2_less_than_or_equal_to(*self, o);
 	}
-	bool2 _greater_than(stdmath_byte2 o) {
+	stdmath_bool2 _greater_than(stdmath_byte2 o) {
 		return stdmath_byte2_greater_than(*self, o);
 	}
-	bool2 _greater_than_or_equal_to(stdmath_byte2 o) {
+	stdmath_bool2 _greater_than_or_equal_to(stdmath_byte2 o) {
 		return stdmath_byte2_greater_than_or_equal_to(*self, o);
 	}
 
@@ -157,8 +145,8 @@
 	uint8_t _length() {
 		return stdmath_byte2_length(*self);
 	}
-	uint8_t _dot() {
-		return stdmath_byte2_dot(*self);
+	uint8_t _dot(stdmath_byte2 o) {
+		return stdmath_byte2_dot(*self, o);
 	}
 	uint8_t _min_element() {
 		return stdmath_byte2_min_element(*self);
@@ -179,7 +167,7 @@
 	stdmath_byte2 _normalize() {
 		return stdmath_byte2_normalize(*self);
 	}
-	stdmath_byte2 _lerp(stdmath_byte2 o, byte t) {
+	stdmath_byte2 _lerp(stdmath_byte2 o, float t) {
 		return stdmath_byte2_lerp(*self, o, t);
 	}
 	stdmath_byte2 _clamp(stdmath_byte2 min, stdmath_byte2 max) {
@@ -188,22 +176,22 @@
 	stdmath_byte2 _reflect(stdmath_byte2 n) {
 		return stdmath_byte2_reflect(*self, n);
 	}
-	bool2 _approximately_equal(stdmath_byte2 o) {
-		return stdmath_byte2_approximately_equal()
+	stdmath_bool2 _approximately_equal(stdmath_byte2 o) {
+		return stdmath_byte2_approximately_equal(*self, o);
 	}
 
 #if false
-	bool2 _all_of() {
-		return bool2_all_of(*self);
+	stdmath_bool2 _all_of() {
+		return stdmath_bool2_all_of(*self);
 	}
-	bool2 _any_of() {
-		return bool2_any_of(*self);
+	stdmath_bool2 _any_of() {
+		return stdmath_bool2_any_of(*self);
 	}
-	bool2 _none_of() {
-		return bool2_none_of(*self);
+	stdmath_bool2 _none_of() {
+		return stdmath_bool2_none_of(*self);
 	}
-	bool2 _some_of() {
-		return bool2_some_of(*self);
+	stdmath_bool2 _some_of() {
+		return stdmath_bool2_some_of(*self);
 	}
 #endif
 

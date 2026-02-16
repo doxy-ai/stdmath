@@ -1,0 +1,167 @@
+#ifndef __STDMATH_{name}{X}x{Y}_H__
+#define __STDMATH_{name}{X}x{Y}_H__
+
+struct stdmath_{name}{X}x2;
+struct stdmath_{name}{X}x3;
+struct stdmath_{name}{X}x4;
+#if {X} != {Y}
+struct stdmath_{name}{Y}x2;
+struct stdmath_{name}{Y}x3;
+struct stdmath_{name}{Y}x4;
+#endif
+
+#include <stddef.h>
+#include "{name}{Y}.h"
+
+struct stdmath_{name}{X}x{Y} {
+	{type} data[{X} * {Y}];
+};
+
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity_scaled({type} scale);
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity();
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_fill({type} value);
+
+size_t stdmath_{name}{X}x{Y}_rows(const stdmath_{name}{X}x{Y}* m);
+inline size_t stdmath_{name}{X}x{Y}_rows_get(const stdmath_{name}{X}x{Y}* m) {
+	return stdmath_{name}{X}x{Y}_rows(m);
+}
+size_t stdmath_{name}{X}x{Y}_columns(const stdmath_{name}{X}x{Y}* m);
+inline size_t stdmath_{name}{X}x{Y}_columns_get(const stdmath_{name}{X}x{Y}* m) {
+	return stdmath_{name}{X}x{Y}_columns(m);
+}
+size_t stdmath_{name}{X}x{Y}_size(const stdmath_{name}{X}x{Y}* m);
+
+{type} stdmath_{name}{X}x{Y}_get_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y);
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_set_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y, {type} value);
+
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_add(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_subtract(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_negate(const stdmath_{name}{X}x{Y}* m);
+stdmath_{name}{Y}x{X} stdmath_{name}{X}x{Y}_transpose(const stdmath_{name}{X}x{Y}* m);
+
+stdmath_{name}{X}x2 stdmath_{name}{X}x{Y}_multiply2(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x2* b);
+stdmath_{name}{X}x3 stdmath_{name}{X}x{Y}_multiply3(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x3* b);
+stdmath_{name}{X}x4 stdmath_{name}{X}x{Y}_multiply4(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x4* b);
+stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{name}{X}x{Y}* m, stdmath_{name}{Y} v);
+
+#if {X} == {Y}
+stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s);
+stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m);
+#endif
+
+#ifdef STDMATH_IMPLEMENTATION
+#ifndef __cplusplus
+#error "The stdmath implementations require a C++ compiler"
+#endif
+
+import stdmath.slang;
+
+stdmath::{name}{X}x{Y} c(stdmath_{name}{X}x{Y} c) {
+	return (stdmath::{name}{X}x{Y}&)c;
+}
+stdmath_{name}{X}x{Y} c(stdmath::{name}{X}x{Y} c) {
+	return (stdmath_{name}{X}x{Y}&)c;
+}
+
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity_scaled({type} scale) {
+	return c(stdmath::{name}{X}x{Y}::identity((stdmath::{name}{X}x{Y}::underlying_type)scale));
+}
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity() {
+	return c(stdmath::{name}{X}x{Y}::identity());
+}
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_fill({type} value) {
+	return c(stdmath::{name}{X}x{Y}::fill((stdmath::{name}{X}x{Y}::underlying_type)value));
+}
+
+size_t stdmath_{name}{X}x{Y}_rows(const stdmath_{name}{X}x{Y}* m) {
+	return {X};
+}
+size_t stdmath_{name}{X}x{Y}_columns(const stdmath_{name}{X}x{Y}* m) {
+	return {Y};
+}
+size_t stdmath_{name}{X}x{Y}_size(const stdmath_{name}{X}x{Y}* m) {
+	return {X} * {Y};
+}
+
+{type} stdmath_{name}{X}x{Y}_get_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y) {
+	return c(*m)[x, y];
+}
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_set_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y, {type} value) {
+	auto out = c(*m);
+	out[x, y] = (stdmath::{name}{X}x{Y}::underlying_type)value;
+	return c(out);
+}
+
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_add(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b) {
+	return c(c(*a) + c(*b));
+}
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_subtract(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b) {
+	return c(c(*a) - c(*b));
+}
+stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_negate(const stdmath_{name}{X}x{Y}* m) {
+	return c(-c(*m));
+}
+
+stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{name}{X}x{Y}* m, stdmath_{name}{Y} v) {
+	return c(stdmath::{name}{X}x{Y}::multiply(c(*m), c(v)));
+}
+
+#if {X} == {Y}
+stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s) {
+	return c(stdmath::{name}{X}x{X}::multiply(c(*m), (stdmath::{name}{X}x{X}::underlying_type)s));
+}
+stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m) {
+	return c(inverse(c(*m)));
+}
+#endif
+
+#endif // #ifdef STDMATH_IMPLEMENTATION
+
+#endif // __STDMATH_{name}{X}x{Y}_H__
+
+
+#ifdef STDMATH_IMPLEMENTATION
+
+#ifdef __STDMATH_{name}{Y}x{X}_H__
+#ifndef __STDMATH_{name}{X}x{Y}_TRANSPOSE_IMPL__
+#define __STDMATH_{name}{X}x{Y}_TRANSPOSE_IMPL__
+stdmath_{name}{Y}x{X} stdmath_{name}{X}x{Y}_transpose(const stdmath_{name}{X}x{Y}* m) {
+	return c(transpose(c(*m)));
+}
+#endif
+#endif
+
+#ifdef __STDMATH_{name}{Y}x2_H__
+#ifdef __STDMATH_{name}{X}x2_H__
+#ifndef __STDMATH_{name}{X}x{Y}_{X}x2_IMPL__
+#define __STDMATH_{name}{X}x{Y}_{X}x2_IMPL__
+stdmath_{name}{X}x2 stdmath_{name}{X}x{Y}_multiply2(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x2* b) {
+	return c(stdmath::{name}{X}x{Y}::multiply(c(*a), c(*b)));
+}
+#endif
+#endif
+#endif
+
+#ifdef __STDMATH_{name}{Y}x3_H__
+#ifdef __STDMATH_{name}{X}x3_H__
+#ifndef __STDMATH_{name}{X}x{Y}_{X}x3_IMPL__
+#define __STDMATH_{name}{X}x{Y}_{X}x3_IMPL__
+stdmath_{name}{X}x3 stdmath_{name}{X}x{Y}_multiply3(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x3* b) {
+	return c(stdmath::{name}{X}x{Y}::multiply(c(*a), c(*b)));
+}
+#endif
+#endif
+#endif
+
+#ifdef __STDMATH_{name}{Y}x4_H__
+#ifdef __STDMATH_{name}{X}x4_H__
+#ifndef __STDMATH_{name}{X}x{Y}_{X}x4_IMPL__
+#define __STDMATH_{name}{X}x{Y}_{X}x4_IMPL__
+stdmath_{name}{X}x4 stdmath_{name}{X}x{Y}_multiply4(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x4* b) {
+	return c(stdmath::{name}{X}x{Y}::multiply(c(*a), c(*b)));
+}
+#endif
+#endif
+#endif
+
+#endif // STDMATH_IMPLEMENTATION

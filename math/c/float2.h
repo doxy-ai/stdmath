@@ -101,7 +101,7 @@ stdmath_bool2 stdmath_float2_greater_than_or_equal_to(stdmath_float2 a, stdmath_
 
 float stdmath_float2_length_squared(stdmath_float2 v);
 float stdmath_float2_length(stdmath_float2 v);
-float stdmath_float2_dot(stdmath_float2 v);
+float stdmath_float2_dot(stdmath_float2 a, stdmath_float2 b);
 float stdmath_float2_min_element(stdmath_float2 v);
 float stdmath_float2_max_element(stdmath_float2 v);
 
@@ -128,17 +128,23 @@ bool stdmath_bool2_some_of(stdmath_bool2 v);
 #endif
 
 inline static stdmath_float1 stdmath_float2_x(stdmath_float2 v) { return {v.x}; }
-inline static stdmath_float2 stdmath_float2_x_value(stdmath_float2 v, stdmath_float1 value) { v.x = value.x; return v; }
+inline static stdmath_float1 stdmath_float2_x_get(stdmath_float2* p) { return stdmath_float2_x(*p); }
+inline static stdmath_float2 stdmath_float2_x_set(stdmath_float2* p, stdmath_float1 value) { p->x = value.x; return *p; }
 inline static stdmath_float1 stdmath_float2_y(stdmath_float2 v) { return {v.y}; }
-inline static stdmath_float2 stdmath_float2_y_value(stdmath_float2 v, stdmath_float1 value) { v.y = value.x; return v; }
+inline static stdmath_float1 stdmath_float2_y_get(stdmath_float2* p) { return stdmath_float2_y(*p); }
+inline static stdmath_float2 stdmath_float2_y_set(stdmath_float2* p, stdmath_float1 value) { p->y = value.x; return *p; }
 inline static stdmath_float2 stdmath_float2_xx(stdmath_float2 v) { return {v.x,v.x}; }
-inline static stdmath_float2 stdmath_float2_xx_value(stdmath_float2 v, stdmath_float2 value) { v.x = value.x; v.x = value.y; return v; }
+inline static stdmath_float2 stdmath_float2_xx_get(stdmath_float2* p) { return stdmath_float2_xx(*p); }
+inline static stdmath_float2 stdmath_float2_xx_set(stdmath_float2* p, stdmath_float2 value) { p->x = value.x; p->x = value.y; return *p; }
 inline static stdmath_float2 stdmath_float2_xy(stdmath_float2 v) { return {v.x,v.y}; }
-inline static stdmath_float2 stdmath_float2_xy_value(stdmath_float2 v, stdmath_float2 value) { v.x = value.x; v.y = value.y; return v; }
+inline static stdmath_float2 stdmath_float2_xy_get(stdmath_float2* p) { return stdmath_float2_xy(*p); }
+inline static stdmath_float2 stdmath_float2_xy_set(stdmath_float2* p, stdmath_float2 value) { p->x = value.x; p->y = value.y; return *p; }
 inline static stdmath_float2 stdmath_float2_yx(stdmath_float2 v) { return {v.y,v.x}; }
-inline static stdmath_float2 stdmath_float2_yx_value(stdmath_float2 v, stdmath_float2 value) { v.y = value.x; v.x = value.y; return v; }
+inline static stdmath_float2 stdmath_float2_yx_get(stdmath_float2* p) { return stdmath_float2_yx(*p); }
+inline static stdmath_float2 stdmath_float2_yx_set(stdmath_float2* p, stdmath_float2 value) { p->y = value.x; p->x = value.y; return *p; }
 inline static stdmath_float2 stdmath_float2_yy(stdmath_float2 v) { return {v.y,v.y}; }
-inline static stdmath_float2 stdmath_float2_yy_value(stdmath_float2 v, stdmath_float2 value) { v.y = value.x; v.y = value.y; return v; }
+inline static stdmath_float2 stdmath_float2_yy_get(stdmath_float2* p) { return stdmath_float2_yy(*p); }
+inline static stdmath_float2 stdmath_float2_yy_set(stdmath_float2* p, stdmath_float2 value) { p->y = value.x; p->y = value.y; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION

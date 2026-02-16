@@ -101,7 +101,7 @@ stdmath_bool1 stdmath_bool1_greater_than_or_equal_to(stdmath_bool1 a, stdmath_bo
 
 bool stdmath_bool1_length_squared(stdmath_bool1 v);
 bool stdmath_bool1_length(stdmath_bool1 v);
-bool stdmath_bool1_dot(stdmath_bool1 v);
+bool stdmath_bool1_dot(stdmath_bool1 a, stdmath_bool1 b);
 bool stdmath_bool1_min_element(stdmath_bool1 v);
 bool stdmath_bool1_max_element(stdmath_bool1 v);
 
@@ -128,7 +128,8 @@ bool stdmath_bool1_some_of(stdmath_bool1 v);
 #endif
 
 inline static stdmath_bool1 stdmath_bool1_x(stdmath_bool1 v) { return {v.x}; }
-inline static stdmath_bool1 stdmath_bool1_x_value(stdmath_bool1 v, stdmath_bool1 value) { v.x = value.x; return v; }
+inline static stdmath_bool1 stdmath_bool1_x_get(stdmath_bool1* p) { return stdmath_bool1_x(*p); }
+inline static stdmath_bool1 stdmath_bool1_x_set(stdmath_bool1* p, stdmath_bool1 value) { p->x = value.x; return *p; }
 
 
 #ifdef STDMATH_IMPLEMENTATION
