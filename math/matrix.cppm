@@ -79,8 +79,8 @@ namespace stdmath {
 		auto begin() { return data.begin(); }
 		auto end() { return data.end(); }
 
-		simd to_simd() const { return {data.data(), stl::vector_aligned}; }
-		void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::vector_aligned); }
+		simd to_simd() const { return {data.data(), stl::element_aligned}; }
+		void from_simd(const simd& simd) { simd.copy_to(data.data(), stl::element_aligned); }
 		static self make_from_simd(const simd& simd) { self out; out.from_simd(simd); return out; }
 
 
@@ -99,14 +99,6 @@ namespace stdmath {
 #endif
 		{
 			return make_from_simd(-a.to_simd());
-		}
-
-		static self modulus(const self& a, const self& b)
-#ifndef SWIG
-			requires(requires(T t) { { t % t } -> std::convertible_to<T>; })
-#endif
-		{
-			return make_from_simd(a.to_simd() % b.to_simd());
 		}
 
 

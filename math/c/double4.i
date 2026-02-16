@@ -1478,7 +1478,7 @@
 	bool4 _greater_than_or_equal_to(stdmath_double4 o) {
 		return stdmath_double4_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	double _length_squared() {
 		return stdmath_double4_length_squared(*self);
 	}
@@ -1497,7 +1497,7 @@
 
 	// double elementwise_transform()
 	// double reduce_element
-	
+
 	stdmath_double4 _min(stdmath_double4 o) {
 		return stdmath_double4_min(*self, o);
 	}

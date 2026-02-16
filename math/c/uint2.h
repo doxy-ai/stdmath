@@ -3,11 +3,36 @@
 
 #include <stdint.h>
 #if !false
+#if 2 == 1
+#include "bool1.h"
+#elif 2 == 2
 #include "bool2.h"
+#elif 2 == 3
+#include "bool3.h"
+#elif 2 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 2 == 2
 #include "uint1.h"
+#elif 2 == 3
+#include "uint2.h"
+#include "uint1.h"
+#elif 2 == 4
+#include "uint3.h"
+#include "uint2.h"
+#include "uint1.h"
+#endif
 #include "util.h"
 
+#if 2 == 1
+union stdmath_uint1 {
+	struct {
+		uint32_t x;
+	};
+	uint32_t data[1];
+};
+#elif 2 == 2
 union stdmath_uint2 {
 	struct {
 		uint32_t x, y;
@@ -17,6 +42,33 @@ union stdmath_uint2 {
 	};
 	uint32_t data[2];
 };
+#elif 2 == 3
+union stdmath_uint3 {
+	struct {
+		uint32_t x, y, z;
+	};
+	struct {
+		uint32_t r, g, b;
+	};
+	struct {
+		uint32_t h, s, v;
+	};
+	uint32_t data[4]; // uint3s are aligned as if they were uint4s
+};
+#elif 2 == 4
+union stdmath_uint4 {
+	struct {
+		uint32_t x, y, z, w;
+	};
+	struct {
+		uint32_t r, g, b, a;
+	};
+	struct {
+		uint32_t h, s, v;
+	};
+	uint32_t data[4];
+};
+#endif
 
 stdmath_uint2 stdmath_uint2_broadcast(uint32_t all);
 
@@ -55,6 +107,10 @@ uint32_t stdmath_uint2_max_element(stdmath_uint2 v);
 
 stdmath_uint2 stdmath_uint2_elementwise_transform(stdmath_uint2 v, uint32_t(*func)(uint32_t));
 // uint32_t stdmath_uint2_reduce_elements(stdmath_uint2 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint2, stdmath_uint2));
+
+#if 2 == 3
+stdmath_uint3 stdmath_uint3_cross(stdmath_uint3 a, stdmath_uint3 b);
+#endif
 
 stdmath_uint2 stdmath_uint2_min(stdmath_uint2 a, stdmath_uint2 b);
 stdmath_uint2 stdmath_uint2_max(stdmath_uint2 a, stdmath_uint2 b);
@@ -196,6 +252,12 @@ stdmath_uint2 stdmath_uint2_elementwise_transform(stdmath_uint2 v, uint32_t(*fun
 // uint32_t stdmath_uint2_reduce_elements(stdmath_uint2 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint2, stdmath_uint2)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 2 == 3
+stdmath_uint2 stdmath_uint2_cross(stdmath_uint2 a, stdmath_uint2 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_uint2 stdmath_uint2_min(stdmath_uint2 a, stdmath_uint2 b) {
 	return c(min(c(a), c(b)));

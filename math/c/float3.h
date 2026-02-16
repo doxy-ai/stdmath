@@ -3,12 +3,46 @@
 
 #include <stdint.h>
 #if !false
+#if 3 == 1
+#include "bool1.h"
+#elif 3 == 2
+#include "bool2.h"
+#elif 3 == 3
 #include "bool3.h"
+#elif 3 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 3 == 2
+#include "float1.h"
+#elif 3 == 3
 #include "float2.h"
 #include "float1.h"
+#elif 3 == 4
+#include "float3.h"
+#include "float2.h"
+#include "float1.h"
+#endif
 #include "util.h"
 
+#if 3 == 1
+union stdmath_float1 {
+	struct {
+		float x;
+	};
+	float data[1];
+};
+#elif 3 == 2
+union stdmath_float2 {
+	struct {
+		float x, y;
+	};
+	struct {
+		float u, v;
+	};
+	float data[2];
+};
+#elif 3 == 3
 union stdmath_float3 {
 	struct {
 		float x, y, z;
@@ -19,8 +53,22 @@ union stdmath_float3 {
 	struct {
 		float h, s, v;
 	};
-	float data[3]; // float3s are aligned as if they were float3s
+	float data[4]; // float3s are aligned as if they were float4s
 };
+#elif 3 == 4
+union stdmath_float4 {
+	struct {
+		float x, y, z, w;
+	};
+	struct {
+		float r, g, b, a;
+	};
+	struct {
+		float h, s, v;
+	};
+	float data[4];
+};
+#endif
 
 stdmath_float3 stdmath_float3_broadcast(float all);
 
@@ -60,7 +108,9 @@ float stdmath_float3_max_element(stdmath_float3 v);
 stdmath_float3 stdmath_float3_elementwise_transform(stdmath_float3 v, float(*func)(float));
 // float stdmath_float3_reduce_elements(stdmath_float3 v, float initial_value, float(*reducer)(stdmath_float3, stdmath_float3));
 
+#if 3 == 3
 stdmath_float3 stdmath_float3_cross(stdmath_float3 a, stdmath_float3 b);
+#endif
 
 stdmath_float3 stdmath_float3_min(stdmath_float3 a, stdmath_float3 b);
 stdmath_float3 stdmath_float3_max(stdmath_float3 a, stdmath_float3 b);
@@ -262,7 +312,6 @@ float stdmath_float3_max_element(stdmath_float3 v)  {
 	return (float)c(v).max_element();
 }
 
-
 stdmath_float3 stdmath_float3_elementwise_transform(stdmath_float3 v, float(*func)(float)) {
 	return c(c(v).elementwise_transform(func));
 }
@@ -270,9 +319,11 @@ stdmath_float3 stdmath_float3_elementwise_transform(stdmath_float3 v, float(*fun
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
 
+#if 3 == 3
 stdmath_float3 stdmath_float3_cross(stdmath_float3 a, stdmath_float3 b) {
 	return c(cross(c(a), c(b)));
 }
+#endif
 
 stdmath_float3 stdmath_float3_min(stdmath_float3 a, stdmath_float3 b) {
 	return c(min(c(a), c(b)));

@@ -3,11 +3,36 @@
 
 #include <stdint.h>
 #if !true
-#include "bool2.h"
-#endif
+#if 2 == 1
 #include "bool1.h"
+#elif 2 == 2
+#include "bool2.h"
+#elif 2 == 3
+#include "bool3.h"
+#elif 2 == 4
+#include "bool4.h"
+#endif
+#endif
+#if 2 == 2
+#include "bool1.h"
+#elif 2 == 3
+#include "bool2.h"
+#include "bool1.h"
+#elif 2 == 4
+#include "bool3.h"
+#include "bool2.h"
+#include "bool1.h"
+#endif
 #include "util.h"
 
+#if 2 == 1
+union stdmath_bool1 {
+	struct {
+		bool x;
+	};
+	bool data[1];
+};
+#elif 2 == 2
 union stdmath_bool2 {
 	struct {
 		bool x, y;
@@ -17,6 +42,33 @@ union stdmath_bool2 {
 	};
 	bool data[2];
 };
+#elif 2 == 3
+union stdmath_bool3 {
+	struct {
+		bool x, y, z;
+	};
+	struct {
+		bool r, g, b;
+	};
+	struct {
+		bool h, s, v;
+	};
+	bool data[4]; // bool3s are aligned as if they were bool4s
+};
+#elif 2 == 4
+union stdmath_bool4 {
+	struct {
+		bool x, y, z, w;
+	};
+	struct {
+		bool r, g, b, a;
+	};
+	struct {
+		bool h, s, v;
+	};
+	bool data[4];
+};
+#endif
 
 stdmath_bool2 stdmath_bool2_broadcast(bool all);
 
@@ -55,6 +107,10 @@ bool stdmath_bool2_max_element(stdmath_bool2 v);
 
 stdmath_bool2 stdmath_bool2_elementwise_transform(stdmath_bool2 v, bool(*func)(bool));
 // bool stdmath_bool2_reduce_elements(stdmath_bool2 v, bool initial_value, bool(*reducer)(stdmath_bool2, stdmath_bool2));
+
+#if 2 == 3
+stdmath_bool3 stdmath_bool3_cross(stdmath_bool3 a, stdmath_bool3 b);
+#endif
 
 stdmath_bool2 stdmath_bool2_min(stdmath_bool2 a, stdmath_bool2 b);
 stdmath_bool2 stdmath_bool2_max(stdmath_bool2 a, stdmath_bool2 b);
@@ -196,6 +252,12 @@ stdmath_bool2 stdmath_bool2_elementwise_transform(stdmath_bool2 v, bool(*func)(b
 // bool stdmath_bool2_reduce_elements(stdmath_bool2 v, bool initial_value, bool(*reducer)(stdmath_bool2, stdmath_bool2)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 2 == 3
+stdmath_bool2 stdmath_bool2_cross(stdmath_bool2 a, stdmath_bool2 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_bool2 stdmath_bool2_min(stdmath_bool2 a, stdmath_bool2 b) {
 	return c(min(c(a), c(b)));

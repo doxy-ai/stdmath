@@ -3,12 +3,46 @@
 
 #include <stdint.h>
 #if !true
+#if 3 == 1
+#include "bool1.h"
+#elif 3 == 2
+#include "bool2.h"
+#elif 3 == 3
 #include "bool3.h"
+#elif 3 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 3 == 2
+#include "bool1.h"
+#elif 3 == 3
 #include "bool2.h"
 #include "bool1.h"
+#elif 3 == 4
+#include "bool3.h"
+#include "bool2.h"
+#include "bool1.h"
+#endif
 #include "util.h"
 
+#if 3 == 1
+union stdmath_bool1 {
+	struct {
+		bool x;
+	};
+	bool data[1];
+};
+#elif 3 == 2
+union stdmath_bool2 {
+	struct {
+		bool x, y;
+	};
+	struct {
+		bool u, v;
+	};
+	bool data[2];
+};
+#elif 3 == 3
 union stdmath_bool3 {
 	struct {
 		bool x, y, z;
@@ -19,8 +53,22 @@ union stdmath_bool3 {
 	struct {
 		bool h, s, v;
 	};
-	bool data[3]; // bool3s are aligned as if they were bool3s
+	bool data[4]; // bool3s are aligned as if they were bool4s
 };
+#elif 3 == 4
+union stdmath_bool4 {
+	struct {
+		bool x, y, z, w;
+	};
+	struct {
+		bool r, g, b, a;
+	};
+	struct {
+		bool h, s, v;
+	};
+	bool data[4];
+};
+#endif
 
 stdmath_bool3 stdmath_bool3_broadcast(bool all);
 
@@ -60,7 +108,9 @@ bool stdmath_bool3_max_element(stdmath_bool3 v);
 stdmath_bool3 stdmath_bool3_elementwise_transform(stdmath_bool3 v, bool(*func)(bool));
 // bool stdmath_bool3_reduce_elements(stdmath_bool3 v, bool initial_value, bool(*reducer)(stdmath_bool3, stdmath_bool3));
 
+#if 3 == 3
 stdmath_bool3 stdmath_bool3_cross(stdmath_bool3 a, stdmath_bool3 b);
+#endif
 
 stdmath_bool3 stdmath_bool3_min(stdmath_bool3 a, stdmath_bool3 b);
 stdmath_bool3 stdmath_bool3_max(stdmath_bool3 a, stdmath_bool3 b);
@@ -262,7 +312,6 @@ bool stdmath_bool3_max_element(stdmath_bool3 v)  {
 	return (bool)c(v).max_element();
 }
 
-
 stdmath_bool3 stdmath_bool3_elementwise_transform(stdmath_bool3 v, bool(*func)(bool)) {
 	return c(c(v).elementwise_transform(func));
 }
@@ -270,9 +319,11 @@ stdmath_bool3 stdmath_bool3_elementwise_transform(stdmath_bool3 v, bool(*func)(b
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
 
+#if 3 == 3
 stdmath_bool3 stdmath_bool3_cross(stdmath_bool3 a, stdmath_bool3 b) {
 	return c(cross(c(a), c(b)));
 }
+#endif
 
 stdmath_bool3 stdmath_bool3_min(stdmath_bool3 a, stdmath_bool3 b) {
 	return c(min(c(a), c(b)));

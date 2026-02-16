@@ -3,13 +3,59 @@
 
 #include <stdint.h>
 #if !false
+#if 4 == 1
+#include "bool1.h"
+#elif 4 == 2
+#include "bool2.h"
+#elif 4 == 3
+#include "bool3.h"
+#elif 4 == 4
 #include "bool4.h"
 #endif
+#endif
+#if 4 == 2
+#include "float1.h"
+#elif 4 == 3
+#include "float2.h"
+#include "float1.h"
+#elif 4 == 4
 #include "float3.h"
 #include "float2.h"
 #include "float1.h"
+#endif
 #include "util.h"
 
+#if 4 == 1
+union stdmath_float1 {
+	struct {
+		float x;
+	};
+	float data[1];
+};
+#elif 4 == 2
+union stdmath_float2 {
+	struct {
+		float x, y;
+	};
+	struct {
+		float u, v;
+	};
+	float data[2];
+};
+#elif 4 == 3
+union stdmath_float3 {
+	struct {
+		float x, y, z;
+	};
+	struct {
+		float r, g, b;
+	};
+	struct {
+		float h, s, v;
+	};
+	float data[4]; // float3s are aligned as if they were float4s
+};
+#elif 4 == 4
 union stdmath_float4 {
 	struct {
 		float x, y, z, w;
@@ -22,6 +68,7 @@ union stdmath_float4 {
 	};
 	float data[4];
 };
+#endif
 
 stdmath_float4 stdmath_float4_broadcast(float all);
 
@@ -30,7 +77,7 @@ stdmath_float4 stdmath_float4_subtract(stdmath_float4 a, stdmath_float4 b);
 stdmath_float4 stdmath_float4_negate(stdmath_float4 v);
 stdmath_float4 stdmath_float4_multiply(stdmath_float4 a, stdmath_float4 b);
 stdmath_float4 stdmath_float4_divide(stdmath_float4 a, stdmath_float4 b);
-stdmath_float4 stdmath_float4_scale(stdmath_float3 v, float s);
+stdmath_float4 stdmath_float4_scale(stdmath_float4 v, float s);
 
 #if false
 stdmath_float4 stdmath_float4_modulus(stdmath_float4 a, stdmath_float4 b);
@@ -60,6 +107,10 @@ float stdmath_float4_max_element(stdmath_float4 v);
 
 stdmath_float4 stdmath_float4_elementwise_transform(stdmath_float4 v, float(*func)(float));
 // float stdmath_float4_reduce_elements(stdmath_float4 v, float initial_value, float(*reducer)(stdmath_float4, stdmath_float4));
+
+#if 4 == 3
+stdmath_float3 stdmath_float3_cross(stdmath_float3 a, stdmath_float3 b);
+#endif
 
 stdmath_float4 stdmath_float4_min(stdmath_float4 a, stdmath_float4 b);
 stdmath_float4 stdmath_float4_max(stdmath_float4 a, stdmath_float4 b);
@@ -869,6 +920,12 @@ stdmath_float4 stdmath_float4_elementwise_transform(stdmath_float4 v, float(*fun
 // float stdmath_float4_reduce_elements(stdmath_float4 v, float initial_value, float(*reducer)(stdmath_float4, stdmath_float4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 4 == 3
+stdmath_float4 stdmath_float4_cross(stdmath_float4 a, stdmath_float4 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_float4 stdmath_float4_min(stdmath_float4 a, stdmath_float4 b) {
 	return c(min(c(a), c(b)));

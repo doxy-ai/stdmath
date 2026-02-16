@@ -150,7 +150,7 @@
 	bool2 _greater_than_or_equal_to(stdmath_bool2 o) {
 		return stdmath_bool2_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	bool _length_squared() {
 		return stdmath_bool2_length_squared(*self);
 	}
@@ -169,7 +169,7 @@
 
 	// bool elementwise_transform()
 	// bool reduce_element
-	
+
 	stdmath_bool2 _min(stdmath_bool2 o) {
 		return stdmath_bool2_min(*self, o);
 	}

@@ -1,6 +1,4 @@
 #include <doctest/doctest.h>
-
-#define STDMATH_IMPLEMENTATION
 #include <math/c/stdmath.h>
 
 TEST_CASE("float1") {

@@ -134,7 +134,7 @@
 	bool{N} _greater_than_or_equal_to(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	{type} _length_squared() {
 		return stdmath_{name}{N}_length_squared(*self);
 	}
@@ -153,7 +153,7 @@
 
 	// {type} elementwise_transform()
 	// {type} reduce_element
-	
+
 	stdmath_{name}{N} _min(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_min(*self, o);
 	}

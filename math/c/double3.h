@@ -3,12 +3,46 @@
 
 #include <stdint.h>
 #if !false
+#if 3 == 1
+#include "bool1.h"
+#elif 3 == 2
+#include "bool2.h"
+#elif 3 == 3
 #include "bool3.h"
+#elif 3 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 3 == 2
+#include "double1.h"
+#elif 3 == 3
 #include "double2.h"
 #include "double1.h"
+#elif 3 == 4
+#include "double3.h"
+#include "double2.h"
+#include "double1.h"
+#endif
 #include "util.h"
 
+#if 3 == 1
+union stdmath_double1 {
+	struct {
+		double x;
+	};
+	double data[1];
+};
+#elif 3 == 2
+union stdmath_double2 {
+	struct {
+		double x, y;
+	};
+	struct {
+		double u, v;
+	};
+	double data[2];
+};
+#elif 3 == 3
 union stdmath_double3 {
 	struct {
 		double x, y, z;
@@ -19,8 +53,22 @@ union stdmath_double3 {
 	struct {
 		double h, s, v;
 	};
-	double data[3]; // double3s are aligned as if they were double3s
+	double data[4]; // double3s are aligned as if they were double4s
 };
+#elif 3 == 4
+union stdmath_double4 {
+	struct {
+		double x, y, z, w;
+	};
+	struct {
+		double r, g, b, a;
+	};
+	struct {
+		double h, s, v;
+	};
+	double data[4];
+};
+#endif
 
 stdmath_double3 stdmath_double3_broadcast(double all);
 
@@ -60,7 +108,9 @@ double stdmath_double3_max_element(stdmath_double3 v);
 stdmath_double3 stdmath_double3_elementwise_transform(stdmath_double3 v, double(*func)(double));
 // double stdmath_double3_reduce_elements(stdmath_double3 v, double initial_value, double(*reducer)(stdmath_double3, stdmath_double3));
 
+#if 3 == 3
 stdmath_double3 stdmath_double3_cross(stdmath_double3 a, stdmath_double3 b);
+#endif
 
 stdmath_double3 stdmath_double3_min(stdmath_double3 a, stdmath_double3 b);
 stdmath_double3 stdmath_double3_max(stdmath_double3 a, stdmath_double3 b);
@@ -262,7 +312,6 @@ double stdmath_double3_max_element(stdmath_double3 v)  {
 	return (double)c(v).max_element();
 }
 
-
 stdmath_double3 stdmath_double3_elementwise_transform(stdmath_double3 v, double(*func)(double)) {
 	return c(c(v).elementwise_transform(func));
 }
@@ -270,9 +319,11 @@ stdmath_double3 stdmath_double3_elementwise_transform(stdmath_double3 v, double(
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
 
+#if 3 == 3
 stdmath_double3 stdmath_double3_cross(stdmath_double3 a, stdmath_double3 b) {
 	return c(cross(c(a), c(b)));
 }
+#endif
 
 stdmath_double3 stdmath_double3_min(stdmath_double3 a, stdmath_double3 b) {
 	return c(min(c(a), c(b)));

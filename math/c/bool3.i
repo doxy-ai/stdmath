@@ -278,7 +278,7 @@
 	bool3 _greater_than_or_equal_to(stdmath_bool3 o) {
 		return stdmath_bool3_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	bool _length_squared() {
 		return stdmath_bool3_length_squared(*self);
 	}
@@ -297,7 +297,7 @@
 
 	// bool elementwise_transform()
 	// bool reduce_element
-	
+
 	stdmath_bool3 _min(stdmath_bool3 o) {
 		return stdmath_bool3_min(*self, o);
 	}

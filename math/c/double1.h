@@ -3,16 +3,72 @@
 
 #include <stdint.h>
 #if !false
+#if 1 == 1
 #include "bool1.h"
+#elif 1 == 2
+#include "bool2.h"
+#elif 1 == 3
+#include "bool3.h"
+#elif 1 == 4
+#include "bool4.h"
+#endif
+#endif
+#if 1 == 2
+#include "double1.h"
+#elif 1 == 3
+#include "double2.h"
+#include "double1.h"
+#elif 1 == 4
+#include "double3.h"
+#include "double2.h"
+#include "double1.h"
 #endif
 #include "util.h"
 
+#if 1 == 1
 union stdmath_double1 {
 	struct {
 		double x;
 	};
 	double data[1];
 };
+#elif 1 == 2
+union stdmath_double2 {
+	struct {
+		double x, y;
+	};
+	struct {
+		double u, v;
+	};
+	double data[2];
+};
+#elif 1 == 3
+union stdmath_double3 {
+	struct {
+		double x, y, z;
+	};
+	struct {
+		double r, g, b;
+	};
+	struct {
+		double h, s, v;
+	};
+	double data[4]; // double3s are aligned as if they were double4s
+};
+#elif 1 == 4
+union stdmath_double4 {
+	struct {
+		double x, y, z, w;
+	};
+	struct {
+		double r, g, b, a;
+	};
+	struct {
+		double h, s, v;
+	};
+	double data[4];
+};
+#endif
 
 stdmath_double1 stdmath_double1_broadcast(double all);
 
@@ -52,6 +108,10 @@ double stdmath_double1_max_element(stdmath_double1 v);
 stdmath_double1 stdmath_double1_elementwise_transform(stdmath_double1 v, double(*func)(double));
 // double stdmath_double1_reduce_elements(stdmath_double1 v, double initial_value, double(*reducer)(stdmath_double1, stdmath_double1));
 
+#if 1 == 3
+stdmath_double3 stdmath_double3_cross(stdmath_double3 a, stdmath_double3 b);
+#endif
+
 stdmath_double1 stdmath_double1_min(stdmath_double1 a, stdmath_double1 b);
 stdmath_double1 stdmath_double1_max(stdmath_double1 a, stdmath_double1 b);
 stdmath_double1 stdmath_double1_normalize(stdmath_double1 v);
@@ -86,7 +146,7 @@ stdmath_double1 c(stdmath::double1 c) {
 }
 
 stdmath_double1 stdmath_double1_broadcast(double all) {
-	return c(stdmath::double1((stdmath::double1::underlying_type&)all));
+	return c(stdmath::double1((stdmath::double1::underlying_type)all));
 }
 
 stdmath_double1 stdmath_double1_add(stdmath_double1 a, stdmath_double1 b) {
@@ -105,7 +165,7 @@ stdmath_double1 stdmath_double1_divide(stdmath_double1 a, stdmath_double1 b) {
 	return c(c(a) / c(b));
 }
 stdmath_double1 stdmath_double1_scale(stdmath_double1 v, double s) {
-	return c(c(v) * (stdmath::double1::underlying_type&)s);
+	return c(c(v) * (stdmath::double1::underlying_type)s);
 }
 
 #if false
@@ -182,6 +242,12 @@ stdmath_double1 stdmath_double1_elementwise_transform(stdmath_double1 v, double(
 // double stdmath_double1_reduce_elements(stdmath_double1 v, double initial_value, double(*reducer)(stdmath_double1, stdmath_double1)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 1 == 3
+stdmath_double1 stdmath_double1_cross(stdmath_double1 a, stdmath_double1 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_double1 stdmath_double1_min(stdmath_double1 a, stdmath_double1 b) {
 	return c(min(c(a), c(b)));

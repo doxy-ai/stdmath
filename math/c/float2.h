@@ -3,11 +3,36 @@
 
 #include <stdint.h>
 #if !false
+#if 2 == 1
+#include "bool1.h"
+#elif 2 == 2
 #include "bool2.h"
+#elif 2 == 3
+#include "bool3.h"
+#elif 2 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 2 == 2
 #include "float1.h"
+#elif 2 == 3
+#include "float2.h"
+#include "float1.h"
+#elif 2 == 4
+#include "float3.h"
+#include "float2.h"
+#include "float1.h"
+#endif
 #include "util.h"
 
+#if 2 == 1
+union stdmath_float1 {
+	struct {
+		float x;
+	};
+	float data[1];
+};
+#elif 2 == 2
 union stdmath_float2 {
 	struct {
 		float x, y;
@@ -17,6 +42,33 @@ union stdmath_float2 {
 	};
 	float data[2];
 };
+#elif 2 == 3
+union stdmath_float3 {
+	struct {
+		float x, y, z;
+	};
+	struct {
+		float r, g, b;
+	};
+	struct {
+		float h, s, v;
+	};
+	float data[4]; // float3s are aligned as if they were float4s
+};
+#elif 2 == 4
+union stdmath_float4 {
+	struct {
+		float x, y, z, w;
+	};
+	struct {
+		float r, g, b, a;
+	};
+	struct {
+		float h, s, v;
+	};
+	float data[4];
+};
+#endif
 
 stdmath_float2 stdmath_float2_broadcast(float all);
 
@@ -55,6 +107,10 @@ float stdmath_float2_max_element(stdmath_float2 v);
 
 stdmath_float2 stdmath_float2_elementwise_transform(stdmath_float2 v, float(*func)(float));
 // float stdmath_float2_reduce_elements(stdmath_float2 v, float initial_value, float(*reducer)(stdmath_float2, stdmath_float2));
+
+#if 2 == 3
+stdmath_float3 stdmath_float3_cross(stdmath_float3 a, stdmath_float3 b);
+#endif
 
 stdmath_float2 stdmath_float2_min(stdmath_float2 a, stdmath_float2 b);
 stdmath_float2 stdmath_float2_max(stdmath_float2 a, stdmath_float2 b);
@@ -196,6 +252,12 @@ stdmath_float2 stdmath_float2_elementwise_transform(stdmath_float2 v, float(*fun
 // float stdmath_float2_reduce_elements(stdmath_float2 v, float initial_value, float(*reducer)(stdmath_float2, stdmath_float2)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 2 == 3
+stdmath_float2 stdmath_float2_cross(stdmath_float2 a, stdmath_float2 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_float2 stdmath_float2_min(stdmath_float2 a, stdmath_float2 b) {
 	return c(min(c(a), c(b)));

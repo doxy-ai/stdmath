@@ -134,7 +134,7 @@
 	bool1 _greater_than_or_equal_to(stdmath_uint1 o) {
 		return stdmath_uint1_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	uint32_t _length_squared() {
 		return stdmath_uint1_length_squared(*self);
 	}
@@ -153,7 +153,7 @@
 
 	// uint32_t elementwise_transform()
 	// uint32_t reduce_element
-	
+
 	stdmath_uint1 _min(stdmath_uint1 o) {
 		return stdmath_uint1_min(*self, o);
 	}

@@ -150,7 +150,7 @@
 	bool2 _greater_than_or_equal_to(stdmath_byte2 o) {
 		return stdmath_byte2_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	uint8_t _length_squared() {
 		return stdmath_byte2_length_squared(*self);
 	}
@@ -169,7 +169,7 @@
 
 	// uint8_t elementwise_transform()
 	// uint8_t reduce_element
-	
+
 	stdmath_byte2 _min(stdmath_byte2 o) {
 		return stdmath_byte2_min(*self, o);
 	}

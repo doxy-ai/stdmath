@@ -3,13 +3,59 @@
 
 #include <stdint.h>
 #if !false
+#if 4 == 1
+#include "bool1.h"
+#elif 4 == 2
+#include "bool2.h"
+#elif 4 == 3
+#include "bool3.h"
+#elif 4 == 4
 #include "bool4.h"
 #endif
+#endif
+#if 4 == 2
+#include "double1.h"
+#elif 4 == 3
+#include "double2.h"
+#include "double1.h"
+#elif 4 == 4
 #include "double3.h"
 #include "double2.h"
 #include "double1.h"
+#endif
 #include "util.h"
 
+#if 4 == 1
+union stdmath_double1 {
+	struct {
+		double x;
+	};
+	double data[1];
+};
+#elif 4 == 2
+union stdmath_double2 {
+	struct {
+		double x, y;
+	};
+	struct {
+		double u, v;
+	};
+	double data[2];
+};
+#elif 4 == 3
+union stdmath_double3 {
+	struct {
+		double x, y, z;
+	};
+	struct {
+		double r, g, b;
+	};
+	struct {
+		double h, s, v;
+	};
+	double data[4]; // double3s are aligned as if they were double4s
+};
+#elif 4 == 4
 union stdmath_double4 {
 	struct {
 		double x, y, z, w;
@@ -22,6 +68,7 @@ union stdmath_double4 {
 	};
 	double data[4];
 };
+#endif
 
 stdmath_double4 stdmath_double4_broadcast(double all);
 
@@ -30,7 +77,7 @@ stdmath_double4 stdmath_double4_subtract(stdmath_double4 a, stdmath_double4 b);
 stdmath_double4 stdmath_double4_negate(stdmath_double4 v);
 stdmath_double4 stdmath_double4_multiply(stdmath_double4 a, stdmath_double4 b);
 stdmath_double4 stdmath_double4_divide(stdmath_double4 a, stdmath_double4 b);
-stdmath_double4 stdmath_double4_scale(stdmath_double3 v, double s);
+stdmath_double4 stdmath_double4_scale(stdmath_double4 v, double s);
 
 #if false
 stdmath_double4 stdmath_double4_modulus(stdmath_double4 a, stdmath_double4 b);
@@ -60,6 +107,10 @@ double stdmath_double4_max_element(stdmath_double4 v);
 
 stdmath_double4 stdmath_double4_elementwise_transform(stdmath_double4 v, double(*func)(double));
 // double stdmath_double4_reduce_elements(stdmath_double4 v, double initial_value, double(*reducer)(stdmath_double4, stdmath_double4));
+
+#if 4 == 3
+stdmath_double3 stdmath_double3_cross(stdmath_double3 a, stdmath_double3 b);
+#endif
 
 stdmath_double4 stdmath_double4_min(stdmath_double4 a, stdmath_double4 b);
 stdmath_double4 stdmath_double4_max(stdmath_double4 a, stdmath_double4 b);
@@ -869,6 +920,12 @@ stdmath_double4 stdmath_double4_elementwise_transform(stdmath_double4 v, double(
 // double stdmath_double4_reduce_elements(stdmath_double4 v, double initial_value, double(*reducer)(stdmath_double4, stdmath_double4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 4 == 3
+stdmath_double4 stdmath_double4_cross(stdmath_double4 a, stdmath_double4 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_double4 stdmath_double4_min(stdmath_double4 a, stdmath_double4 b) {
 	return c(min(c(a), c(b)));

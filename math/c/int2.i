@@ -150,7 +150,7 @@
 	bool2 _greater_than_or_equal_to(stdmath_int2 o) {
 		return stdmath_int2_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	int32_t _length_squared() {
 		return stdmath_int2_length_squared(*self);
 	}
@@ -169,7 +169,7 @@
 
 	// int32_t elementwise_transform()
 	// int32_t reduce_element
-	
+
 	stdmath_int2 _min(stdmath_int2 o) {
 		return stdmath_int2_min(*self, o);
 	}

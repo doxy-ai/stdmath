@@ -3,13 +3,59 @@
 
 #include <stdint.h>
 #if !false
+#if 4 == 1
+#include "bool1.h"
+#elif 4 == 2
+#include "bool2.h"
+#elif 4 == 3
+#include "bool3.h"
+#elif 4 == 4
 #include "bool4.h"
 #endif
+#endif
+#if 4 == 2
+#include "uint1.h"
+#elif 4 == 3
+#include "uint2.h"
+#include "uint1.h"
+#elif 4 == 4
 #include "uint3.h"
 #include "uint2.h"
 #include "uint1.h"
+#endif
 #include "util.h"
 
+#if 4 == 1
+union stdmath_uint1 {
+	struct {
+		uint32_t x;
+	};
+	uint32_t data[1];
+};
+#elif 4 == 2
+union stdmath_uint2 {
+	struct {
+		uint32_t x, y;
+	};
+	struct {
+		uint32_t u, v;
+	};
+	uint32_t data[2];
+};
+#elif 4 == 3
+union stdmath_uint3 {
+	struct {
+		uint32_t x, y, z;
+	};
+	struct {
+		uint32_t r, g, b;
+	};
+	struct {
+		uint32_t h, s, v;
+	};
+	uint32_t data[4]; // uint3s are aligned as if they were uint4s
+};
+#elif 4 == 4
 union stdmath_uint4 {
 	struct {
 		uint32_t x, y, z, w;
@@ -22,6 +68,7 @@ union stdmath_uint4 {
 	};
 	uint32_t data[4];
 };
+#endif
 
 stdmath_uint4 stdmath_uint4_broadcast(uint32_t all);
 
@@ -30,7 +77,7 @@ stdmath_uint4 stdmath_uint4_subtract(stdmath_uint4 a, stdmath_uint4 b);
 stdmath_uint4 stdmath_uint4_negate(stdmath_uint4 v);
 stdmath_uint4 stdmath_uint4_multiply(stdmath_uint4 a, stdmath_uint4 b);
 stdmath_uint4 stdmath_uint4_divide(stdmath_uint4 a, stdmath_uint4 b);
-stdmath_uint4 stdmath_uint4_scale(stdmath_uint3 v, uint32_t s);
+stdmath_uint4 stdmath_uint4_scale(stdmath_uint4 v, uint32_t s);
 
 #if false
 stdmath_uint4 stdmath_uint4_modulus(stdmath_uint4 a, stdmath_uint4 b);
@@ -60,6 +107,10 @@ uint32_t stdmath_uint4_max_element(stdmath_uint4 v);
 
 stdmath_uint4 stdmath_uint4_elementwise_transform(stdmath_uint4 v, uint32_t(*func)(uint32_t));
 // uint32_t stdmath_uint4_reduce_elements(stdmath_uint4 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint4, stdmath_uint4));
+
+#if 4 == 3
+stdmath_uint3 stdmath_uint3_cross(stdmath_uint3 a, stdmath_uint3 b);
+#endif
 
 stdmath_uint4 stdmath_uint4_min(stdmath_uint4 a, stdmath_uint4 b);
 stdmath_uint4 stdmath_uint4_max(stdmath_uint4 a, stdmath_uint4 b);
@@ -869,6 +920,12 @@ stdmath_uint4 stdmath_uint4_elementwise_transform(stdmath_uint4 v, uint32_t(*fun
 // uint32_t stdmath_uint4_reduce_elements(stdmath_uint4 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint4, stdmath_uint4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 4 == 3
+stdmath_uint4 stdmath_uint4_cross(stdmath_uint4 a, stdmath_uint4 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_uint4 stdmath_uint4_min(stdmath_uint4 a, stdmath_uint4 b) {
 	return c(min(c(a), c(b)));

@@ -3,16 +3,72 @@
 
 #include <stdint.h>
 #if !false
+#if 1 == 1
 #include "bool1.h"
+#elif 1 == 2
+#include "bool2.h"
+#elif 1 == 3
+#include "bool3.h"
+#elif 1 == 4
+#include "bool4.h"
+#endif
+#endif
+#if 1 == 2
+#include "byte1.h"
+#elif 1 == 3
+#include "byte2.h"
+#include "byte1.h"
+#elif 1 == 4
+#include "byte3.h"
+#include "byte2.h"
+#include "byte1.h"
 #endif
 #include "util.h"
 
+#if 1 == 1
 union stdmath_byte1 {
 	struct {
 		uint8_t x;
 	};
 	uint8_t data[1];
 };
+#elif 1 == 2
+union stdmath_byte2 {
+	struct {
+		uint8_t x, y;
+	};
+	struct {
+		uint8_t u, v;
+	};
+	uint8_t data[2];
+};
+#elif 1 == 3
+union stdmath_byte3 {
+	struct {
+		uint8_t x, y, z;
+	};
+	struct {
+		uint8_t r, g, b;
+	};
+	struct {
+		uint8_t h, s, v;
+	};
+	uint8_t data[4]; // byte3s are aligned as if they were byte4s
+};
+#elif 1 == 4
+union stdmath_byte4 {
+	struct {
+		uint8_t x, y, z, w;
+	};
+	struct {
+		uint8_t r, g, b, a;
+	};
+	struct {
+		uint8_t h, s, v;
+	};
+	uint8_t data[4];
+};
+#endif
 
 stdmath_byte1 stdmath_byte1_broadcast(uint8_t all);
 
@@ -52,6 +108,10 @@ uint8_t stdmath_byte1_max_element(stdmath_byte1 v);
 stdmath_byte1 stdmath_byte1_elementwise_transform(stdmath_byte1 v, uint8_t(*func)(uint8_t));
 // uint8_t stdmath_byte1_reduce_elements(stdmath_byte1 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte1, stdmath_byte1));
 
+#if 1 == 3
+stdmath_byte3 stdmath_byte3_cross(stdmath_byte3 a, stdmath_byte3 b);
+#endif
+
 stdmath_byte1 stdmath_byte1_min(stdmath_byte1 a, stdmath_byte1 b);
 stdmath_byte1 stdmath_byte1_max(stdmath_byte1 a, stdmath_byte1 b);
 stdmath_byte1 stdmath_byte1_normalize(stdmath_byte1 v);
@@ -86,7 +146,7 @@ stdmath_byte1 c(stdmath::byte1 c) {
 }
 
 stdmath_byte1 stdmath_byte1_broadcast(uint8_t all) {
-	return c(stdmath::byte1((stdmath::byte1::underlying_type&)all));
+	return c(stdmath::byte1((stdmath::byte1::underlying_type)all));
 }
 
 stdmath_byte1 stdmath_byte1_add(stdmath_byte1 a, stdmath_byte1 b) {
@@ -105,7 +165,7 @@ stdmath_byte1 stdmath_byte1_divide(stdmath_byte1 a, stdmath_byte1 b) {
 	return c(c(a) / c(b));
 }
 stdmath_byte1 stdmath_byte1_scale(stdmath_byte1 v, uint8_t s) {
-	return c(c(v) * (stdmath::byte1::underlying_type&)s);
+	return c(c(v) * (stdmath::byte1::underlying_type)s);
 }
 
 #if false
@@ -182,6 +242,12 @@ stdmath_byte1 stdmath_byte1_elementwise_transform(stdmath_byte1 v, uint8_t(*func
 // uint8_t stdmath_byte1_reduce_elements(stdmath_byte1 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte1, stdmath_byte1)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 1 == 3
+stdmath_byte1 stdmath_byte1_cross(stdmath_byte1 a, stdmath_byte1 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_byte1 stdmath_byte1_min(stdmath_byte1 a, stdmath_byte1 b) {
 	return c(min(c(a), c(b)));

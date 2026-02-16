@@ -3,12 +3,46 @@
 
 #include <stdint.h>
 #if !false
+#if 3 == 1
+#include "bool1.h"
+#elif 3 == 2
+#include "bool2.h"
+#elif 3 == 3
 #include "bool3.h"
+#elif 3 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 3 == 2
+#include "byte1.h"
+#elif 3 == 3
 #include "byte2.h"
 #include "byte1.h"
+#elif 3 == 4
+#include "byte3.h"
+#include "byte2.h"
+#include "byte1.h"
+#endif
 #include "util.h"
 
+#if 3 == 1
+union stdmath_byte1 {
+	struct {
+		uint8_t x;
+	};
+	uint8_t data[1];
+};
+#elif 3 == 2
+union stdmath_byte2 {
+	struct {
+		uint8_t x, y;
+	};
+	struct {
+		uint8_t u, v;
+	};
+	uint8_t data[2];
+};
+#elif 3 == 3
 union stdmath_byte3 {
 	struct {
 		uint8_t x, y, z;
@@ -19,8 +53,22 @@ union stdmath_byte3 {
 	struct {
 		uint8_t h, s, v;
 	};
-	uint8_t data[3]; // byte3s are aligned as if they were byte3s
+	uint8_t data[4]; // byte3s are aligned as if they were byte4s
 };
+#elif 3 == 4
+union stdmath_byte4 {
+	struct {
+		uint8_t x, y, z, w;
+	};
+	struct {
+		uint8_t r, g, b, a;
+	};
+	struct {
+		uint8_t h, s, v;
+	};
+	uint8_t data[4];
+};
+#endif
 
 stdmath_byte3 stdmath_byte3_broadcast(uint8_t all);
 
@@ -60,7 +108,9 @@ uint8_t stdmath_byte3_max_element(stdmath_byte3 v);
 stdmath_byte3 stdmath_byte3_elementwise_transform(stdmath_byte3 v, uint8_t(*func)(uint8_t));
 // uint8_t stdmath_byte3_reduce_elements(stdmath_byte3 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte3, stdmath_byte3));
 
+#if 3 == 3
 stdmath_byte3 stdmath_byte3_cross(stdmath_byte3 a, stdmath_byte3 b);
+#endif
 
 stdmath_byte3 stdmath_byte3_min(stdmath_byte3 a, stdmath_byte3 b);
 stdmath_byte3 stdmath_byte3_max(stdmath_byte3 a, stdmath_byte3 b);
@@ -262,7 +312,6 @@ uint8_t stdmath_byte3_max_element(stdmath_byte3 v)  {
 	return (uint8_t)c(v).max_element();
 }
 
-
 stdmath_byte3 stdmath_byte3_elementwise_transform(stdmath_byte3 v, uint8_t(*func)(uint8_t)) {
 	return c(c(v).elementwise_transform(func));
 }
@@ -270,9 +319,11 @@ stdmath_byte3 stdmath_byte3_elementwise_transform(stdmath_byte3 v, uint8_t(*func
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
 
+#if 3 == 3
 stdmath_byte3 stdmath_byte3_cross(stdmath_byte3 a, stdmath_byte3 b) {
 	return c(cross(c(a), c(b)));
 }
+#endif
 
 stdmath_byte3 stdmath_byte3_min(stdmath_byte3 a, stdmath_byte3 b) {
 	return c(min(c(a), c(b)));

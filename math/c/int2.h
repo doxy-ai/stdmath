@@ -3,11 +3,36 @@
 
 #include <stdint.h>
 #if !false
+#if 2 == 1
+#include "bool1.h"
+#elif 2 == 2
 #include "bool2.h"
+#elif 2 == 3
+#include "bool3.h"
+#elif 2 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 2 == 2
 #include "int1.h"
+#elif 2 == 3
+#include "int2.h"
+#include "int1.h"
+#elif 2 == 4
+#include "int3.h"
+#include "int2.h"
+#include "int1.h"
+#endif
 #include "util.h"
 
+#if 2 == 1
+union stdmath_int1 {
+	struct {
+		int32_t x;
+	};
+	int32_t data[1];
+};
+#elif 2 == 2
 union stdmath_int2 {
 	struct {
 		int32_t x, y;
@@ -17,6 +42,33 @@ union stdmath_int2 {
 	};
 	int32_t data[2];
 };
+#elif 2 == 3
+union stdmath_int3 {
+	struct {
+		int32_t x, y, z;
+	};
+	struct {
+		int32_t r, g, b;
+	};
+	struct {
+		int32_t h, s, v;
+	};
+	int32_t data[4]; // int3s are aligned as if they were int4s
+};
+#elif 2 == 4
+union stdmath_int4 {
+	struct {
+		int32_t x, y, z, w;
+	};
+	struct {
+		int32_t r, g, b, a;
+	};
+	struct {
+		int32_t h, s, v;
+	};
+	int32_t data[4];
+};
+#endif
 
 stdmath_int2 stdmath_int2_broadcast(int32_t all);
 
@@ -55,6 +107,10 @@ int32_t stdmath_int2_max_element(stdmath_int2 v);
 
 stdmath_int2 stdmath_int2_elementwise_transform(stdmath_int2 v, int32_t(*func)(int32_t));
 // int32_t stdmath_int2_reduce_elements(stdmath_int2 v, int32_t initial_value, int32_t(*reducer)(stdmath_int2, stdmath_int2));
+
+#if 2 == 3
+stdmath_int3 stdmath_int3_cross(stdmath_int3 a, stdmath_int3 b);
+#endif
 
 stdmath_int2 stdmath_int2_min(stdmath_int2 a, stdmath_int2 b);
 stdmath_int2 stdmath_int2_max(stdmath_int2 a, stdmath_int2 b);
@@ -196,6 +252,12 @@ stdmath_int2 stdmath_int2_elementwise_transform(stdmath_int2 v, int32_t(*func)(i
 // int32_t stdmath_int2_reduce_elements(stdmath_int2 v, int32_t initial_value, int32_t(*reducer)(stdmath_int2, stdmath_int2)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 2 == 3
+stdmath_int2 stdmath_int2_cross(stdmath_int2 a, stdmath_int2 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_int2 stdmath_int2_min(stdmath_int2 a, stdmath_int2 b) {
 	return c(min(c(a), c(b)));

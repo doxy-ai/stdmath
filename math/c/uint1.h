@@ -3,16 +3,72 @@
 
 #include <stdint.h>
 #if !false
+#if 1 == 1
 #include "bool1.h"
+#elif 1 == 2
+#include "bool2.h"
+#elif 1 == 3
+#include "bool3.h"
+#elif 1 == 4
+#include "bool4.h"
+#endif
+#endif
+#if 1 == 2
+#include "uint1.h"
+#elif 1 == 3
+#include "uint2.h"
+#include "uint1.h"
+#elif 1 == 4
+#include "uint3.h"
+#include "uint2.h"
+#include "uint1.h"
 #endif
 #include "util.h"
 
+#if 1 == 1
 union stdmath_uint1 {
 	struct {
 		uint32_t x;
 	};
 	uint32_t data[1];
 };
+#elif 1 == 2
+union stdmath_uint2 {
+	struct {
+		uint32_t x, y;
+	};
+	struct {
+		uint32_t u, v;
+	};
+	uint32_t data[2];
+};
+#elif 1 == 3
+union stdmath_uint3 {
+	struct {
+		uint32_t x, y, z;
+	};
+	struct {
+		uint32_t r, g, b;
+	};
+	struct {
+		uint32_t h, s, v;
+	};
+	uint32_t data[4]; // uint3s are aligned as if they were uint4s
+};
+#elif 1 == 4
+union stdmath_uint4 {
+	struct {
+		uint32_t x, y, z, w;
+	};
+	struct {
+		uint32_t r, g, b, a;
+	};
+	struct {
+		uint32_t h, s, v;
+	};
+	uint32_t data[4];
+};
+#endif
 
 stdmath_uint1 stdmath_uint1_broadcast(uint32_t all);
 
@@ -52,6 +108,10 @@ uint32_t stdmath_uint1_max_element(stdmath_uint1 v);
 stdmath_uint1 stdmath_uint1_elementwise_transform(stdmath_uint1 v, uint32_t(*func)(uint32_t));
 // uint32_t stdmath_uint1_reduce_elements(stdmath_uint1 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint1, stdmath_uint1));
 
+#if 1 == 3
+stdmath_uint3 stdmath_uint3_cross(stdmath_uint3 a, stdmath_uint3 b);
+#endif
+
 stdmath_uint1 stdmath_uint1_min(stdmath_uint1 a, stdmath_uint1 b);
 stdmath_uint1 stdmath_uint1_max(stdmath_uint1 a, stdmath_uint1 b);
 stdmath_uint1 stdmath_uint1_normalize(stdmath_uint1 v);
@@ -86,7 +146,7 @@ stdmath_uint1 c(stdmath::uint1 c) {
 }
 
 stdmath_uint1 stdmath_uint1_broadcast(uint32_t all) {
-	return c(stdmath::uint1((stdmath::uint1::underlying_type&)all));
+	return c(stdmath::uint1((stdmath::uint1::underlying_type)all));
 }
 
 stdmath_uint1 stdmath_uint1_add(stdmath_uint1 a, stdmath_uint1 b) {
@@ -105,7 +165,7 @@ stdmath_uint1 stdmath_uint1_divide(stdmath_uint1 a, stdmath_uint1 b) {
 	return c(c(a) / c(b));
 }
 stdmath_uint1 stdmath_uint1_scale(stdmath_uint1 v, uint32_t s) {
-	return c(c(v) * (stdmath::uint1::underlying_type&)s);
+	return c(c(v) * (stdmath::uint1::underlying_type)s);
 }
 
 #if false
@@ -182,6 +242,12 @@ stdmath_uint1 stdmath_uint1_elementwise_transform(stdmath_uint1 v, uint32_t(*fun
 // uint32_t stdmath_uint1_reduce_elements(stdmath_uint1 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint1, stdmath_uint1)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 1 == 3
+stdmath_uint1 stdmath_uint1_cross(stdmath_uint1 a, stdmath_uint1 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_uint1 stdmath_uint1_min(stdmath_uint1 a, stdmath_uint1 b) {
 	return c(min(c(a), c(b)));

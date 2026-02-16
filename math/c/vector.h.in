@@ -1,0 +1,289 @@
+#ifndef __STDMATH_{type}{N}_H__
+#define __STDMATH_{type}{N}_H__
+
+#include <stdint.h>
+#if !{is_bool}
+#if {N} == 1
+#include "bool1.h"
+#elif {N} == 2
+#include "bool2.h"
+#elif {N} == 3
+#include "bool3.h"
+#elif {N} == 4
+#include "bool4.h"
+#endif
+#endif
+#if {N} == 2
+#include "{name}1.h"
+#elif {N} == 3
+#include "{name}2.h"
+#include "{name}1.h"
+#elif {N} == 4
+#include "{name}3.h"
+#include "{name}2.h"
+#include "{name}1.h"
+#endif
+#include "util.h"
+
+#if {N} == 1
+union stdmath_{name}1 {
+	struct {
+		{type} x;
+	};
+	{type} data[1];
+};
+#elif {N} == 2
+union stdmath_{name}2 {
+	struct {
+		{type} x, y;
+	};
+	struct {
+		{type} u, v;
+	};
+	{type} data[2];
+};
+#elif {N} == 3
+union stdmath_{name}3 {
+	struct {
+		{type} x, y, z;
+	};
+	struct {
+		{type} r, g, b;
+	};
+	struct {
+		{type} h, s, v;
+	};
+	{type} data[4]; // {name}3s are aligned as if they were {name}4s
+};
+#elif {N} == 4
+union stdmath_{name}4 {
+	struct {
+		{type} x, y, z, w;
+	};
+	struct {
+		{type} r, g, b, a;
+	};
+	struct {
+		{type} h, s, v;
+	};
+	{type} data[4];
+};
+#endif
+
+stdmath_{name}{N} stdmath_{name}{N}_broadcast({type} all);
+
+stdmath_{name}{N} stdmath_{name}{N}_add(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_subtract(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_negate(stdmath_{name}{N} v);
+stdmath_{name}{N} stdmath_{name}{N}_multiply(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_divide(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_scale(stdmath_{name}{N} v, {type} s);
+
+#if {is_int}
+stdmath_{name}{N} stdmath_{name}{N}_modulus(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_logical_not(stdmath_{name}{N} v);
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_not(stdmath_{name}{N} v);
+stdmath_{name}{N} stdmath_{name}{N}_logical_and(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_and(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_logical_or(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_or(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_xor(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_shift_left(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_shift_right(stdmath_{name}{N} a, stdmath_{name}{N} b);
+#endif
+
+stdmath_bool{N} stdmath_{name}{N}_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_bool{N} stdmath_{name}{N}_not_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_bool{N} stdmath_{name}{N}_less_than(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_bool{N} stdmath_{name}{N}_less_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_bool{N} stdmath_{name}{N}_greater_than(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_bool{N} stdmath_{name}{N}_greater_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+
+{type} stdmath_{name}{N}_length_squared(stdmath_{name}{N} v);
+{type} stdmath_{name}{N}_length(stdmath_{name}{N} v);
+{type} stdmath_{name}{N}_dot(stdmath_{name}{N} v);
+{type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v);
+{type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v);
+
+stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type}));
+// {type} stdmath_{name}{N}_reduce_elements(stdmath_{name}{N} v, {type} initial_value, {type}(*reducer)(stdmath_{name}{N}, stdmath_{name}{N}));
+
+#if {N} == 3
+stdmath_{name}3 stdmath_{name}3_cross(stdmath_{name}3 a, stdmath_{name}3 b);
+#endif
+
+stdmath_{name}{N} stdmath_{name}{N}_min(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_max(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_{name}{N} stdmath_{name}{N}_normalize(stdmath_{name}{N} v);
+stdmath_{name}{N} stdmath_{name}{N}_lerp(stdmath_{name}{N} a, stdmath_{name}{N} b, float t);
+stdmath_{name}{N} stdmath_{name}{N}_clamp(stdmath_{name}{N} a, stdmath_{name}{N} min, stdmath_{name}{N} max);
+stdmath_{name}{N} stdmath_{name}{N}_reflect(stdmath_{name}{N} a, stdmath_{name}{N} b);
+stdmath_bool{N} stdmath_{name}{N}_approximately_equal(stdmath_{name}{N} a, stdmath_{name}{N} b);
+
+#if {is_bool}
+bool stdmath_bool{N}_all_of(stdmath_bool{N} v);
+bool stdmath_bool{N}_any_of(stdmath_bool{N} v);
+bool stdmath_bool{N}_none_of(stdmath_bool{N} v);
+bool stdmath_bool{N}_some_of(stdmath_bool{N} v);
+#endif
+
+{swizzles}
+
+#ifdef STDMATH_IMPLEMENTATION
+#ifndef __cplusplus
+#error "The stdmath implementations require a C++ compiler"
+#endif
+
+import stdmath.slang;
+
+stdmath::{name}{N} c(stdmath_{name}{N} c) {
+	return (stdmath::{name}{N}&)c;
+}
+stdmath_{name}{N} c(stdmath::{name}{N} c) {
+	return (stdmath_{name}{N}&)c;
+}
+
+stdmath_{name}{N} stdmath_{name}{N}_broadcast({type} all) {
+	return c(stdmath::{name}{N}((stdmath::{name}{N}::underlying_type)all));
+}
+
+stdmath_{name}{N} stdmath_{name}{N}_add(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) + c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_subtract(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) - c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_negate(stdmath_{name}{N} v) {
+	return c(stdmath::{name}{N}(-(stdmath::vector<{type}, {N}>)c(v)));
+}
+stdmath_{name}{N} stdmath_{name}{N}_multiply(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) * c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_divide(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) / c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_scale(stdmath_{name}{N} v, {type} s) {
+	return c(c(v) * (stdmath::{name}{N}::underlying_type)s);
+}
+
+#if {is_int}
+stdmath_{name}{N} stdmath_{name}{N}_modulus(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) % c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_logical_not(stdmath_{name}{N} v) {
+	return c(!c(v));
+}
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_not(stdmath_{name}{N} v) {
+	return c(~c(v));
+}
+stdmath_{name}{N} stdmath_{name}{N}_logical_and(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) && c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_and(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) & c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_logical_or(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) || c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_or(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) | c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_bitwise_xor(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) ^ c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_shift_left(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) << c(b));
+}
+stdmath_{name}{N} stdmath_{name}{N}_shift_right(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) >> c(b));
+}
+#endif
+
+stdmath_bool{N} stdmath_{name}{N}_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) == c(b));
+}
+stdmath_bool{N} stdmath_{name}{N}_not_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) != c(b));
+}
+stdmath_bool{N} stdmath_{name}{N}_less_than(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) < c(b));
+}
+stdmath_bool{N} stdmath_{name}{N}_less_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) <= c(b));
+}
+stdmath_bool{N} stdmath_{name}{N}_greater_than(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) > c(b));
+}
+stdmath_bool{N} stdmath_{name}{N}_greater_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(c(a) >= c(b));
+}
+
+{type} stdmath_{name}{N}_length_squared(stdmath_{name}{N} v)  {
+	return ({type})c(v).length_squared();
+}
+{type} stdmath_{name}{N}_length(stdmath_{name}{N} v)  {
+	return ({type})c(v).length();
+}
+{type} stdmath_{name}{N}_dot(stdmath_{name}{N} a, stdmath_{name}{N} b)  {
+	return ({type})dot(c(a), c(b));
+}
+{type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v)  {
+	return ({type})c(v).min_element();
+}
+{type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v)  {
+	return ({type})c(v).max_element();
+}
+
+stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type})) {
+	return c(c(v).elementwise_transform(func));
+}
+// {type} stdmath_{name}{N}_reduce_elements(stdmath_{name}{N} v, {type} initial_value, {type}(*reducer)(stdmath_{name}{N}, stdmath_{name}{N})) {
+// 	return c(v).reduce_elements(initial_value, reducer);
+// }
+
+#if {N} == 3
+stdmath_{name}{N} stdmath_{name}{N}_cross(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
+
+stdmath_{name}{N} stdmath_{name}{N}_min(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(min(c(a), c(b)));
+}
+stdmath_{name}{N} stdmath_{name}{N}_max(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(max(c(a), c(b)));
+}
+stdmath_{name}{N} stdmath_{name}{N}_normalize(stdmath_{name}{N} v) {
+	return c(normalize(c(v)));
+}
+stdmath_{name}{N} stdmath_{name}{N}_lerp(stdmath_{name}{N} a, stdmath_{name}{N} b, float t) {
+	return c(lerp(c(a), c(b), t));
+}
+stdmath_{name}{N} stdmath_{name}{N}_clamp(stdmath_{name}{N} a, stdmath_{name}{N} min, stdmath_{name}{N} max) {
+	return c(clamp(c(a), c(min), c(max)));
+}
+stdmath_{name}{N} stdmath_{name}{N}_reflect(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(reflect(c(a), c(b)));
+}
+stdmath_bool{N} stdmath_{name}{N}_approximately_equal(stdmath_{name}{N} a, stdmath_{name}{N} b) {
+	return c(approximately_equal(c(a), c(b)));
+}
+
+#if {is_bool}
+bool stdmath_bool{N}_all_of(stdmath_bool{N} v) {
+	return all_of(c(v));
+}
+bool stdmath_bool{N}_any_of(stdmath_bool{N} v) {
+	return any_of(c(v));
+}
+bool stdmath_bool{N}_none_of(stdmath_bool{N} v) {
+	return none_of(c(v));
+}
+bool stdmath_bool{N}_some_of(stdmath_bool{N} v) {
+	return some_of(c(v));
+}
+#endif
+
+#endif // STDMATH_IMPLEMENTATION
+
+#endif // __STDMATH_{type}{N}_H__

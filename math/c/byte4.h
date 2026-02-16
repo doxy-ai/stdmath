@@ -3,13 +3,59 @@
 
 #include <stdint.h>
 #if !false
+#if 4 == 1
+#include "bool1.h"
+#elif 4 == 2
+#include "bool2.h"
+#elif 4 == 3
+#include "bool3.h"
+#elif 4 == 4
 #include "bool4.h"
 #endif
+#endif
+#if 4 == 2
+#include "byte1.h"
+#elif 4 == 3
+#include "byte2.h"
+#include "byte1.h"
+#elif 4 == 4
 #include "byte3.h"
 #include "byte2.h"
 #include "byte1.h"
+#endif
 #include "util.h"
 
+#if 4 == 1
+union stdmath_byte1 {
+	struct {
+		uint8_t x;
+	};
+	uint8_t data[1];
+};
+#elif 4 == 2
+union stdmath_byte2 {
+	struct {
+		uint8_t x, y;
+	};
+	struct {
+		uint8_t u, v;
+	};
+	uint8_t data[2];
+};
+#elif 4 == 3
+union stdmath_byte3 {
+	struct {
+		uint8_t x, y, z;
+	};
+	struct {
+		uint8_t r, g, b;
+	};
+	struct {
+		uint8_t h, s, v;
+	};
+	uint8_t data[4]; // byte3s are aligned as if they were byte4s
+};
+#elif 4 == 4
 union stdmath_byte4 {
 	struct {
 		uint8_t x, y, z, w;
@@ -22,6 +68,7 @@ union stdmath_byte4 {
 	};
 	uint8_t data[4];
 };
+#endif
 
 stdmath_byte4 stdmath_byte4_broadcast(uint8_t all);
 
@@ -30,7 +77,7 @@ stdmath_byte4 stdmath_byte4_subtract(stdmath_byte4 a, stdmath_byte4 b);
 stdmath_byte4 stdmath_byte4_negate(stdmath_byte4 v);
 stdmath_byte4 stdmath_byte4_multiply(stdmath_byte4 a, stdmath_byte4 b);
 stdmath_byte4 stdmath_byte4_divide(stdmath_byte4 a, stdmath_byte4 b);
-stdmath_byte4 stdmath_byte4_scale(stdmath_byte3 v, uint8_t s);
+stdmath_byte4 stdmath_byte4_scale(stdmath_byte4 v, uint8_t s);
 
 #if false
 stdmath_byte4 stdmath_byte4_modulus(stdmath_byte4 a, stdmath_byte4 b);
@@ -60,6 +107,10 @@ uint8_t stdmath_byte4_max_element(stdmath_byte4 v);
 
 stdmath_byte4 stdmath_byte4_elementwise_transform(stdmath_byte4 v, uint8_t(*func)(uint8_t));
 // uint8_t stdmath_byte4_reduce_elements(stdmath_byte4 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte4, stdmath_byte4));
+
+#if 4 == 3
+stdmath_byte3 stdmath_byte3_cross(stdmath_byte3 a, stdmath_byte3 b);
+#endif
 
 stdmath_byte4 stdmath_byte4_min(stdmath_byte4 a, stdmath_byte4 b);
 stdmath_byte4 stdmath_byte4_max(stdmath_byte4 a, stdmath_byte4 b);
@@ -869,6 +920,12 @@ stdmath_byte4 stdmath_byte4_elementwise_transform(stdmath_byte4 v, uint8_t(*func
 // uint8_t stdmath_byte4_reduce_elements(stdmath_byte4 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte4, stdmath_byte4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 4 == 3
+stdmath_byte4 stdmath_byte4_cross(stdmath_byte4 a, stdmath_byte4 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_byte4 stdmath_byte4_min(stdmath_byte4 a, stdmath_byte4 b) {
 	return c(min(c(a), c(b)));

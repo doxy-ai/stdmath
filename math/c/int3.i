@@ -278,7 +278,7 @@
 	bool3 _greater_than_or_equal_to(stdmath_int3 o) {
 		return stdmath_int3_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	int32_t _length_squared() {
 		return stdmath_int3_length_squared(*self);
 	}
@@ -297,7 +297,7 @@
 
 	// int32_t elementwise_transform()
 	// int32_t reduce_element
-	
+
 	stdmath_int3 _min(stdmath_int3 o) {
 		return stdmath_int3_min(*self, o);
 	}

@@ -3,12 +3,46 @@
 
 #include <stdint.h>
 #if !false
+#if 3 == 1
+#include "bool1.h"
+#elif 3 == 2
+#include "bool2.h"
+#elif 3 == 3
 #include "bool3.h"
+#elif 3 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 3 == 2
+#include "uint1.h"
+#elif 3 == 3
 #include "uint2.h"
 #include "uint1.h"
+#elif 3 == 4
+#include "uint3.h"
+#include "uint2.h"
+#include "uint1.h"
+#endif
 #include "util.h"
 
+#if 3 == 1
+union stdmath_uint1 {
+	struct {
+		uint32_t x;
+	};
+	uint32_t data[1];
+};
+#elif 3 == 2
+union stdmath_uint2 {
+	struct {
+		uint32_t x, y;
+	};
+	struct {
+		uint32_t u, v;
+	};
+	uint32_t data[2];
+};
+#elif 3 == 3
 union stdmath_uint3 {
 	struct {
 		uint32_t x, y, z;
@@ -19,8 +53,22 @@ union stdmath_uint3 {
 	struct {
 		uint32_t h, s, v;
 	};
-	uint32_t data[3]; // uint3s are aligned as if they were uint3s
+	uint32_t data[4]; // uint3s are aligned as if they were uint4s
 };
+#elif 3 == 4
+union stdmath_uint4 {
+	struct {
+		uint32_t x, y, z, w;
+	};
+	struct {
+		uint32_t r, g, b, a;
+	};
+	struct {
+		uint32_t h, s, v;
+	};
+	uint32_t data[4];
+};
+#endif
 
 stdmath_uint3 stdmath_uint3_broadcast(uint32_t all);
 
@@ -60,7 +108,9 @@ uint32_t stdmath_uint3_max_element(stdmath_uint3 v);
 stdmath_uint3 stdmath_uint3_elementwise_transform(stdmath_uint3 v, uint32_t(*func)(uint32_t));
 // uint32_t stdmath_uint3_reduce_elements(stdmath_uint3 v, uint32_t initial_value, uint32_t(*reducer)(stdmath_uint3, stdmath_uint3));
 
+#if 3 == 3
 stdmath_uint3 stdmath_uint3_cross(stdmath_uint3 a, stdmath_uint3 b);
+#endif
 
 stdmath_uint3 stdmath_uint3_min(stdmath_uint3 a, stdmath_uint3 b);
 stdmath_uint3 stdmath_uint3_max(stdmath_uint3 a, stdmath_uint3 b);
@@ -262,7 +312,6 @@ uint32_t stdmath_uint3_max_element(stdmath_uint3 v)  {
 	return (uint32_t)c(v).max_element();
 }
 
-
 stdmath_uint3 stdmath_uint3_elementwise_transform(stdmath_uint3 v, uint32_t(*func)(uint32_t)) {
 	return c(c(v).elementwise_transform(func));
 }
@@ -270,9 +319,11 @@ stdmath_uint3 stdmath_uint3_elementwise_transform(stdmath_uint3 v, uint32_t(*fun
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
 
+#if 3 == 3
 stdmath_uint3 stdmath_uint3_cross(stdmath_uint3 a, stdmath_uint3 b) {
 	return c(cross(c(a), c(b)));
 }
+#endif
 
 stdmath_uint3 stdmath_uint3_min(stdmath_uint3 a, stdmath_uint3 b) {
 	return c(min(c(a), c(b)));

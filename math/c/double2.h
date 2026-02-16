@@ -3,11 +3,36 @@
 
 #include <stdint.h>
 #if !false
+#if 2 == 1
+#include "bool1.h"
+#elif 2 == 2
 #include "bool2.h"
+#elif 2 == 3
+#include "bool3.h"
+#elif 2 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 2 == 2
 #include "double1.h"
+#elif 2 == 3
+#include "double2.h"
+#include "double1.h"
+#elif 2 == 4
+#include "double3.h"
+#include "double2.h"
+#include "double1.h"
+#endif
 #include "util.h"
 
+#if 2 == 1
+union stdmath_double1 {
+	struct {
+		double x;
+	};
+	double data[1];
+};
+#elif 2 == 2
 union stdmath_double2 {
 	struct {
 		double x, y;
@@ -17,6 +42,33 @@ union stdmath_double2 {
 	};
 	double data[2];
 };
+#elif 2 == 3
+union stdmath_double3 {
+	struct {
+		double x, y, z;
+	};
+	struct {
+		double r, g, b;
+	};
+	struct {
+		double h, s, v;
+	};
+	double data[4]; // double3s are aligned as if they were double4s
+};
+#elif 2 == 4
+union stdmath_double4 {
+	struct {
+		double x, y, z, w;
+	};
+	struct {
+		double r, g, b, a;
+	};
+	struct {
+		double h, s, v;
+	};
+	double data[4];
+};
+#endif
 
 stdmath_double2 stdmath_double2_broadcast(double all);
 
@@ -55,6 +107,10 @@ double stdmath_double2_max_element(stdmath_double2 v);
 
 stdmath_double2 stdmath_double2_elementwise_transform(stdmath_double2 v, double(*func)(double));
 // double stdmath_double2_reduce_elements(stdmath_double2 v, double initial_value, double(*reducer)(stdmath_double2, stdmath_double2));
+
+#if 2 == 3
+stdmath_double3 stdmath_double3_cross(stdmath_double3 a, stdmath_double3 b);
+#endif
 
 stdmath_double2 stdmath_double2_min(stdmath_double2 a, stdmath_double2 b);
 stdmath_double2 stdmath_double2_max(stdmath_double2 a, stdmath_double2 b);
@@ -196,6 +252,12 @@ stdmath_double2 stdmath_double2_elementwise_transform(stdmath_double2 v, double(
 // double stdmath_double2_reduce_elements(stdmath_double2 v, double initial_value, double(*reducer)(stdmath_double2, stdmath_double2)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 2 == 3
+stdmath_double2 stdmath_double2_cross(stdmath_double2 a, stdmath_double2 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_double2 stdmath_double2_min(stdmath_double2 a, stdmath_double2 b) {
 	return c(min(c(a), c(b)));

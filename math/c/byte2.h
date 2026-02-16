@@ -3,11 +3,36 @@
 
 #include <stdint.h>
 #if !false
+#if 2 == 1
+#include "bool1.h"
+#elif 2 == 2
 #include "bool2.h"
+#elif 2 == 3
+#include "bool3.h"
+#elif 2 == 4
+#include "bool4.h"
 #endif
+#endif
+#if 2 == 2
 #include "byte1.h"
+#elif 2 == 3
+#include "byte2.h"
+#include "byte1.h"
+#elif 2 == 4
+#include "byte3.h"
+#include "byte2.h"
+#include "byte1.h"
+#endif
 #include "util.h"
 
+#if 2 == 1
+union stdmath_byte1 {
+	struct {
+		uint8_t x;
+	};
+	uint8_t data[1];
+};
+#elif 2 == 2
 union stdmath_byte2 {
 	struct {
 		uint8_t x, y;
@@ -17,6 +42,33 @@ union stdmath_byte2 {
 	};
 	uint8_t data[2];
 };
+#elif 2 == 3
+union stdmath_byte3 {
+	struct {
+		uint8_t x, y, z;
+	};
+	struct {
+		uint8_t r, g, b;
+	};
+	struct {
+		uint8_t h, s, v;
+	};
+	uint8_t data[4]; // byte3s are aligned as if they were byte4s
+};
+#elif 2 == 4
+union stdmath_byte4 {
+	struct {
+		uint8_t x, y, z, w;
+	};
+	struct {
+		uint8_t r, g, b, a;
+	};
+	struct {
+		uint8_t h, s, v;
+	};
+	uint8_t data[4];
+};
+#endif
 
 stdmath_byte2 stdmath_byte2_broadcast(uint8_t all);
 
@@ -55,6 +107,10 @@ uint8_t stdmath_byte2_max_element(stdmath_byte2 v);
 
 stdmath_byte2 stdmath_byte2_elementwise_transform(stdmath_byte2 v, uint8_t(*func)(uint8_t));
 // uint8_t stdmath_byte2_reduce_elements(stdmath_byte2 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte2, stdmath_byte2));
+
+#if 2 == 3
+stdmath_byte3 stdmath_byte3_cross(stdmath_byte3 a, stdmath_byte3 b);
+#endif
 
 stdmath_byte2 stdmath_byte2_min(stdmath_byte2 a, stdmath_byte2 b);
 stdmath_byte2 stdmath_byte2_max(stdmath_byte2 a, stdmath_byte2 b);
@@ -196,6 +252,12 @@ stdmath_byte2 stdmath_byte2_elementwise_transform(stdmath_byte2 v, uint8_t(*func
 // uint8_t stdmath_byte2_reduce_elements(stdmath_byte2 v, uint8_t initial_value, uint8_t(*reducer)(stdmath_byte2, stdmath_byte2)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 2 == 3
+stdmath_byte2 stdmath_byte2_cross(stdmath_byte2 a, stdmath_byte2 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_byte2 stdmath_byte2_min(stdmath_byte2 a, stdmath_byte2 b) {
 	return c(min(c(a), c(b)));

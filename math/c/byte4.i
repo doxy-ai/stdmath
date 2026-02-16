@@ -1478,7 +1478,7 @@
 	bool4 _greater_than_or_equal_to(stdmath_byte4 o) {
 		return stdmath_byte4_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	uint8_t _length_squared() {
 		return stdmath_byte4_length_squared(*self);
 	}
@@ -1497,7 +1497,7 @@
 
 	// uint8_t elementwise_transform()
 	// uint8_t reduce_element
-	
+
 	stdmath_byte4 _min(stdmath_byte4 o) {
 		return stdmath_byte4_min(*self, o);
 	}

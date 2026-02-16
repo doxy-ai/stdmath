@@ -1478,7 +1478,7 @@
 	bool4 _greater_than_or_equal_to(stdmath_int4 o) {
 		return stdmath_int4_greater_than_or_equal_to(*self, o);
 	}
-	
+
 	int32_t _length_squared() {
 		return stdmath_int4_length_squared(*self);
 	}
@@ -1497,7 +1497,7 @@
 
 	// int32_t elementwise_transform()
 	// int32_t reduce_element
-	
+
 	stdmath_int4 _min(stdmath_int4 o) {
 		return stdmath_int4_min(*self, o);
 	}

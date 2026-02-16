@@ -25,6 +25,5 @@
 #include "uint2.h"
 #include "uint3.h"
 #include "uint4.h"
-#include "util.h"
 
 #endif

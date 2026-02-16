@@ -41,7 +41,7 @@ TEST_CASE("matrix<f32, 2, 2>::inverse()") {
 	CHECK(inv_matrix[1, 1] == -0.5f);
 
 	std::math::matrix<f32, 2, 2> ident = matrix_to_invert * inv_matrix;
-	for(auto v: ident) CHECK(ident.data[v] == std::math::matrix<f32, 2, 2>::identity().data[v]);
+	for(size_t i = 0; i < 4; ++i) CHECK(ident.data[i] == std::math::matrix<f32, 2, 2>::identity().data[i]);
 }
 
 TEST_CASE("matrix<f32, 10, 10>::inverse()") {

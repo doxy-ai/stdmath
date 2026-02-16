@@ -3,13 +3,59 @@
 
 #include <stdint.h>
 #if !false
+#if 4 == 1
+#include "bool1.h"
+#elif 4 == 2
+#include "bool2.h"
+#elif 4 == 3
+#include "bool3.h"
+#elif 4 == 4
 #include "bool4.h"
 #endif
+#endif
+#if 4 == 2
+#include "int1.h"
+#elif 4 == 3
+#include "int2.h"
+#include "int1.h"
+#elif 4 == 4
 #include "int3.h"
 #include "int2.h"
 #include "int1.h"
+#endif
 #include "util.h"
 
+#if 4 == 1
+union stdmath_int1 {
+	struct {
+		int32_t x;
+	};
+	int32_t data[1];
+};
+#elif 4 == 2
+union stdmath_int2 {
+	struct {
+		int32_t x, y;
+	};
+	struct {
+		int32_t u, v;
+	};
+	int32_t data[2];
+};
+#elif 4 == 3
+union stdmath_int3 {
+	struct {
+		int32_t x, y, z;
+	};
+	struct {
+		int32_t r, g, b;
+	};
+	struct {
+		int32_t h, s, v;
+	};
+	int32_t data[4]; // int3s are aligned as if they were int4s
+};
+#elif 4 == 4
 union stdmath_int4 {
 	struct {
 		int32_t x, y, z, w;
@@ -22,6 +68,7 @@ union stdmath_int4 {
 	};
 	int32_t data[4];
 };
+#endif
 
 stdmath_int4 stdmath_int4_broadcast(int32_t all);
 
@@ -30,7 +77,7 @@ stdmath_int4 stdmath_int4_subtract(stdmath_int4 a, stdmath_int4 b);
 stdmath_int4 stdmath_int4_negate(stdmath_int4 v);
 stdmath_int4 stdmath_int4_multiply(stdmath_int4 a, stdmath_int4 b);
 stdmath_int4 stdmath_int4_divide(stdmath_int4 a, stdmath_int4 b);
-stdmath_int4 stdmath_int4_scale(stdmath_int3 v, int32_t s);
+stdmath_int4 stdmath_int4_scale(stdmath_int4 v, int32_t s);
 
 #if false
 stdmath_int4 stdmath_int4_modulus(stdmath_int4 a, stdmath_int4 b);
@@ -60,6 +107,10 @@ int32_t stdmath_int4_max_element(stdmath_int4 v);
 
 stdmath_int4 stdmath_int4_elementwise_transform(stdmath_int4 v, int32_t(*func)(int32_t));
 // int32_t stdmath_int4_reduce_elements(stdmath_int4 v, int32_t initial_value, int32_t(*reducer)(stdmath_int4, stdmath_int4));
+
+#if 4 == 3
+stdmath_int3 stdmath_int3_cross(stdmath_int3 a, stdmath_int3 b);
+#endif
 
 stdmath_int4 stdmath_int4_min(stdmath_int4 a, stdmath_int4 b);
 stdmath_int4 stdmath_int4_max(stdmath_int4 a, stdmath_int4 b);
@@ -869,6 +920,12 @@ stdmath_int4 stdmath_int4_elementwise_transform(stdmath_int4 v, int32_t(*func)(i
 // int32_t stdmath_int4_reduce_elements(stdmath_int4 v, int32_t initial_value, int32_t(*reducer)(stdmath_int4, stdmath_int4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }
+
+#if 4 == 3
+stdmath_int4 stdmath_int4_cross(stdmath_int4 a, stdmath_int4 b) {
+	return c(cross(c(a), c(b)));
+}
+#endif
 
 stdmath_int4 stdmath_int4_min(stdmath_int4 a, stdmath_int4 b) {
 	return c(min(c(a), c(b)));
