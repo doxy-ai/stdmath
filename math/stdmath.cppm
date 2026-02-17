@@ -1,4 +1,3 @@
-
 export module stdmath;
 
 import std.compat;

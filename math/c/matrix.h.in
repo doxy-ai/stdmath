@@ -1,52 +1,71 @@
 #ifndef __STDMATH_{name}{X}x{Y}_H__
 #define __STDMATH_{name}{X}x{Y}_H__
 
-struct stdmath_{name}{X}x2;
-struct stdmath_{name}{X}x3;
-struct stdmath_{name}{X}x4;
-#if {X} != {Y}
-struct stdmath_{name}{Y}x2;
-struct stdmath_{name}{Y}x3;
-struct stdmath_{name}{Y}x4;
+#ifdef __cplusplus
+extern "C" {
 #endif
 
+#include "../maybe_export.h"
+STDMATH_EXPORT struct stdmath_{name}{X}x2;
+STDMATH_EXPORT struct stdmath_{name}{X}x3;
+STDMATH_EXPORT struct stdmath_{name}{X}x4;
+#if {X} != {Y}
+STDMATH_EXPORT struct stdmath_{name}{Y}x2;
+STDMATH_EXPORT struct stdmath_{name}{Y}x3;
+STDMATH_EXPORT struct stdmath_{name}{Y}x4;
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#ifndef STDMATH_MODULE
 #include <stddef.h>
+#endif
 #include "{name}{Y}.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct stdmath_{name}{X}x{Y} {
 	{type} data[{X} * {Y}];
 };
 
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity_scaled({type} scale);
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity();
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_fill({type} value);
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity_scaled({type} scale);
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity();
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_fill({type} value);
 
-size_t stdmath_{name}{X}x{Y}_rows(const stdmath_{name}{X}x{Y}* m);
-inline size_t stdmath_{name}{X}x{Y}_rows_get(const stdmath_{name}{X}x{Y}* m) {
+STDMATH_EXPORT size_t stdmath_{name}{X}x{Y}_rows(const stdmath_{name}{X}x{Y}* m);
+STDMATH_EXPORT inline size_t stdmath_{name}{X}x{Y}_rows_get(const stdmath_{name}{X}x{Y}* m) {
 	return stdmath_{name}{X}x{Y}_rows(m);
 }
-size_t stdmath_{name}{X}x{Y}_columns(const stdmath_{name}{X}x{Y}* m);
-inline size_t stdmath_{name}{X}x{Y}_columns_get(const stdmath_{name}{X}x{Y}* m) {
+STDMATH_EXPORT size_t stdmath_{name}{X}x{Y}_columns(const stdmath_{name}{X}x{Y}* m);
+STDMATH_EXPORT inline size_t stdmath_{name}{X}x{Y}_columns_get(const stdmath_{name}{X}x{Y}* m) {
 	return stdmath_{name}{X}x{Y}_columns(m);
 }
-size_t stdmath_{name}{X}x{Y}_size(const stdmath_{name}{X}x{Y}* m);
+STDMATH_EXPORT size_t stdmath_{name}{X}x{Y}_size(const stdmath_{name}{X}x{Y}* m);
 
-{type} stdmath_{name}{X}x{Y}_get_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y);
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_set_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y, {type} value);
+STDMATH_EXPORT {type} stdmath_{name}{X}x{Y}_get_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y);
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_set_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y, {type} value);
 
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_add(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_subtract(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
-stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_negate(const stdmath_{name}{X}x{Y}* m);
-stdmath_{name}{Y}x{X} stdmath_{name}{X}x{Y}_transpose(const stdmath_{name}{X}x{Y}* m);
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_add(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_subtract(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
+STDMATH_EXPORT stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_negate(const stdmath_{name}{X}x{Y}* m);
+STDMATH_EXPORT stdmath_{name}{Y}x{X} stdmath_{name}{X}x{Y}_transpose(const stdmath_{name}{X}x{Y}* m);
 
-stdmath_{name}{X}x2 stdmath_{name}{X}x{Y}_multiply2(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x2* b);
-stdmath_{name}{X}x3 stdmath_{name}{X}x{Y}_multiply3(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x3* b);
-stdmath_{name}{X}x4 stdmath_{name}{X}x{Y}_multiply4(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x4* b);
-stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{name}{X}x{Y}* m, stdmath_{name}{Y} v);
+STDMATH_EXPORT stdmath_{name}{X}x2 stdmath_{name}{X}x{Y}_multiply2(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x2* b);
+STDMATH_EXPORT stdmath_{name}{X}x3 stdmath_{name}{X}x{Y}_multiply3(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x3* b);
+STDMATH_EXPORT stdmath_{name}{X}x4 stdmath_{name}{X}x{Y}_multiply4(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x4* b);
+STDMATH_EXPORT stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{name}{X}x{Y}* m, stdmath_{name}{Y} v);
 
 #if {X} == {Y}
-stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s);
-stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m);
+STDMATH_EXPORT stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s);
+STDMATH_EXPORT stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m);
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
 #endif
 
 #ifdef STDMATH_IMPLEMENTATION
@@ -54,14 +73,20 @@ stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}*
 #error "The stdmath implementations require a C++ compiler"
 #endif
 
+#ifndef STDMATH_MODULE
 import stdmath.slang;
+#endif
 
-stdmath::{name}{X}x{Y} c(stdmath_{name}{X}x{Y} c) {
+inline stdmath::{name}{X}x{Y} c(stdmath_{name}{X}x{Y} c) {
 	return (stdmath::{name}{X}x{Y}&)c;
 }
-stdmath_{name}{X}x{Y} c(stdmath::{name}{X}x{Y} c) {
+inline stdmath_{name}{X}x{Y} c(stdmath::{name}{X}x{Y} c) {
 	return (stdmath_{name}{X}x{Y}&)c;
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity_scaled({type} scale) {
 	return c(stdmath::{name}{X}x{Y}::identity((stdmath::{name}{X}x{Y}::underlying_type)scale));
@@ -115,12 +140,21 @@ stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}*
 }
 #endif
 
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 #endif // #ifdef STDMATH_IMPLEMENTATION
 
 #endif // __STDMATH_{name}{X}x{Y}_H__
 
 
 #ifdef STDMATH_IMPLEMENTATION
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #ifdef __STDMATH_{name}{Y}x{X}_H__
 #ifndef __STDMATH_{name}{X}x{Y}_TRANSPOSE_IMPL__
@@ -162,6 +196,10 @@ stdmath_{name}{X}x4 stdmath_{name}{X}x{Y}_multiply4(const stdmath_{name}{X}x{Y}*
 }
 #endif
 #endif
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
 #endif
 
 #endif // STDMATH_IMPLEMENTATION

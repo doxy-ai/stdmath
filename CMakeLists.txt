@@ -26,6 +26,7 @@ target_sources(stdmath PUBLIC
 		math/quaternion.cppm
 		math/ray.cppm
 		math/vector.cppm
+		math/c/c.cppm
 )
 target_include_directories(stdmath PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_library(std::math ALIAS stdmath)

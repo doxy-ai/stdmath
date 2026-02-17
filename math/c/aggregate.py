@@ -26,8 +26,8 @@ def generate_aggregate_header(root_dir: Path, output_file: Path):
         if(swig): 
             f.write(f"%module {output_file.stem}\n\n")
             f.write("%{\n")
-            f.write(f"#define {output_file.stem.upper()}_IMPLEMENTATION\n")
-            f.write(f"#include \"{output_file.stem}.h\"\n")
+            f.write(f"import stdmath.slang;\n")
+            f.write(f"import stdmath.c;\n")
             f.write("%}\n\n")
         else:
             f.write(f"#ifndef {guard}\n")

@@ -1,3 +1,5 @@
+#define STDMATH_EXPORT
+#define STDMATH_INLINE
 %rename({name}{N}) stdmath_{name}{N};
 %include "{name}{N}.h"
 
@@ -62,7 +64,9 @@
 	}
 #endif
 
+#ifndef STDMATH_NO_SWIZZLES
 {swizzles}
+#endif
 
 	stdmath_{name}{N} _add(stdmath_{name}{N} o) {
 		return stdmath_{name}{N}_add(*self, o);

@@ -23,7 +23,7 @@ for type in slang_gen.scalar_types:
 
     for X in range(2, 5):
         for Y in range(2, 5):
-            with open(f"{name}{X}x{Y}.h", "w") as f:
+            with open(f"gen/{name}{X}x{Y}.h", "w") as f:
                 f.write(
                     template.replace("{type}", type)
                     .replace("{name}", name)
@@ -31,7 +31,7 @@ for type in slang_gen.scalar_types:
                     .replace("{is_int}", "true" if is_int else "false")
                     .replace("{is_bool}", "true" if is_bool else "false")
                 )
-            with open(f"{name}{X}x{Y}.i", "w") as f:
+            with open(f"gen/{name}{X}x{Y}.i", "w") as f:
                 f.write(
                     template_swig.replace("{type}", type)
                     .replace("{name}", name)

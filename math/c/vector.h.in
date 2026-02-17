@@ -1,7 +1,11 @@
 #ifndef __STDMATH_{type}{N}_H__
 #define __STDMATH_{type}{N}_H__
 
+#ifndef STDMATH_MODULE
 #include <stdint.h>
+#endif
+#include "../maybe_export.h"
+
 #if !{is_bool}
 #if {N} == 1
 #include "bool1.h"
@@ -23,17 +27,20 @@
 #include "{name}2.h"
 #include "{name}1.h"
 #endif
-#include "util.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if {N} == 1
-union stdmath_{name}1 {
+STDMATH_EXPORT union stdmath_{name}1 {
 	struct {
 		{type} x;
 	};
 	{type} data[1];
 };
 #elif {N} == 2
-union stdmath_{name}2 {
+STDMATH_EXPORT union stdmath_{name}2 {
 	struct {
 		{type} x, y;
 	};
@@ -43,7 +50,7 @@ union stdmath_{name}2 {
 	{type} data[2];
 };
 #elif {N} == 3
-union stdmath_{name}3 {
+STDMATH_EXPORT union stdmath_{name}3 {
 	struct {
 		{type} x, y, z;
 	};
@@ -56,7 +63,7 @@ union stdmath_{name}3 {
 	{type} data[4]; // {name}3s are aligned as if they were {name}4s
 };
 #elif {N} == 4
-union stdmath_{name}4 {
+STDMATH_EXPORT union stdmath_{name}4 {
 	struct {
 		{type} x, y, z, w;
 	};
@@ -70,78 +77,90 @@ union stdmath_{name}4 {
 };
 #endif
 
-stdmath_{name}{N} stdmath_{name}{N}_broadcast({type} all);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_broadcast({type} all);
 
-stdmath_{name}{N} stdmath_{name}{N}_add(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_subtract(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_negate(stdmath_{name}{N} v);
-stdmath_{name}{N} stdmath_{name}{N}_multiply(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_divide(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_scale(stdmath_{name}{N} v, {type} s);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_add(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_subtract(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_negate(stdmath_{name}{N} v);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_multiply(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_divide(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_scale(stdmath_{name}{N} v, {type} s);
 
 #if {is_int}
-stdmath_{name}{N} stdmath_{name}{N}_modulus(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_logical_not(stdmath_{name}{N} v);
-stdmath_{name}{N} stdmath_{name}{N}_bitwise_not(stdmath_{name}{N} v);
-stdmath_{name}{N} stdmath_{name}{N}_logical_and(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_bitwise_and(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_logical_or(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_bitwise_or(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_bitwise_xor(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_shift_left(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_shift_right(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_modulus(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_logical_not(stdmath_{name}{N} v);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_bitwise_not(stdmath_{name}{N} v);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_logical_and(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_bitwise_and(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_logical_or(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_bitwise_or(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_bitwise_xor(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_shift_left(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_shift_right(stdmath_{name}{N} a, stdmath_{name}{N} b);
 #endif
 
-stdmath_bool{N} stdmath_{name}{N}_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_bool{N} stdmath_{name}{N}_not_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_bool{N} stdmath_{name}{N}_less_than(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_bool{N} stdmath_{name}{N}_less_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_bool{N} stdmath_{name}{N}_greater_than(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_bool{N} stdmath_{name}{N}_greater_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_not_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_less_than(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_less_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_greater_than(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_greater_than_or_equal_to(stdmath_{name}{N} a, stdmath_{name}{N} b);
 
-{type} stdmath_{name}{N}_length_squared(stdmath_{name}{N} v);
-{type} stdmath_{name}{N}_length(stdmath_{name}{N} v);
-{type} stdmath_{name}{N}_dot(stdmath_{name}{N} a, stdmath_{name}{N} b);
-{type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v);
-{type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v);
+STDMATH_EXPORT {type} stdmath_{name}{N}_length_squared(stdmath_{name}{N} v);
+STDMATH_EXPORT {type} stdmath_{name}{N}_length(stdmath_{name}{N} v);
+STDMATH_EXPORT {type} stdmath_{name}{N}_dot(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT {type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v);
+STDMATH_EXPORT {type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v);
 
-stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type}));
-// {type} stdmath_{name}{N}_reduce_elements(stdmath_{name}{N} v, {type} initial_value, {type}(*reducer)(stdmath_{name}{N}, stdmath_{name}{N}));
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type}));
+// STDMATH_EXPORT {type} stdmath_{name}{N}_reduce_elements(stdmath_{name}{N} v, {type} initial_value, {type}(*reducer)(stdmath_{name}{N}, stdmath_{name}{N}));
 
 #if {N} == 3
-stdmath_{name}3 stdmath_{name}3_cross(stdmath_{name}3 a, stdmath_{name}3 b);
+STDMATH_EXPORT stdmath_{name}3 stdmath_{name}3_cross(stdmath_{name}3 a, stdmath_{name}3 b);
 #endif
 
-stdmath_{name}{N} stdmath_{name}{N}_min(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_max(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_{name}{N} stdmath_{name}{N}_normalize(stdmath_{name}{N} v);
-stdmath_{name}{N} stdmath_{name}{N}_lerp(stdmath_{name}{N} a, stdmath_{name}{N} b, float t);
-stdmath_{name}{N} stdmath_{name}{N}_clamp(stdmath_{name}{N} a, stdmath_{name}{N} min, stdmath_{name}{N} max);
-stdmath_{name}{N} stdmath_{name}{N}_reflect(stdmath_{name}{N} a, stdmath_{name}{N} b);
-stdmath_bool{N} stdmath_{name}{N}_approximately_equal(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_min(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_max(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_normalize(stdmath_{name}{N} v);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_lerp(stdmath_{name}{N} a, stdmath_{name}{N} b, float t);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_clamp(stdmath_{name}{N} a, stdmath_{name}{N} min, stdmath_{name}{N} max);
+STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_reflect(stdmath_{name}{N} a, stdmath_{name}{N} b);
+STDMATH_EXPORT stdmath_bool{N} stdmath_{name}{N}_approximately_equal(stdmath_{name}{N} a, stdmath_{name}{N} b);
 
 #if {is_bool}
-bool stdmath_bool{N}_all_of(stdmath_bool{N} v);
-bool stdmath_bool{N}_any_of(stdmath_bool{N} v);
-bool stdmath_bool{N}_none_of(stdmath_bool{N} v);
-bool stdmath_bool{N}_some_of(stdmath_bool{N} v);
+STDMATH_EXPORT bool stdmath_bool{N}_all_of(stdmath_bool{N} v);
+STDMATH_EXPORT bool stdmath_bool{N}_any_of(stdmath_bool{N} v);
+STDMATH_EXPORT bool stdmath_bool{N}_none_of(stdmath_bool{N} v);
+STDMATH_EXPORT bool stdmath_bool{N}_some_of(stdmath_bool{N} v);
 #endif
 
+#ifndef STDMATH_NO_SWIZZLES
 {swizzles}
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #ifdef STDMATH_IMPLEMENTATION
 #ifndef __cplusplus
 #error "The stdmath implementations require a C++ compiler"
 #endif
 
+#ifndef STDMATH_MODULE
 import stdmath.slang;
+#endif
 
-stdmath::{name}{N} c(stdmath_{name}{N} c) {
+inline stdmath::{name}{N} c(stdmath_{name}{N} c) {
 	return (stdmath::{name}{N}&)c;
 }
-stdmath_{name}{N} c(stdmath::{name}{N} c) {
+inline stdmath_{name}{N} c(stdmath::{name}{N} c) {
 	return (stdmath_{name}{N}&)c;
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 stdmath_{name}{N} stdmath_{name}{N}_broadcast({type} all) {
 	return c(stdmath::{name}{N}((stdmath::{name}{N}::underlying_type)all));
@@ -282,6 +301,10 @@ bool stdmath_bool{N}_none_of(stdmath_bool{N} v) {
 bool stdmath_bool{N}_some_of(stdmath_bool{N} v) {
 	return some_of(c(v));
 }
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
 #endif
 
 #endif // STDMATH_IMPLEMENTATION

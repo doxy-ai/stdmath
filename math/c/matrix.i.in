@@ -1,3 +1,5 @@
+#define STDMATH_EXPORT
+#define STDMATH_INLINE
 %rename({name}{X}x{Y}) stdmath_{name}{X}x{Y};
 %include "{name}{X}x{Y}.h"
 
