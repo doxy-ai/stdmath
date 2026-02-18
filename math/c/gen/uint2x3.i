@@ -8,6 +8,7 @@
 %rename(inverse) _inverse;
 %rename(identity) _identity;
 %rename(fill) _fill;
+%rename(approximately_equal) _approximately_equal;
 
 %extend stdmath_uint2x3 {
 
@@ -59,6 +60,16 @@
 	}
 	stdmath_uint3 _multiply(stdmath_uint3 v) {
 		return stdmath_uint2x3_multiply(self, v);
+	}
+
+	bool _equal_to(stdmath_uint2x3* o) {
+		return stdmath_uint2x3_equal_to(self, o);
+	}
+	bool _not_equal_to(stdmath_uint2x3* o) {
+		return stdmath_uint2x3_not_equal_to(self, o);
+	}
+	bool _approximately_equal(stdmath_uint2x3* o) {
+		return stdmath_uint2x3_approximately_equal(self, o);
 	}
 
 #if 2 == 3

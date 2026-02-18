@@ -20,7 +20,7 @@ namespace stdmath {
 		T value;
 
 		template<std::convertible_to<T> To>
-		basic_radian(To value = T(0)) : value(value) {}
+		basic_radian(To value) : value(value) {}
 		basic_radian(const basic_radian&) = default;
 		basic_radian(basic_radian&&) = default;
 		basic_radian() : value(0) {}
@@ -91,9 +91,10 @@ namespace stdmath {
 		T value;
 
 		template<std::convertible_to<T> To>
-		basic_degree(To value = T(0)) : value(value) {}
+		basic_degree(To value) : value(value) {}
 		basic_degree(const basic_degree&) = default;
 		basic_degree(basic_degree&&) = default;
+		basic_degree() : value(0) {}
 		template<typename To> basic_degree(const basic_degree<To>& other) : value(other.value) {}
 		template<typename To> basic_degree(const basic_radian<To> r) : value(T(r.value) * rad2deg<T>) {}
 
@@ -209,6 +210,15 @@ namespace stdmath {
 	export template<typename T>
 	constexpr basic_radian<T> atanh(T v) { return std::atanh(v); }
 
+
+	export template<typename T>
+	bool approximately_equal(basic_radian<T> a, basic_radian<T> b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
+		return std::fabsl(a.value - b.value) < epsilon;
+	}
+	export template<typename T>
+	bool approximately_equal(basic_degree<T> a, basic_degree<T> b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
+		return std::fabsl(a.value - b.value) < epsilon;
+	}
 
 
 	template<typename T>

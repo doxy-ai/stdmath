@@ -6,6 +6,7 @@ export module stdmath.vector;
 
 import std.compat;
 import stdmath.types;
+import stdmath.angle;
 import stdmath.simd;
 
 namespace stdmath {

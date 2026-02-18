@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_uint3x3 stdmath_uint3x3_multiply3(const stdmath_uint3x3* 
 STDMATH_EXPORT stdmath_uint3x4 stdmath_uint3x3_multiply4(const stdmath_uint3x3* a, const stdmath_uint3x4* b);
 STDMATH_EXPORT stdmath_uint3 stdmath_uint3x3_multiply(const stdmath_uint3x3* m, stdmath_uint3 v);
 
+STDMATH_EXPORT bool stdmath_uint3x3_equal_to(const stdmath_uint3x3* a, const stdmath_uint3x3* b);
+STDMATH_EXPORT bool stdmath_uint3x3_not_equal_to(const stdmath_uint3x3* a, const stdmath_uint3x3* b);
+STDMATH_EXPORT bool stdmath_uint3x3_approximately_equal(stdmath_uint3x3* a, stdmath_uint3x3* b);
+
 #if 3 == 3
 STDMATH_EXPORT stdmath_uint3x3 stdmath_uint3x3_scale(const stdmath_uint3x3* m, uint32_t s);
 STDMATH_EXPORT stdmath_uint3x3 stdmath_uint3x3_inverse(const stdmath_uint3x3* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_uint3x3 stdmath_uint3x3_identity_scaled(uint32_t scale) {
-	return c(stdmath::uint3x3::identity((stdmath::uint3x3::underlying_type)scale));
+	return c(stdmath::uint3x3::identity((stdmath::uint3x3::underlying_type&)scale));
 }
 stdmath_uint3x3 stdmath_uint3x3_identity() {
 	return c(stdmath::uint3x3::identity());
 }
 stdmath_uint3x3 stdmath_uint3x3_fill(uint32_t value) {
-	return c(stdmath::uint3x3::fill((stdmath::uint3x3::underlying_type)value));
+	return c(stdmath::uint3x3::fill((stdmath::uint3x3::underlying_type&)value));
 }
 
 size_t stdmath_uint3x3_rows(const stdmath_uint3x3* m) {
@@ -109,11 +113,11 @@ size_t stdmath_uint3x3_size(const stdmath_uint3x3* m) {
 }
 
 uint32_t stdmath_uint3x3_get_element(const stdmath_uint3x3* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (uint32_t&)c(*m)[x, y];
 }
 stdmath_uint3x3 stdmath_uint3x3_set_element(const stdmath_uint3x3* m, size_t x, size_t y, uint32_t value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::uint3x3::underlying_type)value;
+	out[x, y] = (stdmath::uint3x3::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_uint3 stdmath_uint3x3_multiply(const stdmath_uint3x3* m, stdmath_uint3 v
 	return c(stdmath::uint3x3::multiply(c(*m), c(v)));
 }
 
+bool stdmath_uint3x3_equal_to(const stdmath_uint3x3* a, const stdmath_uint3x3* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_uint3x3_not_equal_to(const stdmath_uint3x3* a, const stdmath_uint3x3* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_uint3x3_approximately_equal(stdmath_uint3x3* a, stdmath_uint3x3* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 3 == 3
 stdmath_uint3x3 stdmath_uint3x3_scale(const stdmath_uint3x3* m, uint32_t s) {
-	return c(stdmath::uint3x3::multiply(c(*m), (stdmath::uint3x3::underlying_type)s));
+	return c(stdmath::uint3x3::multiply(c(*m), (stdmath::uint3x3::underlying_type&)s));
 }
 stdmath_uint3x3 stdmath_uint3x3_inverse(const stdmath_uint3x3* m) {
 	return c(inverse(c(*m)));

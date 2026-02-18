@@ -3,8 +3,16 @@
 
 #ifndef STDMATH_MODULE
 #include <stdint.h>
+#include <assert.h>
 #endif
 #include "../maybe_export.h"
+
+#if false
+#include "radian.h"
+#endif
+#if false
+#include "degree.h"
+#endif
 
 #if !true
 #if 4 == 1
@@ -112,7 +120,7 @@ STDMATH_EXPORT bool stdmath_bool4_dot(stdmath_bool4 a, stdmath_bool4 b);
 STDMATH_EXPORT bool stdmath_bool4_min_element(stdmath_bool4 v);
 STDMATH_EXPORT bool stdmath_bool4_max_element(stdmath_bool4 v);
 
-STDMATH_EXPORT stdmath_bool4 stdmath_bool4_elementwise_transform(stdmath_bool4 v, bool(*func)(bool));
+// STDMATH_EXPORT stdmath_bool4 stdmath_bool4_elementwise_transform(stdmath_bool4 v, bool(*func)(bool));
 // STDMATH_EXPORT bool stdmath_bool4_reduce_elements(stdmath_bool4 v, bool initial_value, bool(*reducer)(stdmath_bool4, stdmath_bool4));
 
 #if 4 == 3
@@ -1183,7 +1191,7 @@ extern "C" {
 #endif
 
 stdmath_bool4 stdmath_bool4_broadcast(bool all) {
-	return c(stdmath::bool4((stdmath::bool4::underlying_type)all));
+	return c(stdmath::bool4((stdmath::bool4::underlying_type&)all));
 }
 
 stdmath_bool4 stdmath_bool4_add(stdmath_bool4 a, stdmath_bool4 b) {
@@ -1193,7 +1201,11 @@ stdmath_bool4 stdmath_bool4_subtract(stdmath_bool4 a, stdmath_bool4 b) {
 	return c(c(a) - c(b));
 }
 stdmath_bool4 stdmath_bool4_negate(stdmath_bool4 v) {
+#if !false && !false
 	return c(stdmath::bool4(-(stdmath::vector<bool, 4>)c(v)));
+#else
+	assert(false && "TODO: Why can't we use - on vector<degree/radian, N>?");
+#endif
 }
 stdmath_bool4 stdmath_bool4_multiply(stdmath_bool4 a, stdmath_bool4 b) {
 	return c(c(a) * c(b));
@@ -1202,7 +1214,7 @@ stdmath_bool4 stdmath_bool4_divide(stdmath_bool4 a, stdmath_bool4 b) {
 	return c(c(a) / c(b));
 }
 stdmath_bool4 stdmath_bool4_scale(stdmath_bool4 v, bool s) {
-	return c(c(v) * (stdmath::bool4::underlying_type)s);
+	return c(c(v) * (stdmath::bool4::underlying_type&)s);
 }
 
 #if false
@@ -1258,24 +1270,29 @@ stdmath_bool4 stdmath_bool4_greater_than_or_equal_to(stdmath_bool4 a, stdmath_bo
 }
 
 bool stdmath_bool4_length_squared(stdmath_bool4 v)  {
-	return (bool)c(v).length_squared();
+	auto out = c(v).length_squared();
+	return (bool&)out;
 }
 bool stdmath_bool4_length(stdmath_bool4 v)  {
-	return (bool)c(v).length();
+	auto out = c(v).length();
+	return (bool&)out;
 }
 bool stdmath_bool4_dot(stdmath_bool4 a, stdmath_bool4 b)  {
-	return (bool)dot(c(a), c(b));
+	auto out = dot(c(a), c(b));
+	return (bool&)out;
 }
 bool stdmath_bool4_min_element(stdmath_bool4 v)  {
-	return (bool)c(v).min_element();
+	auto out = c(v).min_element();
+	return (bool&)out;
 }
 bool stdmath_bool4_max_element(stdmath_bool4 v)  {
-	return (bool)c(v).max_element();
+	auto out = c(v).max_element();
+	return (bool&)out;
 }
 
-stdmath_bool4 stdmath_bool4_elementwise_transform(stdmath_bool4 v, bool(*func)(bool)) {
-	return c(c(v).elementwise_transform(func));
-}
+// stdmath_bool4 stdmath_bool4_elementwise_transform(stdmath_bool4 v, bool(*func)(bool)) {
+// 	return c(c(v).elementwise_transform(func));
+// }
 // bool stdmath_bool4_reduce_elements(stdmath_bool4 v, bool initial_value, bool(*reducer)(stdmath_bool4, stdmath_bool4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }

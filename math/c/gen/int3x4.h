@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_int3x3 stdmath_int3x4_multiply3(const stdmath_int3x4* a, 
 STDMATH_EXPORT stdmath_int3x4 stdmath_int3x4_multiply4(const stdmath_int3x4* a, const stdmath_int4x4* b);
 STDMATH_EXPORT stdmath_int4 stdmath_int3x4_multiply(const stdmath_int3x4* m, stdmath_int4 v);
 
+STDMATH_EXPORT bool stdmath_int3x4_equal_to(const stdmath_int3x4* a, const stdmath_int3x4* b);
+STDMATH_EXPORT bool stdmath_int3x4_not_equal_to(const stdmath_int3x4* a, const stdmath_int3x4* b);
+STDMATH_EXPORT bool stdmath_int3x4_approximately_equal(stdmath_int3x4* a, stdmath_int3x4* b);
+
 #if 3 == 4
 STDMATH_EXPORT stdmath_int3x3 stdmath_int3x3_scale(const stdmath_int3x3* m, int32_t s);
 STDMATH_EXPORT stdmath_int3x3 stdmath_int3x3_inverse(const stdmath_int3x3* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_int3x4 stdmath_int3x4_identity_scaled(int32_t scale) {
-	return c(stdmath::int3x4::identity((stdmath::int3x4::underlying_type)scale));
+	return c(stdmath::int3x4::identity((stdmath::int3x4::underlying_type&)scale));
 }
 stdmath_int3x4 stdmath_int3x4_identity() {
 	return c(stdmath::int3x4::identity());
 }
 stdmath_int3x4 stdmath_int3x4_fill(int32_t value) {
-	return c(stdmath::int3x4::fill((stdmath::int3x4::underlying_type)value));
+	return c(stdmath::int3x4::fill((stdmath::int3x4::underlying_type&)value));
 }
 
 size_t stdmath_int3x4_rows(const stdmath_int3x4* m) {
@@ -109,11 +113,11 @@ size_t stdmath_int3x4_size(const stdmath_int3x4* m) {
 }
 
 int32_t stdmath_int3x4_get_element(const stdmath_int3x4* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (int32_t&)c(*m)[x, y];
 }
 stdmath_int3x4 stdmath_int3x4_set_element(const stdmath_int3x4* m, size_t x, size_t y, int32_t value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::int3x4::underlying_type)value;
+	out[x, y] = (stdmath::int3x4::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_int4 stdmath_int3x4_multiply(const stdmath_int3x4* m, stdmath_int4 v) {
 	return c(stdmath::int3x4::multiply(c(*m), c(v)));
 }
 
+bool stdmath_int3x4_equal_to(const stdmath_int3x4* a, const stdmath_int3x4* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_int3x4_not_equal_to(const stdmath_int3x4* a, const stdmath_int3x4* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_int3x4_approximately_equal(stdmath_int3x4* a, stdmath_int3x4* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 3 == 4
 stdmath_int3x3 stdmath_int3x3_scale(const stdmath_int3x3* m, int32_t s) {
-	return c(stdmath::int3x3::multiply(c(*m), (stdmath::int3x3::underlying_type)s));
+	return c(stdmath::int3x3::multiply(c(*m), (stdmath::int3x3::underlying_type&)s));
 }
 stdmath_int3x3 stdmath_int3x3_inverse(const stdmath_int3x3* m) {
 	return c(inverse(c(*m)));

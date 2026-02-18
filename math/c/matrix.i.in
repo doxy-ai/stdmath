@@ -8,6 +8,7 @@
 %rename(inverse) _inverse;
 %rename(identity) _identity;
 %rename(fill) _fill;
+%rename(approximately_equal) _approximately_equal;
 
 %extend stdmath_{name}{X}x{Y} {
 
@@ -59,6 +60,16 @@
 	}
 	stdmath_{name}{Y} _multiply(stdmath_{name}{Y} v) {
 		return stdmath_{name}{X}x{Y}_multiply(self, v);
+	}
+
+	bool _equal_to(stdmath_{name}{X}x{Y}* o) {
+		return stdmath_{name}{X}x{Y}_equal_to(self, o);
+	}
+	bool _not_equal_to(stdmath_{name}{X}x{Y}* o) {
+		return stdmath_{name}{X}x{Y}_not_equal_to(self, o);
+	}
+	bool _approximately_equal(stdmath_{name}{X}x{Y}* o) {
+		return stdmath_{name}{X}x{Y}_approximately_equal(self, o);
 	}
 
 #if {X} == {Y}

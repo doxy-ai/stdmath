@@ -10,6 +10,7 @@ export module stdmath.matrix;
 
 import std.compat;
 import stdmath.simd;
+import stdmath.types;
 import stdmath.vector;
 
 namespace stdmath {
@@ -160,9 +161,21 @@ namespace stdmath {
 		operator std::span<T>() { return data; }
 		operator std::span<const T>() const { return data; }
 
+		static bool equal_to(const matrix& a, const matrix& b) {
+			std::span<const T> A = a;
+			std::span<const T> B = b;
+			for(size_t i = 0; i < A.size(); ++i)
+				if(A[i] != B[i])
+					return false;
+			return true;
+		}
+		static bool not_equal_to(const matrix& a, const matrix& b) {
+			return !equal_to(a, b);
+		}
+
 		#include "../partials/operators.partial"
-		// #define STDMATH_COMPARISON_BOOLEAN_TYPE bool
-		// #include "../partials/operators.comparison.partial"
+		#define STDMATH_COMPARISON_BOOLEAN_TYPE bool
+		#include "../partials/operators.comparison.partial"
 	};
 
 	export template<typename T, size_t X, size_t Y>
@@ -249,6 +262,16 @@ namespace stdmath {
 			}
 		}
 		return I;
+	}
+
+	export template<typename T, size_t X, size_t Y>
+	constexpr bool approximately_equal(const matrix<T, X, Y>& a, const matrix<T, X, Y>& b, f64 epsilon = std::numeric_limits<f32>::epsilon() * 100) {
+		std::span<const T> A = a;
+			std::span<const T> B = b;
+			for(size_t i = 0; i < A.size(); ++i)
+				if(!approximately_equal(A[i], B[i]))
+					return false;
+			return true;
 	}
 
 	export template<typename T, size_t X, size_t Y>

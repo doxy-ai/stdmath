@@ -1,0 +1,100 @@
+#define STDMATH_EXPORT
+#define STDMATH_INLINE
+%rename({name}) stdmath_{name};
+%include "{name}.h"
+
+%rename(wrap) _wrap;
+%rename(radian) _radian;
+%rename(degree) _degree;
+%rename(approximately_equal) _approximately_equal;
+
+%extend stdmath_{name} {
+	stdmath_{name} _add(stdmath_{name} o) {
+		return stdmath_{name}_add(*self, o);
+	}
+	stdmath_{name} _subtract(stdmath_{name} o) {
+		return stdmath_{name}_subtract(*self, o);
+	}
+	stdmath_{name} _multiply(stdmath_{name} o) {
+		return stdmath_{name}_multiply(*self, o);
+	}
+	stdmath_{name} _divide(stdmath_{name} o) {
+		return stdmath_{name}_divide(*self, o);
+	}
+	bool _equal_to(stdmath_{name} o) {
+		return stdmath_{name}_equal_to(*self, o);
+	}
+	bool _not_equal_to(stdmath_{name} o) {
+		return stdmath_{name}_not_equal_to(*self, o);
+	}
+	bool _less_than(stdmath_{name} o) {
+		return stdmath_{name}_less_than(*self, o);
+	}
+	bool _less_than_or_equal_to(stdmath_{name} o) {
+		return stdmath_{name}_less_than_or_equal_to(*self, o);
+	}
+	bool _greater_than(stdmath_{name} o) {
+		return stdmath_{name}_greater_than(*self, o);
+	}
+	bool _greater_than_or_equal_to(stdmath_{name} o) {
+		return stdmath_{name}_greater_than_or_equal_to(*self, o);
+	}
+
+	stdmath_{name} _negate() {
+		return stdmath_{name}_negate(*self);
+	}
+	stdmath_{name} _wrap() {
+		return stdmath_{name}_wrap(*self);
+	}
+	stdmath_radian _radian() {
+		return stdmath_{name}_radian(*self);
+	}
+	stdmath_degree _degree() {
+		return stdmath_{name}_degree(*self);
+	}
+
+	bool _approximately_equal(stdmath_{name} o) {
+		return stdmath_{name}_approximately_equal(*self, o);
+	}
+
+	float sin() {
+		return sin{name_first_letter}(*self);
+	}
+	float cos() {
+		return cos{name_first_letter}(*self);
+	}
+	float tan() {
+		return tan{name_first_letter}(*self);
+	}
+	static stdmath_{name} asin(float v) {
+		return asin{name_first_letter}(v);
+	}
+	static stdmath_{name} acos(float v) {
+		return acos{name_first_letter}(v);
+	}
+	static stdmath_{name} atan(float v) {
+		return atan{name_first_letter}(v);
+	}
+	static stdmath_{name} atan2(float y, float x) {
+		return atan2{name_first_letter}(y, x);
+	}
+	float sinh() {
+		return sinh{name_first_letter}(*self);
+	}
+	float cosh() {
+		return cosh{name_first_letter}(*self);
+	}
+	float tanh() {
+		return tanh{name_first_letter}(*self);
+	}
+	static stdmath_{name} asinh(float v) {
+		return asinh{name_first_letter}(v);
+	}
+	static stdmath_{name} acosh(float v) {
+		return acosh{name_first_letter}(v);
+	}
+	static stdmath_{name} atanh(float v) {
+		return atanh{name_first_letter}(v);
+	}
+}
+

@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_float4x3 stdmath_float4x2_multiply3(const stdmath_float4x
 STDMATH_EXPORT stdmath_float4x4 stdmath_float4x2_multiply4(const stdmath_float4x2* a, const stdmath_float2x4* b);
 STDMATH_EXPORT stdmath_float2 stdmath_float4x2_multiply(const stdmath_float4x2* m, stdmath_float2 v);
 
+STDMATH_EXPORT bool stdmath_float4x2_equal_to(const stdmath_float4x2* a, const stdmath_float4x2* b);
+STDMATH_EXPORT bool stdmath_float4x2_not_equal_to(const stdmath_float4x2* a, const stdmath_float4x2* b);
+STDMATH_EXPORT bool stdmath_float4x2_approximately_equal(stdmath_float4x2* a, stdmath_float4x2* b);
+
 #if 4 == 2
 STDMATH_EXPORT stdmath_float4x4 stdmath_float4x4_scale(const stdmath_float4x4* m, float s);
 STDMATH_EXPORT stdmath_float4x4 stdmath_float4x4_inverse(const stdmath_float4x4* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_float4x2 stdmath_float4x2_identity_scaled(float scale) {
-	return c(stdmath::float4x2::identity((stdmath::float4x2::underlying_type)scale));
+	return c(stdmath::float4x2::identity((stdmath::float4x2::underlying_type&)scale));
 }
 stdmath_float4x2 stdmath_float4x2_identity() {
 	return c(stdmath::float4x2::identity());
 }
 stdmath_float4x2 stdmath_float4x2_fill(float value) {
-	return c(stdmath::float4x2::fill((stdmath::float4x2::underlying_type)value));
+	return c(stdmath::float4x2::fill((stdmath::float4x2::underlying_type&)value));
 }
 
 size_t stdmath_float4x2_rows(const stdmath_float4x2* m) {
@@ -109,11 +113,11 @@ size_t stdmath_float4x2_size(const stdmath_float4x2* m) {
 }
 
 float stdmath_float4x2_get_element(const stdmath_float4x2* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (float&)c(*m)[x, y];
 }
 stdmath_float4x2 stdmath_float4x2_set_element(const stdmath_float4x2* m, size_t x, size_t y, float value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::float4x2::underlying_type)value;
+	out[x, y] = (stdmath::float4x2::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_float2 stdmath_float4x2_multiply(const stdmath_float4x2* m, stdmath_floa
 	return c(stdmath::float4x2::multiply(c(*m), c(v)));
 }
 
+bool stdmath_float4x2_equal_to(const stdmath_float4x2* a, const stdmath_float4x2* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_float4x2_not_equal_to(const stdmath_float4x2* a, const stdmath_float4x2* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_float4x2_approximately_equal(stdmath_float4x2* a, stdmath_float4x2* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 4 == 2
 stdmath_float4x4 stdmath_float4x4_scale(const stdmath_float4x4* m, float s) {
-	return c(stdmath::float4x4::multiply(c(*m), (stdmath::float4x4::underlying_type)s));
+	return c(stdmath::float4x4::multiply(c(*m), (stdmath::float4x4::underlying_type&)s));
 }
 stdmath_float4x4 stdmath_float4x4_inverse(const stdmath_float4x4* m) {
 	return c(inverse(c(*m)));

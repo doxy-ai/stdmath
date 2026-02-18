@@ -3,8 +3,16 @@
 
 #ifndef STDMATH_MODULE
 #include <stdint.h>
+#include <assert.h>
 #endif
 #include "../maybe_export.h"
+
+#if false
+#include "radian.h"
+#endif
+#if false
+#include "degree.h"
+#endif
 
 #if !false
 #if 1 == 1
@@ -112,7 +120,7 @@ STDMATH_EXPORT double stdmath_double1_dot(stdmath_double1 a, stdmath_double1 b);
 STDMATH_EXPORT double stdmath_double1_min_element(stdmath_double1 v);
 STDMATH_EXPORT double stdmath_double1_max_element(stdmath_double1 v);
 
-STDMATH_EXPORT stdmath_double1 stdmath_double1_elementwise_transform(stdmath_double1 v, double(*func)(double));
+// STDMATH_EXPORT stdmath_double1 stdmath_double1_elementwise_transform(stdmath_double1 v, double(*func)(double));
 // STDMATH_EXPORT double stdmath_double1_reduce_elements(stdmath_double1 v, double initial_value, double(*reducer)(stdmath_double1, stdmath_double1));
 
 #if 1 == 3
@@ -166,7 +174,7 @@ extern "C" {
 #endif
 
 stdmath_double1 stdmath_double1_broadcast(double all) {
-	return c(stdmath::double1((stdmath::double1::underlying_type)all));
+	return c(stdmath::double1((stdmath::double1::underlying_type&)all));
 }
 
 stdmath_double1 stdmath_double1_add(stdmath_double1 a, stdmath_double1 b) {
@@ -176,7 +184,11 @@ stdmath_double1 stdmath_double1_subtract(stdmath_double1 a, stdmath_double1 b) {
 	return c(c(a) - c(b));
 }
 stdmath_double1 stdmath_double1_negate(stdmath_double1 v) {
+#if !false && !false
 	return c(stdmath::double1(-(stdmath::vector<double, 1>)c(v)));
+#else
+	assert(false && "TODO: Why can't we use - on vector<degree/radian, N>?");
+#endif
 }
 stdmath_double1 stdmath_double1_multiply(stdmath_double1 a, stdmath_double1 b) {
 	return c(c(a) * c(b));
@@ -185,7 +197,7 @@ stdmath_double1 stdmath_double1_divide(stdmath_double1 a, stdmath_double1 b) {
 	return c(c(a) / c(b));
 }
 stdmath_double1 stdmath_double1_scale(stdmath_double1 v, double s) {
-	return c(c(v) * (stdmath::double1::underlying_type)s);
+	return c(c(v) * (stdmath::double1::underlying_type&)s);
 }
 
 #if false
@@ -241,24 +253,29 @@ stdmath_bool1 stdmath_double1_greater_than_or_equal_to(stdmath_double1 a, stdmat
 }
 
 double stdmath_double1_length_squared(stdmath_double1 v)  {
-	return (double)c(v).length_squared();
+	auto out = c(v).length_squared();
+	return (double&)out;
 }
 double stdmath_double1_length(stdmath_double1 v)  {
-	return (double)c(v).length();
+	auto out = c(v).length();
+	return (double&)out;
 }
 double stdmath_double1_dot(stdmath_double1 a, stdmath_double1 b)  {
-	return (double)dot(c(a), c(b));
+	auto out = dot(c(a), c(b));
+	return (double&)out;
 }
 double stdmath_double1_min_element(stdmath_double1 v)  {
-	return (double)c(v).min_element();
+	auto out = c(v).min_element();
+	return (double&)out;
 }
 double stdmath_double1_max_element(stdmath_double1 v)  {
-	return (double)c(v).max_element();
+	auto out = c(v).max_element();
+	return (double&)out;
 }
 
-stdmath_double1 stdmath_double1_elementwise_transform(stdmath_double1 v, double(*func)(double)) {
-	return c(c(v).elementwise_transform(func));
-}
+// stdmath_double1 stdmath_double1_elementwise_transform(stdmath_double1 v, double(*func)(double)) {
+// 	return c(c(v).elementwise_transform(func));
+// }
 // double stdmath_double1_reduce_elements(stdmath_double1 v, double initial_value, double(*reducer)(stdmath_double1, stdmath_double1)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }

@@ -3,8 +3,16 @@
 
 #ifndef STDMATH_MODULE
 #include <stdint.h>
+#include <assert.h>
 #endif
 #include "../maybe_export.h"
+
+#if false
+#include "radian.h"
+#endif
+#if false
+#include "degree.h"
+#endif
 
 #if !false
 #if 1 == 1
@@ -112,7 +120,7 @@ STDMATH_EXPORT float stdmath_float1_dot(stdmath_float1 a, stdmath_float1 b);
 STDMATH_EXPORT float stdmath_float1_min_element(stdmath_float1 v);
 STDMATH_EXPORT float stdmath_float1_max_element(stdmath_float1 v);
 
-STDMATH_EXPORT stdmath_float1 stdmath_float1_elementwise_transform(stdmath_float1 v, float(*func)(float));
+// STDMATH_EXPORT stdmath_float1 stdmath_float1_elementwise_transform(stdmath_float1 v, float(*func)(float));
 // STDMATH_EXPORT float stdmath_float1_reduce_elements(stdmath_float1 v, float initial_value, float(*reducer)(stdmath_float1, stdmath_float1));
 
 #if 1 == 3
@@ -166,7 +174,7 @@ extern "C" {
 #endif
 
 stdmath_float1 stdmath_float1_broadcast(float all) {
-	return c(stdmath::float1((stdmath::float1::underlying_type)all));
+	return c(stdmath::float1((stdmath::float1::underlying_type&)all));
 }
 
 stdmath_float1 stdmath_float1_add(stdmath_float1 a, stdmath_float1 b) {
@@ -176,7 +184,11 @@ stdmath_float1 stdmath_float1_subtract(stdmath_float1 a, stdmath_float1 b) {
 	return c(c(a) - c(b));
 }
 stdmath_float1 stdmath_float1_negate(stdmath_float1 v) {
+#if !false && !false
 	return c(stdmath::float1(-(stdmath::vector<float, 1>)c(v)));
+#else
+	assert(false && "TODO: Why can't we use - on vector<degree/radian, N>?");
+#endif
 }
 stdmath_float1 stdmath_float1_multiply(stdmath_float1 a, stdmath_float1 b) {
 	return c(c(a) * c(b));
@@ -185,7 +197,7 @@ stdmath_float1 stdmath_float1_divide(stdmath_float1 a, stdmath_float1 b) {
 	return c(c(a) / c(b));
 }
 stdmath_float1 stdmath_float1_scale(stdmath_float1 v, float s) {
-	return c(c(v) * (stdmath::float1::underlying_type)s);
+	return c(c(v) * (stdmath::float1::underlying_type&)s);
 }
 
 #if false
@@ -241,24 +253,29 @@ stdmath_bool1 stdmath_float1_greater_than_or_equal_to(stdmath_float1 a, stdmath_
 }
 
 float stdmath_float1_length_squared(stdmath_float1 v)  {
-	return (float)c(v).length_squared();
+	auto out = c(v).length_squared();
+	return (float&)out;
 }
 float stdmath_float1_length(stdmath_float1 v)  {
-	return (float)c(v).length();
+	auto out = c(v).length();
+	return (float&)out;
 }
 float stdmath_float1_dot(stdmath_float1 a, stdmath_float1 b)  {
-	return (float)dot(c(a), c(b));
+	auto out = dot(c(a), c(b));
+	return (float&)out;
 }
 float stdmath_float1_min_element(stdmath_float1 v)  {
-	return (float)c(v).min_element();
+	auto out = c(v).min_element();
+	return (float&)out;
 }
 float stdmath_float1_max_element(stdmath_float1 v)  {
-	return (float)c(v).max_element();
+	auto out = c(v).max_element();
+	return (float&)out;
 }
 
-stdmath_float1 stdmath_float1_elementwise_transform(stdmath_float1 v, float(*func)(float)) {
-	return c(c(v).elementwise_transform(func));
-}
+// stdmath_float1 stdmath_float1_elementwise_transform(stdmath_float1 v, float(*func)(float)) {
+// 	return c(c(v).elementwise_transform(func));
+// }
 // float stdmath_float1_reduce_elements(stdmath_float1 v, float initial_value, float(*reducer)(stdmath_float1, stdmath_float1)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }

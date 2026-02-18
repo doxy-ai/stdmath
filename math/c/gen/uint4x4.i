@@ -8,6 +8,7 @@
 %rename(inverse) _inverse;
 %rename(identity) _identity;
 %rename(fill) _fill;
+%rename(approximately_equal) _approximately_equal;
 
 %extend stdmath_uint4x4 {
 
@@ -59,6 +60,16 @@
 	}
 	stdmath_uint4 _multiply(stdmath_uint4 v) {
 		return stdmath_uint4x4_multiply(self, v);
+	}
+
+	bool _equal_to(stdmath_uint4x4* o) {
+		return stdmath_uint4x4_equal_to(self, o);
+	}
+	bool _not_equal_to(stdmath_uint4x4* o) {
+		return stdmath_uint4x4_not_equal_to(self, o);
+	}
+	bool _approximately_equal(stdmath_uint4x4* o) {
+		return stdmath_uint4x4_approximately_equal(self, o);
 	}
 
 #if 4 == 4

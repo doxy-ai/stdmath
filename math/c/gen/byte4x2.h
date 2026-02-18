@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_byte4x3 stdmath_byte4x2_multiply3(const stdmath_byte4x2* 
 STDMATH_EXPORT stdmath_byte4x4 stdmath_byte4x2_multiply4(const stdmath_byte4x2* a, const stdmath_byte2x4* b);
 STDMATH_EXPORT stdmath_byte2 stdmath_byte4x2_multiply(const stdmath_byte4x2* m, stdmath_byte2 v);
 
+STDMATH_EXPORT bool stdmath_byte4x2_equal_to(const stdmath_byte4x2* a, const stdmath_byte4x2* b);
+STDMATH_EXPORT bool stdmath_byte4x2_not_equal_to(const stdmath_byte4x2* a, const stdmath_byte4x2* b);
+STDMATH_EXPORT bool stdmath_byte4x2_approximately_equal(stdmath_byte4x2* a, stdmath_byte4x2* b);
+
 #if 4 == 2
 STDMATH_EXPORT stdmath_byte4x4 stdmath_byte4x4_scale(const stdmath_byte4x4* m, uint8_t s);
 STDMATH_EXPORT stdmath_byte4x4 stdmath_byte4x4_inverse(const stdmath_byte4x4* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_byte4x2 stdmath_byte4x2_identity_scaled(uint8_t scale) {
-	return c(stdmath::byte4x2::identity((stdmath::byte4x2::underlying_type)scale));
+	return c(stdmath::byte4x2::identity((stdmath::byte4x2::underlying_type&)scale));
 }
 stdmath_byte4x2 stdmath_byte4x2_identity() {
 	return c(stdmath::byte4x2::identity());
 }
 stdmath_byte4x2 stdmath_byte4x2_fill(uint8_t value) {
-	return c(stdmath::byte4x2::fill((stdmath::byte4x2::underlying_type)value));
+	return c(stdmath::byte4x2::fill((stdmath::byte4x2::underlying_type&)value));
 }
 
 size_t stdmath_byte4x2_rows(const stdmath_byte4x2* m) {
@@ -109,11 +113,11 @@ size_t stdmath_byte4x2_size(const stdmath_byte4x2* m) {
 }
 
 uint8_t stdmath_byte4x2_get_element(const stdmath_byte4x2* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (uint8_t&)c(*m)[x, y];
 }
 stdmath_byte4x2 stdmath_byte4x2_set_element(const stdmath_byte4x2* m, size_t x, size_t y, uint8_t value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::byte4x2::underlying_type)value;
+	out[x, y] = (stdmath::byte4x2::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_byte2 stdmath_byte4x2_multiply(const stdmath_byte4x2* m, stdmath_byte2 v
 	return c(stdmath::byte4x2::multiply(c(*m), c(v)));
 }
 
+bool stdmath_byte4x2_equal_to(const stdmath_byte4x2* a, const stdmath_byte4x2* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_byte4x2_not_equal_to(const stdmath_byte4x2* a, const stdmath_byte4x2* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_byte4x2_approximately_equal(stdmath_byte4x2* a, stdmath_byte4x2* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 4 == 2
 stdmath_byte4x4 stdmath_byte4x4_scale(const stdmath_byte4x4* m, uint8_t s) {
-	return c(stdmath::byte4x4::multiply(c(*m), (stdmath::byte4x4::underlying_type)s));
+	return c(stdmath::byte4x4::multiply(c(*m), (stdmath::byte4x4::underlying_type&)s));
 }
 stdmath_byte4x4 stdmath_byte4x4_inverse(const stdmath_byte4x4* m) {
 	return c(inverse(c(*m)));

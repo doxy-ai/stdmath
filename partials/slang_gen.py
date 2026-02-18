@@ -5,6 +5,8 @@ scalar_types = [
 	"float",
 	"double",
 	"byte",
+	"radian",
+	"degree"
 ]
 
 int_types = [

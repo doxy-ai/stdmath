@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_double2x3 stdmath_double2x4_multiply3(const stdmath_doubl
 STDMATH_EXPORT stdmath_double2x4 stdmath_double2x4_multiply4(const stdmath_double2x4* a, const stdmath_double4x4* b);
 STDMATH_EXPORT stdmath_double4 stdmath_double2x4_multiply(const stdmath_double2x4* m, stdmath_double4 v);
 
+STDMATH_EXPORT bool stdmath_double2x4_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b);
+STDMATH_EXPORT bool stdmath_double2x4_not_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b);
+STDMATH_EXPORT bool stdmath_double2x4_approximately_equal(stdmath_double2x4* a, stdmath_double2x4* b);
+
 #if 2 == 4
 STDMATH_EXPORT stdmath_double2x2 stdmath_double2x2_scale(const stdmath_double2x2* m, double s);
 STDMATH_EXPORT stdmath_double2x2 stdmath_double2x2_inverse(const stdmath_double2x2* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_double2x4 stdmath_double2x4_identity_scaled(double scale) {
-	return c(stdmath::double2x4::identity((stdmath::double2x4::underlying_type)scale));
+	return c(stdmath::double2x4::identity((stdmath::double2x4::underlying_type&)scale));
 }
 stdmath_double2x4 stdmath_double2x4_identity() {
 	return c(stdmath::double2x4::identity());
 }
 stdmath_double2x4 stdmath_double2x4_fill(double value) {
-	return c(stdmath::double2x4::fill((stdmath::double2x4::underlying_type)value));
+	return c(stdmath::double2x4::fill((stdmath::double2x4::underlying_type&)value));
 }
 
 size_t stdmath_double2x4_rows(const stdmath_double2x4* m) {
@@ -109,11 +113,11 @@ size_t stdmath_double2x4_size(const stdmath_double2x4* m) {
 }
 
 double stdmath_double2x4_get_element(const stdmath_double2x4* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (double&)c(*m)[x, y];
 }
 stdmath_double2x4 stdmath_double2x4_set_element(const stdmath_double2x4* m, size_t x, size_t y, double value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::double2x4::underlying_type)value;
+	out[x, y] = (stdmath::double2x4::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_double4 stdmath_double2x4_multiply(const stdmath_double2x4* m, stdmath_d
 	return c(stdmath::double2x4::multiply(c(*m), c(v)));
 }
 
+bool stdmath_double2x4_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_double2x4_not_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_double2x4_approximately_equal(stdmath_double2x4* a, stdmath_double2x4* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 2 == 4
 stdmath_double2x2 stdmath_double2x2_scale(const stdmath_double2x2* m, double s) {
-	return c(stdmath::double2x2::multiply(c(*m), (stdmath::double2x2::underlying_type)s));
+	return c(stdmath::double2x2::multiply(c(*m), (stdmath::double2x2::underlying_type&)s));
 }
 stdmath_double2x2 stdmath_double2x2_inverse(const stdmath_double2x2* m) {
 	return c(inverse(c(*m)));

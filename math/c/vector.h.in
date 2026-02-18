@@ -3,8 +3,16 @@
 
 #ifndef STDMATH_MODULE
 #include <stdint.h>
+#include <assert.h>
 #endif
 #include "../maybe_export.h"
+
+#if {is_radian}
+#include "radian.h"
+#endif
+#if {is_degree}
+#include "degree.h"
+#endif
 
 #if !{is_bool}
 #if {N} == 1
@@ -112,7 +120,7 @@ STDMATH_EXPORT {type} stdmath_{name}{N}_dot(stdmath_{name}{N} a, stdmath_{name}{
 STDMATH_EXPORT {type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v);
 STDMATH_EXPORT {type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v);
 
-STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type}));
+// STDMATH_EXPORT stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type}));
 // STDMATH_EXPORT {type} stdmath_{name}{N}_reduce_elements(stdmath_{name}{N} v, {type} initial_value, {type}(*reducer)(stdmath_{name}{N}, stdmath_{name}{N}));
 
 #if {N} == 3
@@ -163,7 +171,7 @@ extern "C" {
 #endif
 
 stdmath_{name}{N} stdmath_{name}{N}_broadcast({type} all) {
-	return c(stdmath::{name}{N}((stdmath::{name}{N}::underlying_type)all));
+	return c(stdmath::{name}{N}((stdmath::{name}{N}::underlying_type&)all));
 }
 
 stdmath_{name}{N} stdmath_{name}{N}_add(stdmath_{name}{N} a, stdmath_{name}{N} b) {
@@ -173,7 +181,11 @@ stdmath_{name}{N} stdmath_{name}{N}_subtract(stdmath_{name}{N} a, stdmath_{name}
 	return c(c(a) - c(b));
 }
 stdmath_{name}{N} stdmath_{name}{N}_negate(stdmath_{name}{N} v) {
+#if !{is_radian} && !{is_degree}
 	return c(stdmath::{name}{N}(-(stdmath::vector<{type}, {N}>)c(v)));
+#else
+	assert(false && "TODO: Why can't we use - on vector<degree/radian, N>?");
+#endif
 }
 stdmath_{name}{N} stdmath_{name}{N}_multiply(stdmath_{name}{N} a, stdmath_{name}{N} b) {
 	return c(c(a) * c(b));
@@ -182,7 +194,7 @@ stdmath_{name}{N} stdmath_{name}{N}_divide(stdmath_{name}{N} a, stdmath_{name}{N
 	return c(c(a) / c(b));
 }
 stdmath_{name}{N} stdmath_{name}{N}_scale(stdmath_{name}{N} v, {type} s) {
-	return c(c(v) * (stdmath::{name}{N}::underlying_type)s);
+	return c(c(v) * (stdmath::{name}{N}::underlying_type&)s);
 }
 
 #if {is_int}
@@ -238,24 +250,29 @@ stdmath_bool{N} stdmath_{name}{N}_greater_than_or_equal_to(stdmath_{name}{N} a, 
 }
 
 {type} stdmath_{name}{N}_length_squared(stdmath_{name}{N} v)  {
-	return ({type})c(v).length_squared();
+	auto out = c(v).length_squared();
+	return ({type}&)out;
 }
 {type} stdmath_{name}{N}_length(stdmath_{name}{N} v)  {
-	return ({type})c(v).length();
+	auto out = c(v).length();
+	return ({type}&)out;
 }
 {type} stdmath_{name}{N}_dot(stdmath_{name}{N} a, stdmath_{name}{N} b)  {
-	return ({type})dot(c(a), c(b));
+	auto out = dot(c(a), c(b));
+	return ({type}&)out;
 }
 {type} stdmath_{name}{N}_min_element(stdmath_{name}{N} v)  {
-	return ({type})c(v).min_element();
+	auto out = c(v).min_element();
+	return ({type}&)out;
 }
 {type} stdmath_{name}{N}_max_element(stdmath_{name}{N} v)  {
-	return ({type})c(v).max_element();
+	auto out = c(v).max_element();
+	return ({type}&)out;
 }
 
-stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type})) {
-	return c(c(v).elementwise_transform(func));
-}
+// stdmath_{name}{N} stdmath_{name}{N}_elementwise_transform(stdmath_{name}{N} v, {type}(*func)({type})) {
+// 	return c(c(v).elementwise_transform(func));
+// }
 // {type} stdmath_{name}{N}_reduce_elements(stdmath_{name}{N} v, {type} initial_value, {type}(*reducer)(stdmath_{name}{N}, stdmath_{name}{N})) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }

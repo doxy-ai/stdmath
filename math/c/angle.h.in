@@ -1,0 +1,179 @@
+#ifndef __STDMATH_{name}_H__
+#define __STDMATH_{name}_H__
+
+#include "../util.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+STDMATH_EXPORT struct stdmath_{name} {
+	real_t value;
+
+// #ifdef __cplusplus
+// 	stdmath_{name}() = default;
+// 	stdmath_{name}(float value) : value(value) {}
+// 	stdmath_{name}(const stdmath_{name}&) = default;
+// 	stdmath_{name}(stdmath_{name}&&) = default;
+// 	stdmath_{name}& operator=(const stdmath_{name}&) = default;
+// 	stdmath_{name}& operator=(stdmath_{name}&&) = default;
+// #endif
+};
+
+STDMATH_EXPORT stdmath_{name} stdmath_{name}_add(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT stdmath_{name} stdmath_{name}_subtract(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT stdmath_{name} stdmath_{name}_multiply(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT stdmath_{name} stdmath_{name}_divide(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT bool stdmath_{name}_equal_to(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT bool stdmath_{name}_not_equal_to(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT bool stdmath_{name}_less_than(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT bool stdmath_{name}_less_than_or_equal_to(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT bool stdmath_{name}_greater_than(stdmath_{name} a, stdmath_{name} b);
+STDMATH_EXPORT bool stdmath_{name}_greater_than_or_equal_to(stdmath_{name} a, stdmath_{name} b);
+
+STDMATH_EXPORT stdmath_{name} stdmath_{name}_negate(stdmath_{name} a);
+STDMATH_EXPORT stdmath_{name} stdmath_{name}_wrap(stdmath_{name} a);
+STDMATH_EXPORT struct stdmath_radian stdmath_{name}_radian(stdmath_{name} a);
+STDMATH_EXPORT struct stdmath_degree stdmath_{name}_degree(stdmath_{name} a);
+
+STDMATH_EXPORT bool stdmath_{name}_approximately_equal(stdmath_{name} a, stdmath_{name} b);
+
+STDMATH_EXPORT float sin{name_first_letter}(stdmath_{name} a);
+STDMATH_EXPORT float cos{name_first_letter}(stdmath_{name} a);
+STDMATH_EXPORT float tan{name_first_letter}(stdmath_{name} a);
+STDMATH_EXPORT stdmath_{name} asin{name_first_letter}(float a);
+STDMATH_EXPORT stdmath_{name} acos{name_first_letter}(float a);
+STDMATH_EXPORT stdmath_{name} atan{name_first_letter}(float a);
+STDMATH_EXPORT stdmath_{name} atan2{name_first_letter}(float y, float x);
+STDMATH_EXPORT float sinh{name_first_letter}(stdmath_{name} a);
+STDMATH_EXPORT float cosh{name_first_letter}(stdmath_{name} a);
+STDMATH_EXPORT float tanh{name_first_letter}(stdmath_{name} a);
+STDMATH_EXPORT stdmath_{name} asinh{name_first_letter}(float a);
+STDMATH_EXPORT stdmath_{name} acosh{name_first_letter}(float a);
+STDMATH_EXPORT stdmath_{name} atanh{name_first_letter}(float a);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#ifdef STDMATH_IMPLEMENTATION
+#ifndef __cplusplus
+#error "The stdmath implementations require a C++ compiler"
+#endif
+
+#ifndef STDMATH_MODULE
+import stdmath.slang;
+#endif
+
+#if {is_radian}
+#include "degree.h"
+#else
+#include "radian.h"
+#endif
+
+inline stdmath::{name} c(stdmath_{name} c) {
+	return (stdmath::{name}&)c;
+}
+inline stdmath_{name} c(stdmath::{name} c) {
+	return (stdmath_{name}&)c;
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+stdmath_{name} stdmath_{name}_add(stdmath_{name} a, stdmath_{name} b) {
+	return c(c(a) + c(b));
+}
+stdmath_{name} stdmath_{name}_subtract(stdmath_{name} a, stdmath_{name} b) {
+	return c(c(a) - c(b));
+}
+stdmath_{name} stdmath_{name}_multiply(stdmath_{name} a, stdmath_{name} b) {
+	return c(c(a) * c(b));
+}
+stdmath_{name} stdmath_{name}_divide(stdmath_{name} a, stdmath_{name} b) {
+	return c(c(a) / c(b));
+}
+bool stdmath_{name}_equal_to(stdmath_{name} a, stdmath_{name} b) {
+	return c(a) == c(b);
+}
+bool stdmath_{name}_not_equal_to(stdmath_{name} a, stdmath_{name} b) {
+	return c(a) != c(b);
+}
+bool stdmath_{name}_less_than(stdmath_{name} a, stdmath_{name} b) {
+	return c(a) < c(b);
+}
+bool stdmath_{name}_less_than_or_equal_to(stdmath_{name} a, stdmath_{name} b) {
+	return c(a) <= c(b);
+}
+bool stdmath_{name}_greater_than(stdmath_{name} a, stdmath_{name} b) {
+	return c(a) > c(b);
+}
+bool stdmath_{name}_greater_than_or_equal_to(stdmath_{name} a, stdmath_{name} b) {
+	return c(a) >= c(b);
+}
+
+stdmath_{name} stdmath_{name}_negate(stdmath_{name} a) {
+	return c(-c(a));
+}
+stdmath_{name} stdmath_{name}_wrap(stdmath_{name} a) {
+	return c(angle_wrap(c(a)));
+}
+stdmath_radian stdmath_{name}_radian(stdmath_{name} a) {
+	return {c(a).radian()};
+}
+stdmath_degree stdmath_{name}_degree(stdmath_{name} a) {
+	return {c(a).degree()};
+}
+
+bool stdmath_{name}_approximately_equal(stdmath_{name} a, stdmath_{name} b) {
+	return stdmath::approximately_equal(c(a), c(b));
+}
+
+float sin{name_first_letter}(stdmath_{name} a) {
+	return stdmath::sin<float>(c(a));
+}
+float cos{name_first_letter}(stdmath_{name} a) {
+	return stdmath::cos<float>(c(a));
+}
+float tan{name_first_letter}(stdmath_{name} a) {
+	return stdmath::tan<float>(c(a));
+}
+stdmath_{name} asin{name_first_letter}(float a) {
+	return c(stdmath::{name}(stdmath::asin(a)));
+}
+stdmath_{name} acos{name_first_letter}(float a) {
+	return c(stdmath::{name}(stdmath::acos(a)));
+}
+stdmath_{name} atan{name_first_letter}(float a) {
+	return c(stdmath::{name}(stdmath::atan(a)));
+}
+stdmath_{name} atan2{name_first_letter}(float y, float x) {
+	return c(stdmath::{name}(stdmath::atan2(y, x)));
+}
+float sinh{name_first_letter}(stdmath_{name} a) {
+	return stdmath::sinh<float>(c(a));
+}
+float cosh{name_first_letter}(stdmath_{name} a) {
+	return stdmath::cosh<float>(c(a));
+}
+float tanh{name_first_letter}(stdmath_{name} a) {
+	return stdmath::tanh<float>(c(a));
+}
+stdmath_{name} asinh{name_first_letter}(float a) {
+	return c(stdmath::{name}(stdmath::asinh(a)));
+}
+stdmath_{name} acosh{name_first_letter}(float a) {
+	return c(stdmath::{name}(stdmath::acosh(a)));
+}
+stdmath_{name} atanh{name_first_letter}(float a) {
+	return c(stdmath::{name}(stdmath::atanh(a)));
+}
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#endif // STDMATH_IMPLEMENTATION
+
+#endif // __STDMATH_stdmath_{name}_H__

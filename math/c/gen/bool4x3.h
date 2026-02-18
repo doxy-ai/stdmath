@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_bool4x3 stdmath_bool4x3_multiply3(const stdmath_bool4x3* 
 STDMATH_EXPORT stdmath_bool4x4 stdmath_bool4x3_multiply4(const stdmath_bool4x3* a, const stdmath_bool3x4* b);
 STDMATH_EXPORT stdmath_bool3 stdmath_bool4x3_multiply(const stdmath_bool4x3* m, stdmath_bool3 v);
 
+STDMATH_EXPORT bool stdmath_bool4x3_equal_to(const stdmath_bool4x3* a, const stdmath_bool4x3* b);
+STDMATH_EXPORT bool stdmath_bool4x3_not_equal_to(const stdmath_bool4x3* a, const stdmath_bool4x3* b);
+STDMATH_EXPORT bool stdmath_bool4x3_approximately_equal(stdmath_bool4x3* a, stdmath_bool4x3* b);
+
 #if 4 == 3
 STDMATH_EXPORT stdmath_bool4x4 stdmath_bool4x4_scale(const stdmath_bool4x4* m, bool s);
 STDMATH_EXPORT stdmath_bool4x4 stdmath_bool4x4_inverse(const stdmath_bool4x4* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_bool4x3 stdmath_bool4x3_identity_scaled(bool scale) {
-	return c(stdmath::bool4x3::identity((stdmath::bool4x3::underlying_type)scale));
+	return c(stdmath::bool4x3::identity((stdmath::bool4x3::underlying_type&)scale));
 }
 stdmath_bool4x3 stdmath_bool4x3_identity() {
 	return c(stdmath::bool4x3::identity());
 }
 stdmath_bool4x3 stdmath_bool4x3_fill(bool value) {
-	return c(stdmath::bool4x3::fill((stdmath::bool4x3::underlying_type)value));
+	return c(stdmath::bool4x3::fill((stdmath::bool4x3::underlying_type&)value));
 }
 
 size_t stdmath_bool4x3_rows(const stdmath_bool4x3* m) {
@@ -109,11 +113,11 @@ size_t stdmath_bool4x3_size(const stdmath_bool4x3* m) {
 }
 
 bool stdmath_bool4x3_get_element(const stdmath_bool4x3* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (bool&)c(*m)[x, y];
 }
 stdmath_bool4x3 stdmath_bool4x3_set_element(const stdmath_bool4x3* m, size_t x, size_t y, bool value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::bool4x3::underlying_type)value;
+	out[x, y] = (stdmath::bool4x3::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_bool3 stdmath_bool4x3_multiply(const stdmath_bool4x3* m, stdmath_bool3 v
 	return c(stdmath::bool4x3::multiply(c(*m), c(v)));
 }
 
+bool stdmath_bool4x3_equal_to(const stdmath_bool4x3* a, const stdmath_bool4x3* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_bool4x3_not_equal_to(const stdmath_bool4x3* a, const stdmath_bool4x3* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_bool4x3_approximately_equal(stdmath_bool4x3* a, stdmath_bool4x3* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 4 == 3
 stdmath_bool4x4 stdmath_bool4x4_scale(const stdmath_bool4x4* m, bool s) {
-	return c(stdmath::bool4x4::multiply(c(*m), (stdmath::bool4x4::underlying_type)s));
+	return c(stdmath::bool4x4::multiply(c(*m), (stdmath::bool4x4::underlying_type&)s));
 }
 stdmath_bool4x4 stdmath_bool4x4_inverse(const stdmath_bool4x4* m) {
 	return c(inverse(c(*m)));

@@ -3,8 +3,16 @@
 
 #ifndef STDMATH_MODULE
 #include <stdint.h>
+#include <assert.h>
 #endif
 #include "../maybe_export.h"
+
+#if false
+#include "radian.h"
+#endif
+#if false
+#include "degree.h"
+#endif
 
 #if !false
 #if 4 == 1
@@ -112,7 +120,7 @@ STDMATH_EXPORT int32_t stdmath_int4_dot(stdmath_int4 a, stdmath_int4 b);
 STDMATH_EXPORT int32_t stdmath_int4_min_element(stdmath_int4 v);
 STDMATH_EXPORT int32_t stdmath_int4_max_element(stdmath_int4 v);
 
-STDMATH_EXPORT stdmath_int4 stdmath_int4_elementwise_transform(stdmath_int4 v, int32_t(*func)(int32_t));
+// STDMATH_EXPORT stdmath_int4 stdmath_int4_elementwise_transform(stdmath_int4 v, int32_t(*func)(int32_t));
 // STDMATH_EXPORT int32_t stdmath_int4_reduce_elements(stdmath_int4 v, int32_t initial_value, int32_t(*reducer)(stdmath_int4, stdmath_int4));
 
 #if 4 == 3
@@ -1183,7 +1191,7 @@ extern "C" {
 #endif
 
 stdmath_int4 stdmath_int4_broadcast(int32_t all) {
-	return c(stdmath::int4((stdmath::int4::underlying_type)all));
+	return c(stdmath::int4((stdmath::int4::underlying_type&)all));
 }
 
 stdmath_int4 stdmath_int4_add(stdmath_int4 a, stdmath_int4 b) {
@@ -1193,7 +1201,11 @@ stdmath_int4 stdmath_int4_subtract(stdmath_int4 a, stdmath_int4 b) {
 	return c(c(a) - c(b));
 }
 stdmath_int4 stdmath_int4_negate(stdmath_int4 v) {
+#if !false && !false
 	return c(stdmath::int4(-(stdmath::vector<int32_t, 4>)c(v)));
+#else
+	assert(false && "TODO: Why can't we use - on vector<degree/radian, N>?");
+#endif
 }
 stdmath_int4 stdmath_int4_multiply(stdmath_int4 a, stdmath_int4 b) {
 	return c(c(a) * c(b));
@@ -1202,7 +1214,7 @@ stdmath_int4 stdmath_int4_divide(stdmath_int4 a, stdmath_int4 b) {
 	return c(c(a) / c(b));
 }
 stdmath_int4 stdmath_int4_scale(stdmath_int4 v, int32_t s) {
-	return c(c(v) * (stdmath::int4::underlying_type)s);
+	return c(c(v) * (stdmath::int4::underlying_type&)s);
 }
 
 #if false
@@ -1258,24 +1270,29 @@ stdmath_bool4 stdmath_int4_greater_than_or_equal_to(stdmath_int4 a, stdmath_int4
 }
 
 int32_t stdmath_int4_length_squared(stdmath_int4 v)  {
-	return (int32_t)c(v).length_squared();
+	auto out = c(v).length_squared();
+	return (int32_t&)out;
 }
 int32_t stdmath_int4_length(stdmath_int4 v)  {
-	return (int32_t)c(v).length();
+	auto out = c(v).length();
+	return (int32_t&)out;
 }
 int32_t stdmath_int4_dot(stdmath_int4 a, stdmath_int4 b)  {
-	return (int32_t)dot(c(a), c(b));
+	auto out = dot(c(a), c(b));
+	return (int32_t&)out;
 }
 int32_t stdmath_int4_min_element(stdmath_int4 v)  {
-	return (int32_t)c(v).min_element();
+	auto out = c(v).min_element();
+	return (int32_t&)out;
 }
 int32_t stdmath_int4_max_element(stdmath_int4 v)  {
-	return (int32_t)c(v).max_element();
+	auto out = c(v).max_element();
+	return (int32_t&)out;
 }
 
-stdmath_int4 stdmath_int4_elementwise_transform(stdmath_int4 v, int32_t(*func)(int32_t)) {
-	return c(c(v).elementwise_transform(func));
-}
+// stdmath_int4 stdmath_int4_elementwise_transform(stdmath_int4 v, int32_t(*func)(int32_t)) {
+// 	return c(c(v).elementwise_transform(func));
+// }
 // int32_t stdmath_int4_reduce_elements(stdmath_int4 v, int32_t initial_value, int32_t(*reducer)(stdmath_int4, stdmath_int4)) {
 // 	return c(v).reduce_elements(initial_value, reducer);
 // }

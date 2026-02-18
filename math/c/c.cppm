@@ -1,5 +1,7 @@
 module;
 
+#include <cassert>
+
 import std.compat;
 import stdmath.slang;
 

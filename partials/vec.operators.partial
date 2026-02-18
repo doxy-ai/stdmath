@@ -148,11 +148,26 @@ explicit operator bool() {
 	return all_of(*this);
 }
 
-T length_squared() const {
+T length_squared() const 
+	requires(!std::is_same_v<T, radian> && !std::is_same_v<T, degree>)
+{
 	return reduce(to_simd() * to_simd());
 }
+auto length_squared() const 
+	requires(std::is_same_v<T, radian> || std::is_same_v<T, degree>)
+{
+	return (typename T::underlying_type)reduce(to_simd() * to_simd());
+}
 
-T length() const {
+
+T length() const 
+	requires(!std::is_same_v<T, radian> && !std::is_same_v<T, degree>)
+{
+	return sqrt(length_squared());
+}
+auto length() const 
+	requires(std::is_same_v<T, radian> || std::is_same_v<T, degree>)
+{
 	return sqrt(length_squared());
 }
 

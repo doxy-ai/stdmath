@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_{name}{X}x3 stdmath_{name}{X}x{Y}_multiply3(const stdmath
 STDMATH_EXPORT stdmath_{name}{X}x4 stdmath_{name}{X}x{Y}_multiply4(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{Y}x4* b);
 STDMATH_EXPORT stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{name}{X}x{Y}* m, stdmath_{name}{Y} v);
 
+STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
+STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_not_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
+STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_approximately_equal(stdmath_{name}{X}x{Y}* a, stdmath_{name}{X}x{Y}* b);
+
 #if {X} == {Y}
 STDMATH_EXPORT stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s);
 STDMATH_EXPORT stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity_scaled({type} scale) {
-	return c(stdmath::{name}{X}x{Y}::identity((stdmath::{name}{X}x{Y}::underlying_type)scale));
+	return c(stdmath::{name}{X}x{Y}::identity((stdmath::{name}{X}x{Y}::underlying_type&)scale));
 }
 stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_identity() {
 	return c(stdmath::{name}{X}x{Y}::identity());
 }
 stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_fill({type} value) {
-	return c(stdmath::{name}{X}x{Y}::fill((stdmath::{name}{X}x{Y}::underlying_type)value));
+	return c(stdmath::{name}{X}x{Y}::fill((stdmath::{name}{X}x{Y}::underlying_type&)value));
 }
 
 size_t stdmath_{name}{X}x{Y}_rows(const stdmath_{name}{X}x{Y}* m) {
@@ -109,11 +113,11 @@ size_t stdmath_{name}{X}x{Y}_size(const stdmath_{name}{X}x{Y}* m) {
 }
 
 {type} stdmath_{name}{X}x{Y}_get_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return ({type}&)c(*m)[x, y];
 }
 stdmath_{name}{X}x{Y} stdmath_{name}{X}x{Y}_set_element(const stdmath_{name}{X}x{Y}* m, size_t x, size_t y, {type} value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::{name}{X}x{Y}::underlying_type)value;
+	out[x, y] = (stdmath::{name}{X}x{Y}::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{name}{X}x{Y}* m,
 	return c(stdmath::{name}{X}x{Y}::multiply(c(*m), c(v)));
 }
 
+bool stdmath_{name}{X}x{Y}_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_{name}{X}x{Y}_not_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_{name}{X}x{Y}_approximately_equal(stdmath_{name}{X}x{Y}* a, stdmath_{name}{X}x{Y}* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if {X} == {Y}
 stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s) {
-	return c(stdmath::{name}{X}x{X}::multiply(c(*m), (stdmath::{name}{X}x{X}::underlying_type)s));
+	return c(stdmath::{name}{X}x{X}::multiply(c(*m), (stdmath::{name}{X}x{X}::underlying_type&)s));
 }
 stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m) {
 	return c(inverse(c(*m)));

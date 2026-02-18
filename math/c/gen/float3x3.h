@@ -59,6 +59,10 @@ STDMATH_EXPORT stdmath_float3x3 stdmath_float3x3_multiply3(const stdmath_float3x
 STDMATH_EXPORT stdmath_float3x4 stdmath_float3x3_multiply4(const stdmath_float3x3* a, const stdmath_float3x4* b);
 STDMATH_EXPORT stdmath_float3 stdmath_float3x3_multiply(const stdmath_float3x3* m, stdmath_float3 v);
 
+STDMATH_EXPORT bool stdmath_float3x3_equal_to(const stdmath_float3x3* a, const stdmath_float3x3* b);
+STDMATH_EXPORT bool stdmath_float3x3_not_equal_to(const stdmath_float3x3* a, const stdmath_float3x3* b);
+STDMATH_EXPORT bool stdmath_float3x3_approximately_equal(stdmath_float3x3* a, stdmath_float3x3* b);
+
 #if 3 == 3
 STDMATH_EXPORT stdmath_float3x3 stdmath_float3x3_scale(const stdmath_float3x3* m, float s);
 STDMATH_EXPORT stdmath_float3x3 stdmath_float3x3_inverse(const stdmath_float3x3* m);
@@ -89,13 +93,13 @@ extern "C" {
 #endif
 
 stdmath_float3x3 stdmath_float3x3_identity_scaled(float scale) {
-	return c(stdmath::float3x3::identity((stdmath::float3x3::underlying_type)scale));
+	return c(stdmath::float3x3::identity((stdmath::float3x3::underlying_type&)scale));
 }
 stdmath_float3x3 stdmath_float3x3_identity() {
 	return c(stdmath::float3x3::identity());
 }
 stdmath_float3x3 stdmath_float3x3_fill(float value) {
-	return c(stdmath::float3x3::fill((stdmath::float3x3::underlying_type)value));
+	return c(stdmath::float3x3::fill((stdmath::float3x3::underlying_type&)value));
 }
 
 size_t stdmath_float3x3_rows(const stdmath_float3x3* m) {
@@ -109,11 +113,11 @@ size_t stdmath_float3x3_size(const stdmath_float3x3* m) {
 }
 
 float stdmath_float3x3_get_element(const stdmath_float3x3* m, size_t x, size_t y) {
-	return c(*m)[x, y];
+	return (float&)c(*m)[x, y];
 }
 stdmath_float3x3 stdmath_float3x3_set_element(const stdmath_float3x3* m, size_t x, size_t y, float value) {
 	auto out = c(*m);
-	out[x, y] = (stdmath::float3x3::underlying_type)value;
+	out[x, y] = (stdmath::float3x3::underlying_type&)value;
 	return c(out);
 }
 
@@ -131,9 +135,19 @@ stdmath_float3 stdmath_float3x3_multiply(const stdmath_float3x3* m, stdmath_floa
 	return c(stdmath::float3x3::multiply(c(*m), c(v)));
 }
 
+bool stdmath_float3x3_equal_to(const stdmath_float3x3* a, const stdmath_float3x3* b) {
+	return c(*a) == c(*b);
+}
+bool stdmath_float3x3_not_equal_to(const stdmath_float3x3* a, const stdmath_float3x3* b) {
+	return c(*a) != c(*b);
+}
+bool stdmath_float3x3_approximately_equal(stdmath_float3x3* a, stdmath_float3x3* b) {
+	return stdmath::approximately_equal(c(*a), c(*b));
+}
+
 #if 3 == 3
 stdmath_float3x3 stdmath_float3x3_scale(const stdmath_float3x3* m, float s) {
-	return c(stdmath::float3x3::multiply(c(*m), (stdmath::float3x3::underlying_type)s));
+	return c(stdmath::float3x3::multiply(c(*m), (stdmath::float3x3::underlying_type&)s));
 }
 stdmath_float3x3 stdmath_float3x3_inverse(const stdmath_float3x3* m) {
 	return c(inverse(c(*m)));

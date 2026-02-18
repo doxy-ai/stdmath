@@ -8,6 +8,7 @@
 %rename(inverse) _inverse;
 %rename(identity) _identity;
 %rename(fill) _fill;
+%rename(approximately_equal) _approximately_equal;
 
 %extend stdmath_bool2x2 {
 
@@ -59,6 +60,16 @@
 	}
 	stdmath_bool2 _multiply(stdmath_bool2 v) {
 		return stdmath_bool2x2_multiply(self, v);
+	}
+
+	bool _equal_to(stdmath_bool2x2* o) {
+		return stdmath_bool2x2_equal_to(self, o);
+	}
+	bool _not_equal_to(stdmath_bool2x2* o) {
+		return stdmath_bool2x2_not_equal_to(self, o);
+	}
+	bool _approximately_equal(stdmath_bool2x2* o) {
+		return stdmath_bool2x2_approximately_equal(self, o);
 	}
 
 #if 2 == 2
