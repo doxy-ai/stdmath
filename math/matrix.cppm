@@ -1,7 +1,5 @@
 module;
 
-#include "../util/operators.hpp"
-
 #if !defined(__cpp_lib_submdspan) || __cpp_lib_submdspan < 202306L
 	#define MDSPAN_IMPL_STANDARD_NAMESPACE stdmath
 	#define MDSPAN_IMPL_PROPOSED_NAMESPACE experimental
