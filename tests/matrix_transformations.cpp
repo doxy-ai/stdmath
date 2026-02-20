@@ -1,10 +1,5 @@
 #include <doctest/doctest.h>
-#include <math/namespace_alias.hpp>
-
-import std.compat;
-import stdmath;
-
-using namespace std::math::types;
+#include "util.hpp"
 
 TEST_CASE("rotation_matrix") {
 	// Identity quaternion

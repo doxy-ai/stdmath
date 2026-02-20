@@ -9,4 +9,5 @@ export import stdmath.transformations;
 export import stdmath.color;
 export import stdmath.angle;
 export import stdmath.AABB;
+export import stdmath.ray;
 export import stdmath.types;

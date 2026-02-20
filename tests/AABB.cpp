@@ -1,10 +1,5 @@
 #include <doctest/doctest.h>
-#include <math/namespace_alias.hpp>
-
-import std.compat;
-import stdmath;
-
-using namespace std::math::types;
+#include "util.hpp"
 
 TEST_CASE("AABB<f32, 2> basics") {
 	std::math::rectangle<f32> rect = { {0, 0}, {2, 2} };

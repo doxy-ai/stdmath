@@ -1,10 +1,5 @@
 #include <doctest/doctest.h>
-#include <math/namespace_alias.hpp>
-
-import std.compat;
-import stdmath;
-
-using namespace std::math::types;
+#include "util.hpp"
 
 TEST_CASE("matrix<f32, 2, 2>::identity()") {
 	std::math::matrix<f32, 2, 2> identity_matrix = std::math::matrix<f32, 2, 2>::identity();
@@ -74,7 +69,7 @@ TEST_CASE("matrix<f32, 10, 10>::inverse()") {
 		-920, 0, 0, 0, 0, 0, 0, 0, 0, 3680
 	}} / 24840;
 	for(size_t i = 0; i < inv_matrix.data.size(); ++i)
-		CHECK(std::math::approximately_equal(inv_matrix.data[i], inverse_check.data[i], 1));
+		CHECK(ceq(inv_matrix.data[i], inverse_check.data[i], 1));
 
 	std::math::matrix<f32, 10, 10> ident = matrix_to_invert * inv_matrix;
 	for(auto v: ident) CHECK(ident.data[v] == std::math::matrix<f32, 2, 2>::identity().data[v]);

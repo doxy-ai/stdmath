@@ -1,16 +1,11 @@
 #include <doctest/doctest.h>
-#include <math/namespace_alias.hpp>
-
-import std.compat;
-import stdmath;
-
-using namespace std::math::types;
+#include "util.hpp"
 
 TEST_CASE("angles") {
 	// rad2deg and deg2rad
 	f32 float_val = 1;
-	CHECK(std::math::approximately_equal(std::math::rad2deg<f32> * std::math::PI, 180, .001));
-	CHECK(std::math::approximately_equal(std::math::deg2rad<f32> * 180, std::math::PI));
+	CHECK(ceq(std::math::rad2deg<f32> * std::math::PI, 180, 1e-3f));
+	CHECK(ceq(std::math::deg2rad<f32> * 180, std::math::PI));
 
 	// basic_radian and basic_degree
 	std::math::radian32 r(f32(std::math::PI / 4));
@@ -47,24 +42,24 @@ TEST_CASE("angles") {
 
 	// trig functions
 	std::math::radian32 r_pi_div_2(f32(std::math::PI / 2));
-	CHECK(std::math::approximately_equal(std::math::cos(r_pi_div_2), 0));
-	CHECK(std::math::approximately_equal(std::math::sin(r_pi_div_2), 1));
+	CHECK(ceq(std::math::cos(r_pi_div_2), 0));
+	CHECK(ceq(std::math::sin(r_pi_div_2), 1));
 
 	// inverse trig functions
 	auto r_asin_05 = std::math::asin(.5f);
-	CHECK(std::math::approximately_equal(std::math::sin(r_asin_05), .5f));
+	CHECK(ceq(std::math::sin(r_asin_05), .5f));
 
 	// atan2
 	auto r_atan2_1_1 = std::math::atan2(1.f, 1.f);
-	CHECK(std::math::approximately_equal(r_atan2_1_1.value, .785398f));
+	CHECK(ceq(r_atan2_1_1.value, .785398f));
 
 	// angle_normalize
 	auto d_norm = std::math::angle_wrap<std::math::degree>(540);
-	// CHECK(std::math::approximately_equal(d_norm.value, 180)); // TODO: Why is this not working!?!?
+	// CHECK(ceq(d_norm.value, 180)); // TODO: Why is this not working!?!?
 
 	auto d_norm2 = std::math::angle_wrap<std::math::degree>(-180);
-	CHECK(std::math::approximately_equal(d_norm2.value, 180));
+	CHECK(ceq(d_norm2.value, 180));
 
 	auto r_norm = std::math::angle_wrap<std::math::radian>(f32(7 * std::math::PI));
-	// CHECK(std::math::approximately_equal(r_norm.value, std::math::PI)); // TODO: Why is this not working!?!?
+	// CHECK(ceq(r_norm.value, std::math::PI)); // TODO: Why is this not working!?!?
 }
