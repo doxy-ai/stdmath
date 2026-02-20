@@ -60,7 +60,7 @@ namespace stdmath {
 			return out;
 		}
 
-		basic_color srgb_to_linear_accurate(){
+		basic_color srgb_to_linear_accurate() const {
 			return elementwise_transform_ignoring_alpha([](T c){
 				if (c <= T(0.04045))
 					return c / T(12.92);
@@ -68,7 +68,7 @@ namespace stdmath {
 			});
 		}
 
-		basic_color linear_to_srgb_accurate() {
+		basic_color linear_to_srgb_accurate() const {
 			return elementwise_transform_ignoring_alpha([](T c){
 				if (c <= T(0.0031308))
 					return c * T(12.92);
@@ -76,7 +76,7 @@ namespace stdmath {
 			});
 		}
 
-		basic_color gamma(T gamma) {
+		basic_color gamma(T gamma) const {
 			return elementwise_transform_ignoring_alpha([gamma](T c){
 				return std::pow(c, gamma);
 			});
@@ -91,7 +91,7 @@ namespace stdmath {
 			return gamma(2.2);
 		}
 
-		basic_color linear_to_hsv() {
+		basic_color linear_to_hsv() const {
 			T r = this->data[0], g = this->data[1], b = this->data[2];
 
 			T maxv = this->max_element();
@@ -142,17 +142,17 @@ namespace stdmath {
 			return { r, g, b, this->data[3] };
 		}
 
-		T luminance() {
+		T luminance() const {
 			return this->data[0] * T(0.2126)
 				+ this->data[1] * T(0.7152)
 				+ this->data[2] * T(0.0722);
 		}
 
-		basic_color linear_to_grayscale() {
+		basic_color linear_to_grayscale() const {
 			return { luminance(), luminance(), luminance(), this->data[3] };
 		}
 
-		basic_color linear_to_oklab() {
+		basic_color linear_to_oklab() const {
 			// Linear RGB → LMS
 			T l = T(0.4122214708) * this->data[0] + T(0.5363325363) * this->data[1] + T(0.0514459929) * this->data[2];
 			T m = T(0.2119034982) * this->data[0] + T(0.6806995451) * this->data[1] + T(0.1073969566) * this->data[2];
@@ -171,7 +171,7 @@ namespace stdmath {
 			};
 		}
 
-		basic_color oklab_to_linear() {
+		basic_color oklab_to_linear() const {
 			T L = this->data[0];
 			T a = this->data[1];
 			T b = this->data[2];
@@ -192,12 +192,138 @@ namespace stdmath {
 			};
 		}
 
-		basic_color premultiply_alpha() {
+		// Blend using a precomputed per-channel function, alpha composited with
+		// Porter-Duff "src over dst" so every mode handles transparency consistently.
+		template<typename Fn>
+		basic_color blend(const basic_color& dst, Fn&& channel_fn) const {
+			const basic_color& src = *this;
+			T sa = src.data[3];
+			T da = dst.data[3];
+			T out_a = sa + da * (T(1) - sa);
+
+			if (out_a == T(0)) return { T(0), T(0), T(0), T(0) };
+
+			basic_color out{ T(0) };
+			for (size_t i = 0; i < 3; ++i)
+				out.data[i] = (sa * channel_fn(src.data[i], dst.data[i]) + da * dst.data[i] * (T(1) - sa)) / out_a;
+			out.data[3] = out_a;
+			return out;
+		}
+
+		// src replaces dst entirely (Porter-Duff src-over)
+		basic_color blend_normal(const basic_color& dst) const {
+			return blend(dst, [](T s, T /*d*/) { return s; });
+		}
+
+		basic_color blend_multiply(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) { return s * d; });
+		}
+
+		basic_color blend_darken(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) { return std::min(s, d); });
+		}
+
+		// Burns dst toward src — raises contrast in shadows
+		basic_color blend_color_burn(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) -> T {
+				if (s == T(0)) return T(0);
+				return T(1) - std::min(T(1), (T(1) - d) / s);
+			});
+		}
+
+		basic_color blend_screen(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) { return s + d - s * d; });
+		}
+
+		basic_color blend_lighten(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) { return std::max(s, d); });
+		}
+
+		// Dodges dst toward src — raises brightness in highlights
+		basic_color blend_color_dodge(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) -> T {
+				if (s == T(1)) return T(1);
+				return std::min(T(1), d / (T(1) - s));
+			});
+		}
+		// Multiply in shadows, screen in highlights — classic contrast boost
+		basic_color blend_overlay(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) -> T {
+				return d < T(0.5) ? T(2) * s * d : T(1) - T(2) * (T(1) - s) * (T(1) - d);
+			});
+		}
+
+		// Overlay with src/dst roles swapped
+		basic_color blend_hard_light(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) -> T {
+				return s < T(0.5) ? T(2) * s * d : T(1) - T(2) * (T(1) - s) * (T(1) - d);
+			});
+		}
+
+		// Softer version of hard light — never fully black or white
+		basic_color blend_soft_light(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) -> T {
+				if (s <= T(0.5)) {
+					return d - (T(1) - T(2) * s) * d * (T(1) - d);
+				} else {
+					T gd = d <= T(0.25) ? ((T(16) * d - T(12)) * d + T(4)) * d : std::sqrt(d);
+					return d + (T(2) * s - T(1)) * (gd - d);
+				}
+			});
+		}
+
+		basic_color blend_difference(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) { return std::abs(s - d); });
+		}
+
+		// Softer difference — less harsh at the extremes
+		basic_color blend_exclusion(const basic_color& dst) const {
+			return blend(dst, [](T s, T d) { return s + d - T(2) * s * d; });
+		}
+
+	protected:
+		// Apply a blend in HSV space, taking H, S, V selectively from src or dst.
+		basic_color blend_hsv(const basic_color& dst, bool take_h, bool take_s, bool take_v) const {
+			auto src_hsv = linear_to_hsv();
+			auto dst_hsv = dst.linear_to_hsv();
+
+			basic_color mixed_hsv{
+				take_h ? src_hsv.data[0] : dst_hsv.data[0],
+				take_s ? src_hsv.data[1] : dst_hsv.data[1],
+				take_v ? src_hsv.data[2] : dst_hsv.data[2],
+				this->data[3]
+			};
+
+			// Convert back to linear, then alpha-composite normally
+			auto mixed_linear = mixed_hsv.hsv_to_linear();
+			return mixed_linear.blend_normal(dst);
+		}
+
+	public:
+		basic_color blend_hue(const basic_color& dst) const {
+			return blend_hsv(dst, /*H*/true, /*S*/false, /*V*/false);
+		}
+
+		basic_color blend_saturation(const basic_color& dst) const {
+			return blend_hsv(dst, /*H*/false, /*S*/true, /*V*/false);
+		}
+
+		// Applies hue + saturation of src, preserving the luminance of dst
+		basic_color blend_color(const basic_color& dst) const {
+			return blend_hsv(dst, /*H*/true, /*S*/true, /*V*/false);
+		}
+
+		// Applies only the brightness of src onto the hue and saturation of dst
+		basic_color blend_luminosity(const basic_color& dst) const {
+			return blend_hsv(dst, /*H*/false, /*S*/false, /*V*/true);
+		}
+
+		basic_color premultiply_alpha() const {
 			return elementwise_transform_ignoring_alpha([this](T c){
 				return c * this->data[3];
 			});
 		}
-		basic_color unpremultiply_alpha() {
+		basic_color unpremultiply_alpha() const {
 			if (this->data[3] == T(0))
 				return this->data;
 
@@ -207,7 +333,7 @@ namespace stdmath {
 			});
 		}
 
-		basic_color exposure(T stops) {
+		basic_color exposure(T stops) const {
 			T factor = std::exp2(stops);
 			return elementwise_transform_ignoring_alpha([factor](T c){
 				return c * factor;
@@ -226,7 +352,7 @@ namespace stdmath {
 			});
 		}
 
-		std::string linear_to_hex(bool include_alpha = false) {
+		std::string linear_to_hex(bool include_alpha = false) const {
 			auto color8 = *this;
 			if constexpr(!std::is_same_v<T, uint8_t>)
 				color8 = color32_normalized_to_color8();
