@@ -93,6 +93,7 @@ namespace stdmath {
 				.max = stdmath::max(a.max, b.max)
 			};
 		}
+		inline friend AABB operator+(const AABB& a, const AABB& b) { return merge(a, b); }
 
 		std::optional<AABB> intersect(const AABB& other) const {
 			AABB result {
@@ -104,6 +105,7 @@ namespace stdmath {
 				return {};
 			return result;
 		}
+		std::optional<AABB> operator&(const AABB& other) { return intersect(other); }
 
 		T distance_squared(const vec& p) const {
 			T d = 0;
