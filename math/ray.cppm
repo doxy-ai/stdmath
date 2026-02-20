@@ -120,4 +120,49 @@ namespace stdmath {
 			return bounds;
 		}
 	};
+
+	export template<typename T, size_t N>
+	std::ostream& operator<<(std::ostream& out, const ray<T, N>& r) {
+		return out << "ray(" << r.origin << " -> " << r.direction << ")";
+	}
+	export template<typename T>
+	std::ostream& operator<<(std::ostream& out, const interval<T>& interval) {
+		return out << "interval(" << interval.min << ", " << interval.max << ")";
+	}
 }
+
+template<typename T, size_t N>
+struct std::formatter<stdmath::ray<T, N>> {
+	std::formatter<stdmath::vector<T, N>> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::ray<T, N>& r, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "ray(");
+		out = elem_formatter.format(r.origin, ctx);
+		out = std::format_to(out, " -> ");
+		out = elem_formatter.format(r.direction, ctx);
+		return std::format_to(out, ")");
+	}
+};
+
+template<typename T>
+struct std::formatter<stdmath::interval<T>> {
+	std::formatter<T> elem_formatter;
+
+	constexpr auto parse(std::format_parse_context& ctx) {
+		return elem_formatter.parse(ctx);
+	}
+
+	template<typename FormatContext>
+	auto format(const stdmath::interval<T>& interval, FormatContext& ctx) const {
+		auto out = std::format_to(ctx.out(), "interval(");
+		out = elem_formatter.format(interval.min, ctx);
+		out = std::format_to(out, ", ");
+		out = elem_formatter.format(interval.max, ctx);
+		return std::format_to(out, ")");
+	}
+};
