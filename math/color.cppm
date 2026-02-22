@@ -16,6 +16,8 @@ namespace stdmath {
 		basic_color(super&& o) : super(std::move(o)) {}
 		basic_color& operator=(const basic_color&) = default;
 		basic_color& operator=(basic_color&&) = default;
+		super to_vector() { return *this; }
+		const super to_vector() const { return *this; }
 
 		static basic_color from_hex(std::string_view hex) {
 			if (!hex.empty() && hex[0] == '#')
@@ -62,7 +64,7 @@ namespace stdmath {
 		}
 
 		basic_color srgb_to_linear_accurate() const {
-			return elementwise_transform_ignoring_alpha([](T c){
+			return elementwise_transform_ignoring_alpha([](T c) -> T {
 				if (c <= T(0.04045))
 					return c / T(12.92);
 				else return std::pow((c + T(0.055)) / T(1.055), T(2.4));
@@ -70,7 +72,7 @@ namespace stdmath {
 		}
 
 		basic_color linear_to_srgb_accurate() const {
-			return elementwise_transform_ignoring_alpha([](T c){
+			return elementwise_transform_ignoring_alpha([](T c) -> T {
 				if (c <= T(0.0031308))
 					return c * T(12.92);
 				else return T(1.055) * std::pow(c, T(1.0 / 2.4)) - T(0.055);
@@ -165,9 +167,9 @@ namespace stdmath {
 			s = std::cbrt(s);
 
 			return {
-				T(0.2104542553) * l + T(0.7936177850) * m - T(0.0040720468) * s,
-				T(1.9779984951) * l - T(2.4285922050) * m + T(0.4505937099) * s,
-				T(0.0259040371) * l + T(0.7827717662) * m - T(0.8086757660) * s,
+				T(T(0.2104542553) * l + T(0.7936177850) * m - T(0.0040720468) * s),
+				T(T(1.9779984951) * l - T(2.4285922050) * m + T(0.4505937099) * s),
+				T(T(0.0259040371) * l + T(0.7827717662) * m - T(0.8086757660) * s),
 				this->data[3]
 			};
 		}
@@ -186,9 +188,9 @@ namespace stdmath {
 			s = s * s * s;
 
 			return {
-				T(+4.0767416621) * l - T(3.3077115913) * m + T(0.2309699292) * s,
-				T(-1.2684380046) * l + T(2.6097574011) * m - T(0.3413193965) * s,
-				T(-0.0041960863) * l - T(0.7034186147) * m + T(1.7076147010) * s,
+				T(T(+4.0767416621) * l - T(3.3077115913) * m + T(0.2309699292) * s),
+				T(T(-1.2684380046) * l + T(2.6097574011) * m - T(0.3413193965) * s),
+				T(T(-0.0041960863) * l - T(0.7034186147) * m + T(1.7076147010) * s),
 				this->data[3]
 			};
 		}
@@ -228,7 +230,7 @@ namespace stdmath {
 		basic_color blend_color_burn(const basic_color& dst) const {
 			return blend(dst, [](T s, T d) -> T {
 				if (s == T(0)) return T(0);
-				return T(1) - std::min(T(1), (T(1) - d) / s);
+				return T(1) - std::min<T>(T(1), (T(1) - d) / s);
 			});
 		}
 
@@ -244,7 +246,7 @@ namespace stdmath {
 		basic_color blend_color_dodge(const basic_color& dst) const {
 			return blend(dst, [](T s, T d) -> T {
 				if (s == T(1)) return T(1);
-				return std::min(T(1), d / (T(1) - s));
+				return std::min<T>(T(1), d / (T(1) - s));
 			});
 		}
 		// Multiply in shadows, screen in highlights — classic contrast boost
@@ -341,14 +343,14 @@ namespace stdmath {
 			});
 		}
 
-		basic_color<real_t> color8_to_color32_normalized() {
+		basic_color<real_t> color8_to_color32_normalized() const {
 			basic_color<real_t> out = *this;
 			return out.elementwise_transform([](T c){
 				return c / 255.;
 			});
 		}
 
-		basic_color<uint8_t> color32_normalized_to_color8() {
+		basic_color<uint8_t> color32_normalized_to_color8() const {
 			return this->elementwise_transform([](T c){
 				return c * 255.;
 			});

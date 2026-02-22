@@ -1,0 +1,243 @@
+#define STDMATH_EXPORT
+#define STDMATH_INLINE
+%include cstring.i
+%include {backing}.i
+
+%rename(from_hex) _from_hex;
+%rename(min_element) _min_element;
+%rename(max_element) _max_element;
+%rename(normalize) _normalize;
+%rename(min) _min;
+%rename(max) _max;
+%rename(lerp) _lerp;
+%rename(clamp) _clamp;
+%rename(approximately_equal) _approximately_equal;
+%rename(srgb_to_linear_accurate) _srgb_to_linear_accurate;
+%rename(linear_to_srgb_accurate) _linear_to_srgb_accurate;
+%rename(gamma) _gamma;
+%rename(srgb_to_linear) _srgb_to_linear;
+%rename(linear_to_srgb) _linear_to_srgb;
+%rename(linear_to_hsv) _linear_to_hsv;
+%rename(hsv_to_linear) _hsv_to_linear;
+%rename(luminance) _luminance;
+%rename(linear_to_grayscale) _linear_to_grayscale;
+%rename(linear_to_oklab) _linear_to_oklab;
+%rename(oklab_to_linear) _oklab_to_linear;
+%rename(blend_normal) _blend_normal;
+%rename(blend_multiply) _blend_multiply;
+%rename(blend_darken) _blend_darken;
+%rename(blend_color_burn) _blend_color_burn;
+%rename(blend_screen) _blend_screen;
+%rename(blend_lighten) _blend_lighten;
+%rename(blend_color_dodge) _blend_color_dodge;
+%rename(blend_overlay) _blend_overlay;
+%rename(blend_hard_light) _blend_hard_light;
+%rename(blend_soft_light) _blend_soft_light;
+%rename(blend_difference) _blend_difference;
+%rename(blend_exclusion) _blend_exclusion;
+%rename(blend_hue) _blend_hue;
+%rename(blend_saturation) _blend_saturation;
+%rename(blend_color) _blend_color;
+%rename(blend_luminosity) _blend_luminosity;
+%rename(premultiply_alpha) _premultiply_alpha;
+%rename(unpremultiply_alpha) _unpremultiply_alpha;
+%rename(exposure) _exposure;
+%rename(to_color32_normalized) _to_color32_normalized;
+%rename(normalized_to_color8) _normalized_to_color8;
+%rename(linear_to_hex) _linear_to_hex;
+%rename(linear_to_hex_include_alpha) _linear_to_hex_include_alpha;
+%rename(saturate) _saturate;
+
+%rename({name}) stdmath_{name};
+struct stdmath_{name}: stdmath_{backing} {};
+%extend stdmath_{name} {
+	stdmath_{name}({type} r = 0, {type} g = 0, {type} b = 0, {type} a = 0) {
+		stdmath_{name} *c;
+		c = (stdmath_{name}*) malloc(sizeof(stdmath_{name}));
+		c->r = r;
+		c->g = g;
+		c->b = b;
+		c->a = a;
+		return c;
+	}
+	stdmath_{name}({type} all) {
+		stdmath_{name} *c;
+		c = (stdmath_{name}*) malloc(sizeof(stdmath_{name}));
+		*c = stdmath_{name}_broadcast(all);
+		return c;
+	}
+
+	%cstring_input_binary(const char* hex, size_t hex_size);
+	static stdmath_{name} _from_hex(const char* hex, size_t hex_size) {
+		return stdmath_{name}_from_hex_view(hex, hex_size);
+	}
+
+	stdmath_{backing} to_vector() {
+		return *(stdmath_{backing}*)self;
+	}
+
+	stdmath_bool4 _equal_to(stdmath_{name} o) {
+		return stdmath_{name}_equal_to(*self, o);
+	}
+	stdmath_bool4 _not_equal_to(stdmath_{name} o) {
+		return stdmath_{name}_not_equal_to(*self, o);
+	}
+	stdmath_bool4 _less_than(stdmath_{name} o) {
+		return stdmath_{name}_less_than(*self, o);
+	}
+	stdmath_bool4 _less_than_or_equal_to(stdmath_{name} o) {
+		return stdmath_{name}_less_than_or_equal_to(*self, o);
+	}
+	stdmath_bool4 _greater_than(stdmath_{name} o) {
+		return stdmath_{name}_greater_than(*self, o);
+	}
+	stdmath_bool4 _greater_than_or_equal_to(stdmath_{name} o) {
+		return stdmath_{name}_greater_than_or_equal_to(*self, o);
+	}
+
+	{type} stdmath_{name}_min_element() {
+		return stdmath_{name}_min_element(*self);
+	}
+	{type} stdmath_{name}_max_element() {
+		return stdmath_{name}_max_element(*self);
+	}
+	stdmath_{name} stdmath_{name}_normalize() {
+		return stdmath_{name}_normalize(*self);
+	}
+
+	stdmath_{name} _min(stdmath_{name} o) {
+		return stdmath_{name}_min(*self, o);
+	}
+	stdmath_{name} _max(stdmath_{name} o) {
+		return stdmath_{name}_max(*self, o);
+	}
+	stdmath_{name} _lerp(stdmath_{name} o, float t) {
+		return stdmath_{name}_lerp(*self, o, t);
+	}
+	stdmath_{name} _clamp(stdmath_{name} min, stdmath_{name} max) {
+		return stdmath_{name}_clamp(*self, min, max);
+	}
+	stdmath_bool4 _approximately_equal(stdmath_{name} o) {
+		return stdmath_{name}_approximately_equal(*self, o);
+	}
+
+	stdmath_{name} _srgb_to_linear_accurate() {
+		return stdmath_{name}_srgb_to_linear_accurate(*self);
+	}
+	stdmath_{name} _linear_to_srgb_accurate() {
+		return stdmath_{name}_linear_to_srgb_accurate(*self);
+	}
+	stdmath_{name} _gamma(float g) {
+		return stdmath_{name}_gamma(*self, g);
+	}
+	stdmath_{name} _srgb_to_linear() {
+		return stdmath_{name}_srgb_to_linear(*self);
+	}
+	stdmath_{name} _linear_to_srgb() {
+		return stdmath_{name}_linear_to_srgb(*self);
+	}
+	stdmath_{name} _linear_to_hsv() {
+		return stdmath_{name}_linear_to_hsv(*self);
+	}
+	stdmath_{name} _hsv_to_linear() {
+		return stdmath_{name}_hsv_to_linear(*self);
+	}
+	{type} _luminance() {
+		return stdmath_{name}_luminance(*self);
+	}
+	stdmath_{name} _linear_to_grayscale() {
+		return stdmath_{name}_linear_to_grayscale(*self);
+	}
+	stdmath_{name} _linear_to_oklab() {
+		return stdmath_{name}_linear_to_oklab(*self);
+	}
+	stdmath_{name} _oklab_to_linear() {
+		return stdmath_{name}_oklab_to_linear(*self);
+	}
+
+	stdmath_{name} _blend_normal(stdmath_{name} o) {
+		return stdmath_{name}_blend_normal(*self, o);
+	}
+	stdmath_{name} _blend_multiply(stdmath_{name} o) {
+		return stdmath_{name}_blend_multiply(*self, o);
+	}
+	stdmath_{name} _blend_darken(stdmath_{name} o) {
+		return stdmath_{name}_blend_darken(*self, o);
+	}
+	stdmath_{name} _blend_color_burn(stdmath_{name} o) {
+		return stdmath_{name}_blend_color_burn(*self, o);
+	}
+	stdmath_{name} _blend_screen(stdmath_{name} o) {
+		return stdmath_{name}_blend_screen(*self, o);
+	}
+	stdmath_{name} _blend_lighten(stdmath_{name} o) {
+		return stdmath_{name}_blend_lighten(*self, o);
+	}
+	stdmath_{name} _blend_color_dodge(stdmath_{name} o) {
+		return stdmath_{name}_blend_color_dodge(*self, o);
+	}
+	stdmath_{name} _blend_overlay(stdmath_{name} o) {
+		return stdmath_{name}_blend_overlay(*self, o);
+	}
+	stdmath_{name} _blend_hard_light(stdmath_{name} o) {
+		return stdmath_{name}_blend_hard_light(*self, o);
+	}
+	stdmath_{name} _blend_soft_light(stdmath_{name} o) {
+		return stdmath_{name}_blend_soft_light(*self, o);
+	}
+	stdmath_{name} _blend_difference(stdmath_{name} o) {
+		return stdmath_{name}_blend_difference(*self, o);
+	}
+	stdmath_{name} _blend_exclusion(stdmath_{name} o) {
+		return stdmath_{name}_blend_exclusion(*self, o);
+	}
+	stdmath_{name} _blend_hue(stdmath_{name} o) {
+		return stdmath_{name}_blend_hue(*self, o);
+	}
+	stdmath_{name} _blend_saturation(stdmath_{name} o) {
+		return stdmath_{name}_blend_saturation(*self, o);
+	}
+	stdmath_{name} _blend_color(stdmath_{name} o) {
+		return stdmath_{name}_blend_color(*self, o);
+	}
+	stdmath_{name} _blend_luminosity(stdmath_{name} o) {
+		return stdmath_{name}_blend_luminosity(*self, o);
+	}
+
+	stdmath_{name} _premultiply_alpha() {
+		return stdmath_{name}_premultiply_alpha(*self);
+	}
+	stdmath_{name} _unpremultiply_alpha() {
+		return stdmath_{name}_unpremultiply_alpha(*self);
+	}
+	stdmath_{name} _exposure(float stops) {
+		return stdmath_{name}_exposure(*self, stops);
+	}
+
+	stdmath_float4 _to_color32_normalized() {
+		if constexpr({is_color8})
+			return stdmath_{name}_to_color32_normalized(*self);
+		else return *(stdmath_float4*)self;
+	}
+	stdmath_byte4 _normalized_to_color8() {
+		if constexpr({is_color8})
+			return *(stdmath_byte4*)self;
+		else return stdmath_{name}_normalized_to_color8(*self);
+	}
+	%cstring_output_allocate_size(const char** str, size_t* len, free(*$1))
+	void _linear_to_hex(const char** str, size_t* len) {
+		auto out = stdmath_{name}_linear_to_hex(*self);
+		*str = out.data;
+		*len = out.len;
+	}
+	// %cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _linear_to_hex_include_alpha(const char** str, size_t* len) {
+		auto out = stdmath_{name}_linear_to_hex_include_alpha(*self);
+		*str = out.data;
+		*len = out.len;
+	}
+	stdmath_{name} _saturate() {
+		return stdmath_{name}_saturate(*self);
+	}
+};
+
