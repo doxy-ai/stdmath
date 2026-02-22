@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_int4(const stdmath_int4& o) {
+		stdmath_int4 *v;
+		v = (stdmath_int4 *) malloc(sizeof(stdmath_int4));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 4 == 4
 	stdmath_int4(int32_t x = 0, int32_t y = 0, int32_t z = 0, int32_t w = 0) {
 		stdmath_int4 *v;

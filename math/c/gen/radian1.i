@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_radian1(const stdmath_radian1& o) {
+		stdmath_radian1 *v;
+		v = (stdmath_radian1 *) malloc(sizeof(stdmath_radian1));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 1 == 4
 	stdmath_radian1(stdmath_radian x = 0, stdmath_radian y = 0, stdmath_radian z = 0, stdmath_radian w = 0) {
 		stdmath_radian1 *v;

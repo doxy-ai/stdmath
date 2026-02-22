@@ -12,6 +12,13 @@
 
 %extend stdmath_byte4x2 {
 
+	stdmath_byte4x2(const stdmath_byte4x2& o) {
+		stdmath_byte4x2 *m;
+		m = (stdmath_byte4x2 *) malloc(sizeof(stdmath_byte4x2));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_byte4x2 _identity(uint8_t v) {
 		return stdmath_byte4x2_identity_scaled(v);
 	}

@@ -12,6 +12,13 @@
 
 %extend stdmath_byte2x2 {
 
+	stdmath_byte2x2(const stdmath_byte2x2& o) {
+		stdmath_byte2x2 *m;
+		m = (stdmath_byte2x2 *) malloc(sizeof(stdmath_byte2x2));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_byte2x2 _identity(uint8_t v) {
 		return stdmath_byte2x2_identity_scaled(v);
 	}

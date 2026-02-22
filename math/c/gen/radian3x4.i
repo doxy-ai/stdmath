@@ -12,6 +12,13 @@
 
 %extend stdmath_radian3x4 {
 
+	stdmath_radian3x4(const stdmath_radian3x4& o) {
+		stdmath_radian3x4 *m;
+		m = (stdmath_radian3x4 *) malloc(sizeof(stdmath_radian3x4));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_radian3x4 _identity(stdmath_radian v) {
 		return stdmath_radian3x4_identity_scaled(v);
 	}

@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_float1(const stdmath_float1& o) {
+		stdmath_float1 *v;
+		v = (stdmath_float1 *) malloc(sizeof(stdmath_float1));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 1 == 4
 	stdmath_float1(float x = 0, float y = 0, float z = 0, float w = 0) {
 		stdmath_float1 *v;

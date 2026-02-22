@@ -12,6 +12,13 @@
 
 %extend stdmath_float2x4 {
 
+	stdmath_float2x4(const stdmath_float2x4& o) {
+		stdmath_float2x4 *m;
+		m = (stdmath_float2x4 *) malloc(sizeof(stdmath_float2x4));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_float2x4 _identity(float v) {
 		return stdmath_float2x4_identity_scaled(v);
 	}

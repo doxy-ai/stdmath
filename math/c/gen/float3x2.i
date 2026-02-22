@@ -12,6 +12,13 @@
 
 %extend stdmath_float3x2 {
 
+	stdmath_float3x2(const stdmath_float3x2& o) {
+		stdmath_float3x2 *m;
+		m = (stdmath_float3x2 *) malloc(sizeof(stdmath_float3x2));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_float3x2 _identity(float v) {
 		return stdmath_float3x2_identity_scaled(v);
 	}

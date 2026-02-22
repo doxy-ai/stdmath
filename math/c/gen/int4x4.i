@@ -12,6 +12,13 @@
 
 %extend stdmath_int4x4 {
 
+	stdmath_int4x4(const stdmath_int4x4& o) {
+		stdmath_int4x4 *m;
+		m = (stdmath_int4x4 *) malloc(sizeof(stdmath_int4x4));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_int4x4 _identity(int32_t v) {
 		return stdmath_int4x4_identity_scaled(v);
 	}

@@ -12,6 +12,13 @@
 
 %extend stdmath_{name}{X}x{Y} {
 
+	stdmath_{name}{X}x{Y}(const stdmath_{name}{X}x{Y}& o) {
+		stdmath_{name}{X}x{Y} *m;
+		m = (stdmath_{name}{X}x{Y} *) malloc(sizeof(stdmath_{name}{X}x{Y}));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_{name}{X}x{Y} _identity({type} v) {
 		return stdmath_{name}{X}x{Y}_identity_scaled(v);
 	}

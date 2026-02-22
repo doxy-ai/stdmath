@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_byte3(const stdmath_byte3& o) {
+		stdmath_byte3 *v;
+		v = (stdmath_byte3 *) malloc(sizeof(stdmath_byte3));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 3 == 4
 	stdmath_byte3(uint8_t x = 0, uint8_t y = 0, uint8_t z = 0, uint8_t w = 0) {
 		stdmath_byte3 *v;

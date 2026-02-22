@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_uint1(const stdmath_uint1& o) {
+		stdmath_uint1 *v;
+		v = (stdmath_uint1 *) malloc(sizeof(stdmath_uint1));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 1 == 4
 	stdmath_uint1(uint32_t x = 0, uint32_t y = 0, uint32_t z = 0, uint32_t w = 0) {
 		stdmath_uint1 *v;

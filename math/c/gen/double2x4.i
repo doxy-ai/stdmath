@@ -12,6 +12,13 @@
 
 %extend stdmath_double2x4 {
 
+	stdmath_double2x4(const stdmath_double2x4& o) {
+		stdmath_double2x4 *m;
+		m = (stdmath_double2x4 *) malloc(sizeof(stdmath_double2x4));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_double2x4 _identity(double v) {
 		return stdmath_double2x4_identity_scaled(v);
 	}

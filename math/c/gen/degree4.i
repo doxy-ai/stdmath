@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_degree4(const stdmath_degree4& o) {
+		stdmath_degree4 *v;
+		v = (stdmath_degree4 *) malloc(sizeof(stdmath_degree4));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 4 == 4
 	stdmath_degree4(stdmath_degree x = 0, stdmath_degree y = 0, stdmath_degree z = 0, stdmath_degree w = 0) {
 		stdmath_degree4 *v;

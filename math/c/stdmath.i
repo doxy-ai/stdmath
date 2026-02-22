@@ -31,6 +31,8 @@ import stdmath.c;
 %include "gen/byte4x2.i"
 %include "gen/byte4x3.i"
 %include "gen/byte4x4.i"
+%include "gen/color32.i"
+%include "gen/color8.i"
 %include "gen/degree.i"
 %include "gen/degree1.i"
 %include "gen/degree2.i"

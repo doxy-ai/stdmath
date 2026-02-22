@@ -12,6 +12,13 @@
 
 %extend stdmath_uint2x4 {
 
+	stdmath_uint2x4(const stdmath_uint2x4& o) {
+		stdmath_uint2x4 *m;
+		m = (stdmath_uint2x4 *) malloc(sizeof(stdmath_uint2x4));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_uint2x4 _identity(uint32_t v) {
 		return stdmath_uint2x4_identity_scaled(v);
 	}

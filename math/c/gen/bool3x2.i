@@ -12,6 +12,13 @@
 
 %extend stdmath_bool3x2 {
 
+	stdmath_bool3x2(const stdmath_bool3x2& o) {
+		stdmath_bool3x2 *m;
+		m = (stdmath_bool3x2 *) malloc(sizeof(stdmath_bool3x2));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_bool3x2 _identity(bool v) {
 		return stdmath_bool3x2_identity_scaled(v);
 	}

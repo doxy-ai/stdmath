@@ -12,6 +12,13 @@
 
 %extend stdmath_radian3x2 {
 
+	stdmath_radian3x2(const stdmath_radian3x2& o) {
+		stdmath_radian3x2 *m;
+		m = (stdmath_radian3x2 *) malloc(sizeof(stdmath_radian3x2));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_radian3x2 _identity(stdmath_radian v) {
 		return stdmath_radian3x2_identity_scaled(v);
 	}

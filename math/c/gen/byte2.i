@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_byte2(const stdmath_byte2& o) {
+		stdmath_byte2 *v;
+		v = (stdmath_byte2 *) malloc(sizeof(stdmath_byte2));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 2 == 4
 	stdmath_byte2(uint8_t x = 0, uint8_t y = 0, uint8_t z = 0, uint8_t w = 0) {
 		stdmath_byte2 *v;

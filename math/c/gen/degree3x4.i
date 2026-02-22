@@ -12,6 +12,13 @@
 
 %extend stdmath_degree3x4 {
 
+	stdmath_degree3x4(const stdmath_degree3x4& o) {
+		stdmath_degree3x4 *m;
+		m = (stdmath_degree3x4 *) malloc(sizeof(stdmath_degree3x4));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_degree3x4 _identity(stdmath_degree v) {
 		return stdmath_degree3x4_identity_scaled(v);
 	}

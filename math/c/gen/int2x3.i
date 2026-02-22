@@ -12,6 +12,13 @@
 
 %extend stdmath_int2x3 {
 
+	stdmath_int2x3(const stdmath_int2x3& o) {
+		stdmath_int2x3 *m;
+		m = (stdmath_int2x3 *) malloc(sizeof(stdmath_int2x3));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_int2x3 _identity(int32_t v) {
 		return stdmath_int2x3_identity_scaled(v);
 	}

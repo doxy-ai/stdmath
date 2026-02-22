@@ -12,6 +12,13 @@
 
 %extend stdmath_byte3x3 {
 
+	stdmath_byte3x3(const stdmath_byte3x3& o) {
+		stdmath_byte3x3 *m;
+		m = (stdmath_byte3x3 *) malloc(sizeof(stdmath_byte3x3));
+		memcpy(m, &o, sizeof(o));
+		return m;
+	}
+
 	static stdmath_byte3x3 _identity(uint8_t v) {
 		return stdmath_byte3x3_identity_scaled(v);
 	}

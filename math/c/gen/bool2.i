@@ -28,6 +28,13 @@
 		return v;
 	}
 
+	stdmath_bool2(const stdmath_bool2& o) {
+		stdmath_bool2 *v;
+		v = (stdmath_bool2 *) malloc(sizeof(stdmath_bool2));
+		memcpy(v, &o, sizeof(o));
+		return v;
+	}
+
 #if 2 == 4
 	stdmath_bool2(bool x = 0, bool y = 0, bool z = 0, bool w = 0) {
 		stdmath_bool2 *v;
