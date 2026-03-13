@@ -2,6 +2,7 @@
 #define STDMATH_INLINE
 %rename({name}) stdmath_{name};
 %include "{name}.h"
+%include cstring.i
 
 %rename(wrap) _wrap;
 %rename(radian) _radian;
@@ -51,6 +52,13 @@
 	}
 	stdmath_degree _degree() {
 		return stdmath_{name}_degree(*self);
+	}
+
+	%cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_{name}_to_string(*self);
+		*str = out.data;
+		*len = out.len;
 	}
 
 	bool _approximately_equal(stdmath_{name} o) {

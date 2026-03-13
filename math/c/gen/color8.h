@@ -89,6 +89,8 @@ STDMATH_EXPORT stdmath_string_view stdmath_color8_linear_to_hex(stdmath_color8 c
 STDMATH_EXPORT stdmath_string_view stdmath_color8_linear_to_hex_include_alpha(stdmath_color8 color);
 STDMATH_EXPORT stdmath_color8 stdmath_color8_saturate(stdmath_color8 color);
 
+STDMATH_EXPORT stdmath_string_view stdmath_color8_to_string(stdmath_color8 color);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
@@ -279,20 +281,28 @@ stdmath_byte4 stdmath_color8_normalized_to_color8(stdmath_color8 color) {
 #endif
 stdmath_string_view stdmath_color8_linear_to_hex(stdmath_color8 color) {
 	auto str = col(color).linear_to_hex(false);
-	auto out = (char*)malloc(str.size());
 	auto len = str.size();
+	auto out = (char*)malloc(len);
 	memcpy(out, str.c_str(), len);
 	return {out, len};
 }
 stdmath_string_view stdmath_color8_linear_to_hex_include_alpha(stdmath_color8 color) {
 	auto str = col(color).linear_to_hex(true);
-	auto out = (char*)malloc(str.size());
 	auto len = str.size();
+	auto out = (char*)malloc(len);
 	memcpy(out, str.c_str(), len);
 	return {out, len};
 }
 stdmath_color8 stdmath_color8_saturate(stdmath_color8 color) {
 	return c(saturate(col(color)));
+}
+
+stdmath_string_view stdmath_color8_to_string(stdmath_color8 color) {
+	auto str = std::format("{}", c(color));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
 }
 
 #ifdef __cplusplus

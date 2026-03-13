@@ -1,11 +1,12 @@
 #ifndef __STDMATH_bool2x3_H__
 #define __STDMATH_bool2x3_H__
 
+#include "../util.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../maybe_export.h"
 STDMATH_EXPORT struct stdmath_bool2x2;
 STDMATH_EXPORT struct stdmath_bool2x3;
 STDMATH_EXPORT struct stdmath_bool2x4;
@@ -61,12 +62,14 @@ STDMATH_EXPORT stdmath_bool3 stdmath_bool2x3_multiply(const stdmath_bool2x3* m, 
 
 STDMATH_EXPORT bool stdmath_bool2x3_equal_to(const stdmath_bool2x3* a, const stdmath_bool2x3* b);
 STDMATH_EXPORT bool stdmath_bool2x3_not_equal_to(const stdmath_bool2x3* a, const stdmath_bool2x3* b);
-STDMATH_EXPORT bool stdmath_bool2x3_approximately_equal(stdmath_bool2x3* a, stdmath_bool2x3* b);
+STDMATH_EXPORT bool stdmath_bool2x3_approximately_equal(const stdmath_bool2x3* a, const stdmath_bool2x3* b);
 
 #if 2 == 3
 STDMATH_EXPORT stdmath_bool2x2 stdmath_bool2x2_scale(const stdmath_bool2x2* m, bool s);
 STDMATH_EXPORT stdmath_bool2x2 stdmath_bool2x2_inverse(const stdmath_bool2x2* m);
 #endif
+
+STDMATH_EXPORT stdmath_string_view stdmath_bool2x3_to_string(const stdmath_bool2x3* m);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -141,7 +144,7 @@ bool stdmath_bool2x3_equal_to(const stdmath_bool2x3* a, const stdmath_bool2x3* b
 bool stdmath_bool2x3_not_equal_to(const stdmath_bool2x3* a, const stdmath_bool2x3* b) {
 	return c(*a) != c(*b);
 }
-bool stdmath_bool2x3_approximately_equal(stdmath_bool2x3* a, stdmath_bool2x3* b) {
+bool stdmath_bool2x3_approximately_equal(const stdmath_bool2x3* a, const stdmath_bool2x3* b) {
 	return stdmath::approximately_equal(c(*a), c(*b));
 }
 
@@ -153,6 +156,15 @@ stdmath_bool2x2 stdmath_bool2x2_inverse(const stdmath_bool2x2* m) {
 	return c(inverse(c(*m)));
 }
 #endif
+
+stdmath_string_view stdmath_bool2x3_to_string(const stdmath_bool2x3* m) {
+	auto str = std::format("{}", c(*m));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
+
 
 #ifdef __cplusplus
 } // extern "C"

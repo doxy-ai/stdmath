@@ -2,6 +2,7 @@
 #define STDMATH_INLINE
 %rename(float4x2) stdmath_float4x2;
 %include "float4x2.h"
+%include cstring.i
 
 %rename(transpose) _transpose;
 %rename(scale) _scale;
@@ -87,5 +88,12 @@
 		return stdmath_float4x4_inverse(self);
 	}
 #endif
+
+	%cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_float4x2_to_string(self);
+		*str = out.data;
+		*len = out.len;
+	}
 
 }

@@ -246,5 +246,12 @@ struct stdmath_{name}: stdmath_{backing} {};
 	stdmath_{name} _saturate() {
 		return stdmath_{name}_saturate(*self);
 	}
+
+	// %cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_{name}_to_string(*self);
+		*str = out.data;
+		*len = out.len;
+	}
 };
 

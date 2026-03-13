@@ -1,11 +1,12 @@
 #ifndef __STDMATH_int4x2_H__
 #define __STDMATH_int4x2_H__
 
+#include "../util.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../maybe_export.h"
 STDMATH_EXPORT struct stdmath_int4x2;
 STDMATH_EXPORT struct stdmath_int4x3;
 STDMATH_EXPORT struct stdmath_int4x4;
@@ -61,12 +62,14 @@ STDMATH_EXPORT stdmath_int2 stdmath_int4x2_multiply(const stdmath_int4x2* m, std
 
 STDMATH_EXPORT bool stdmath_int4x2_equal_to(const stdmath_int4x2* a, const stdmath_int4x2* b);
 STDMATH_EXPORT bool stdmath_int4x2_not_equal_to(const stdmath_int4x2* a, const stdmath_int4x2* b);
-STDMATH_EXPORT bool stdmath_int4x2_approximately_equal(stdmath_int4x2* a, stdmath_int4x2* b);
+STDMATH_EXPORT bool stdmath_int4x2_approximately_equal(const stdmath_int4x2* a, const stdmath_int4x2* b);
 
 #if 4 == 2
 STDMATH_EXPORT stdmath_int4x4 stdmath_int4x4_scale(const stdmath_int4x4* m, int32_t s);
 STDMATH_EXPORT stdmath_int4x4 stdmath_int4x4_inverse(const stdmath_int4x4* m);
 #endif
+
+STDMATH_EXPORT stdmath_string_view stdmath_int4x2_to_string(const stdmath_int4x2* m);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -141,7 +144,7 @@ bool stdmath_int4x2_equal_to(const stdmath_int4x2* a, const stdmath_int4x2* b) {
 bool stdmath_int4x2_not_equal_to(const stdmath_int4x2* a, const stdmath_int4x2* b) {
 	return c(*a) != c(*b);
 }
-bool stdmath_int4x2_approximately_equal(stdmath_int4x2* a, stdmath_int4x2* b) {
+bool stdmath_int4x2_approximately_equal(const stdmath_int4x2* a, const stdmath_int4x2* b) {
 	return stdmath::approximately_equal(c(*a), c(*b));
 }
 
@@ -153,6 +156,15 @@ stdmath_int4x4 stdmath_int4x4_inverse(const stdmath_int4x4* m) {
 	return c(inverse(c(*m)));
 }
 #endif
+
+stdmath_string_view stdmath_int4x2_to_string(const stdmath_int4x2* m) {
+	auto str = std::format("{}", c(*m));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
+
 
 #ifdef __cplusplus
 } // extern "C"

@@ -36,6 +36,8 @@ STDMATH_EXPORT stdmath_radian stdmath_radian_wrap(stdmath_radian a);
 STDMATH_EXPORT struct stdmath_radian stdmath_radian_radian(stdmath_radian a);
 STDMATH_EXPORT struct stdmath_degree stdmath_radian_degree(stdmath_radian a);
 
+STDMATH_EXPORT stdmath_string_view stdmath_radian_to_string(stdmath_radian a);
+
 STDMATH_EXPORT bool stdmath_radian_approximately_equal(stdmath_radian a, stdmath_radian b);
 
 STDMATH_EXPORT float sinr(stdmath_radian a);
@@ -124,6 +126,14 @@ stdmath_radian stdmath_radian_radian(stdmath_radian a) {
 }
 stdmath_degree stdmath_radian_degree(stdmath_radian a) {
 	return {c(a).degree()};
+}
+
+stdmath_string_view stdmath_radian_to_string(stdmath_radian a) {
+	auto str = std::format("{}", c(a));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
 }
 
 bool stdmath_radian_approximately_equal(stdmath_radian a, stdmath_radian b) {

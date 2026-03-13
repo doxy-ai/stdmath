@@ -2,6 +2,7 @@
 #define STDMATH_INLINE
 %rename(bool3) stdmath_bool3;
 %include "bool3.h"
+%include cstring.i
 
 %rename(length_squared) _length_squared;
 %rename(length) _length;
@@ -237,6 +238,13 @@
 		return stdmath_bool3_some_of(*self);
 	}
 #endif
+
+	%cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_bool3_to_string(*self);
+		*str = out.data;
+		*len = out.len;
+	}
 
 	size_t _size() {
 		return 3;

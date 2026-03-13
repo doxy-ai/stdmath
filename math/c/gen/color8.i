@@ -246,5 +246,12 @@ struct stdmath_color8: stdmath_byte4 {};
 	stdmath_color8 _saturate() {
 		return stdmath_color8_saturate(*self);
 	}
+
+	// %cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_color8_to_string(*self);
+		*str = out.data;
+		*len = out.len;
+	}
 };
 

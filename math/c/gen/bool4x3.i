@@ -2,6 +2,7 @@
 #define STDMATH_INLINE
 %rename(bool4x3) stdmath_bool4x3;
 %include "bool4x3.h"
+%include cstring.i
 
 %rename(transpose) _transpose;
 %rename(scale) _scale;
@@ -87,5 +88,12 @@
 		return stdmath_bool4x4_inverse(self);
 	}
 #endif
+
+	%cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_bool4x3_to_string(self);
+		*str = out.data;
+		*len = out.len;
+	}
 
 }

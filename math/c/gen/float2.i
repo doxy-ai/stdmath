@@ -2,6 +2,7 @@
 #define STDMATH_INLINE
 %rename(float2) stdmath_float2;
 %include "float2.h"
+%include cstring.i
 
 %rename(length_squared) _length_squared;
 %rename(length) _length;
@@ -205,6 +206,13 @@
 		return stdmath_bool2_some_of(*self);
 	}
 #endif
+
+	%cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_float2_to_string(*self);
+		*str = out.data;
+		*len = out.len;
+	}
 
 	size_t _size() {
 		return 2;
