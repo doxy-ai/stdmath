@@ -2,6 +2,7 @@
 #define STDMATH_INLINE
 %rename(degree4x3) stdmath_degree4x3;
 %include "degree4x3.h"
+%include cstring.i
 
 %rename(transpose) _transpose;
 %rename(scale) _scale;
@@ -87,5 +88,12 @@
 		return stdmath_degree4x4_inverse(self);
 	}
 #endif
+
+	%cstring_output_allocate_size(char** str, size_t* len, free(*$1))
+	void _to_string(const char** str, size_t* len) {
+		auto out = stdmath_degree4x3_to_string(self);
+		*str = out.data;
+		*len = out.len;
+	}
 
 }

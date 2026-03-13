@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <assert.h>
 #endif
-#include "../maybe_export.h"
+#include "../util.h"
 
 #if false
 #include "radian.h"
@@ -142,6 +142,8 @@ STDMATH_EXPORT bool stdmath_bool3_none_of(stdmath_bool3 v);
 STDMATH_EXPORT bool stdmath_bool3_some_of(stdmath_bool3 v);
 #endif
 
+STDMATH_EXPORT stdmath_string_view stdmath_float3_to_string(stdmath_float3 v);
+
 #ifndef STDMATH_NO_SWIZZLES
 STDMATH_EXPORT STDMATH_INLINE stdmath_float1 stdmath_float3_x(stdmath_float3 v) { return {v.x}; }
 STDMATH_EXPORT STDMATH_INLINE stdmath_float1 stdmath_float3_x_get(stdmath_float3* p) { return stdmath_float3_x(*p); }
@@ -273,6 +275,7 @@ STDMATH_EXPORT STDMATH_INLINE stdmath_float3 stdmath_float3_zzz_set(stdmath_floa
 #endif
 
 #ifndef STDMATH_MODULE
+import std.compat;
 import stdmath.slang;
 #endif
 
@@ -436,6 +439,14 @@ bool stdmath_bool3_some_of(stdmath_bool3 v) {
 	return some_of(c(v));
 }
 #endif
+
+stdmath_string_view stdmath_float3_to_string(stdmath_float3 v) {
+	auto str = std::format("{}", c(v));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
 
 #ifdef __cplusplus
 } // extern "C"

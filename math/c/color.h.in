@@ -74,20 +74,16 @@ STDMATH_EXPORT stdmath_{name} stdmath_{name}_unpremultiply_alpha(stdmath_{name} 
 STDMATH_EXPORT stdmath_{name} stdmath_{name}_exposure(stdmath_{name} color, float stops);
 #if {is_color8}
 STDMATH_EXPORT union stdmath_float4 stdmath_{name}_to_color32_normalized(stdmath_{name} color);
-STDMATH_EXPORT union stdmath_float4 stdmath_color32_to_color32_normalized(union stdmath_float4 color) {
-	assert(false && "Don't use this function... it exists purely so that the name exists for automatic bindings!");
-	return {};
-}
+STDMATH_EXPORT union stdmath_float4 stdmath_color32_to_color32_normalized(union stdmath_float4 color);
 #else
 STDMATH_EXPORT union stdmath_byte4 stdmath_{name}_normalized_to_color8(stdmath_{name} color);
-STDMATH_EXPORT union stdmath_byte4 stdmath_color8_normalized_to_color8(union stdmath_byte4 color) {
-	assert(false && "Don't use this function... it exists purely so that the name exists for automatic bindings!");
-	return {};
-}
+STDMATH_EXPORT union stdmath_byte4 stdmath_color8_normalized_to_color8(union stdmath_byte4 color);
 #endif
 STDMATH_EXPORT stdmath_string_view stdmath_{name}_linear_to_hex(stdmath_{name} color);
 STDMATH_EXPORT stdmath_string_view stdmath_{name}_linear_to_hex_include_alpha(stdmath_{name} color);
 STDMATH_EXPORT stdmath_{name} stdmath_{name}_saturate(stdmath_{name} color);
+
+STDMATH_EXPORT stdmath_string_view stdmath_{name}_to_string(stdmath_{name} color);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -111,7 +107,7 @@ import stdmath.slang;
 inline stdmath::{name} col(stdmath_{name} c) {
 	return (stdmath::{name}&)c;
 }
-inline stdmath_{name} c(stdmath::{name} c) {
+inline stdmath_{name} col(stdmath::{name} c) {
 	return (stdmath_{name}&)c;
 }
 
@@ -120,32 +116,38 @@ extern "C" {
 #endif
 
 stdmath_{name} stdmath_{name}_broadcast({type} all) {
-	return c(stdmath::{name}(all));
+	return col(stdmath::{name}(all));
 }
 stdmath_{name} stdmath_{name}_from_hex_view(const char* hex, size_t len) {
-	return c(stdmath::{name}::from_hex(std::string_view(hex, len)));
+	return col(stdmath::{name}::from_hex(std::string_view(hex, len)));
 }
 stdmath_{name} stdmath_{name}_from_hex(const char* hex) {
 	return stdmath_{name}_from_hex_view(hex, strlen(hex));
 }
 
 stdmath_bool4 stdmath_{name}_equal_to(stdmath_{name} a, stdmath_{name} b) {
-	return c(c(a) == c(b));
+	auto tmp = c(a) == c(b);
+	return (stdmath_bool4&)tmp;
 }
 stdmath_bool4 stdmath_{name}_not_equal_to(stdmath_{name} a, stdmath_{name} b) {
-	return c(c(a) != c(b));
+	auto tmp = c(a) != c(b);
+	return (stdmath_bool4&)tmp;
 }
 stdmath_bool4 stdmath_{name}_less_than(stdmath_{name} a, stdmath_{name} b) {
-	return c(c(a) < c(b));
+	auto tmp = c(a) < c(b);
+	return (stdmath_bool4&)tmp;
 }
 stdmath_bool4 stdmath_{name}_less_than_or_equal_to(stdmath_{name} a, stdmath_{name} b) {
-	return c(c(a) <= c(b));
+	auto tmp = c(a) <= c(b);
+	return (stdmath_bool4&)tmp;
 }
 stdmath_bool4 stdmath_{name}_greater_than(stdmath_{name} a, stdmath_{name} b) {
-	return c(c(a) > c(b));
+	auto tmp = c(a) > c(b);
+	return (stdmath_bool4&)tmp;
 }
 stdmath_bool4 stdmath_{name}_greater_than_or_equal_to(stdmath_{name} a, stdmath_{name} b) {
-	return c(c(a) >= c(b));
+	auto tmp = c(a) >= c(b);
+	return (stdmath_bool4&)tmp;
 }
 
 {type} stdmath_{name}_min_element(stdmath_{name} color) {
@@ -155,144 +157,161 @@ stdmath_bool4 stdmath_{name}_greater_than_or_equal_to(stdmath_{name} a, stdmath_
 	return col(color).max_element();
 }
 stdmath_{name} stdmath_{name}_normalize(stdmath_{name} color) {
-	auto out = c(normalize(col(color).to_vector()));
-	return (stdmath_{name}&)out;
+	return col((stdmath::{name})normalize(col(color).to_vector()));
 }
 
 
 stdmath_{name} stdmath_{name}_min(stdmath_{name} a, stdmath_{name} b) {
-	return c(min(col(a), c(b)));
+	return col((stdmath::{name})min(col(a), col(b)));
 }
 stdmath_{name} stdmath_{name}_max(stdmath_{name} a, stdmath_{name} b) {
-	return c(max(col(a), c(b)));
+	return col((stdmath::{name})max(col(a), col(b)));
 }
 stdmath_{name} stdmath_{name}_lerp(stdmath_{name} a, stdmath_{name} b, float t) {
-	return c(lerp(col(a), c(b), t));
+	return col((stdmath::{name})lerp(col(a), col(b), t));
 }
 stdmath_{name} stdmath_{name}_clamp(stdmath_{name} color, stdmath_{name} min, stdmath_{name} max) {
-	return c(clamp(col(color), c(min), c(max)));
+	return col((stdmath::{name})clamp(col(color), col(min), col(max)));
 }
 stdmath_bool4 stdmath_{name}_approximately_equal(stdmath_{name} a, stdmath_{name} b) {
-	return c(approximately_equal(col(a), c(b)));
+	return c((stdmath::bool4)approximately_equal(col(a), col(b)));
 }
 
 stdmath_{name} stdmath_{name}_srgb_to_linear_accurate(stdmath_{name} color) {
-	return c(col(color).srgb_to_linear_accurate());
+	return col(col(color).srgb_to_linear_accurate());
 }
 stdmath_{name} stdmath_{name}_linear_to_srgb_accurate(stdmath_{name} color) {
-	return c(col(color).linear_to_srgb_accurate());
+	return col(col(color).linear_to_srgb_accurate());
 }
 stdmath_{name} stdmath_{name}_gamma(stdmath_{name} color, float g) {
-	return c(col(color).gamma(g));
+	return col(col(color).gamma(g));
 }
 stdmath_{name} stdmath_{name}_srgb_to_linear(stdmath_{name} color) {
-	return c(col(color).srgb_to_linear());
+	return col(col(color).srgb_to_linear());
 }
 stdmath_{name} stdmath_{name}_linear_to_srgb(stdmath_{name} color) {
-	return c(col(color).linear_to_srgb());
+	return col(col(color).linear_to_srgb());
 }
 stdmath_{name} stdmath_{name}_linear_to_hsv(stdmath_{name} color) {
-	return c(col(color).linear_to_hsv());
+	return col(col(color).linear_to_hsv());
 }
 stdmath_{name} stdmath_{name}_hsv_to_linear(stdmath_{name} color) {
-	return c(col(color).hsv_to_linear());
+	return col(col(color).hsv_to_linear());
 }
 {type} stdmath_{name}_luminance(stdmath_{name} color) {
 	return col(color).luminance();
 }
 stdmath_{name} stdmath_{name}_linear_to_grayscale(stdmath_{name} color) {
-	return c(col(color).linear_to_grayscale());
+	return col(col(color).linear_to_grayscale());
 }
 stdmath_{name} stdmath_{name}_linear_to_oklab(stdmath_{name} color) {
-	return c(col(color).linear_to_oklab());
+	return col(col(color).linear_to_oklab());
 }
 stdmath_{name} stdmath_{name}_oklab_to_linear(stdmath_{name} color) {
-	return c(col(color).oklab_to_linear());
+	return col(col(color).oklab_to_linear());
 }
 
 stdmath_{name} stdmath_{name}_blend_normal(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_normal(c(b)));
+	return col(col(a).blend_normal(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_multiply(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_multiply(c(b)));
+	return col(col(a).blend_multiply(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_darken(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_darken(c(b)));
+	return col(col(a).blend_darken(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_color_burn(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_color_burn(c(b)));
+	return col(col(a).blend_color_burn(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_screen(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_screen(c(b)));
+	return col(col(a).blend_screen(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_lighten(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_lighten(c(b)));
+	return col(col(a).blend_lighten(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_color_dodge(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_color_dodge(c(b)));
+	return col(col(a).blend_color_dodge(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_overlay(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_overlay(c(b)));
+	return col(col(a).blend_overlay(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_hard_light(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_hard_light(c(b)));
+	return col(col(a).blend_hard_light(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_soft_light(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_soft_light(c(b)));
+	return col(col(a).blend_soft_light(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_difference(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_difference(c(b)));
+	return col(col(a).blend_difference(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_exclusion(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_exclusion(c(b)));
+	return col(col(a).blend_exclusion(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_hue(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_hue(c(b)));
+	return col(col(a).blend_hue(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_saturation(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_saturation(c(b)));
+	return col(col(a).blend_saturation(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_color(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_color(c(b)));
+	return col(col(a).blend_color(col(b)));
 }
 stdmath_{name} stdmath_{name}_blend_luminosity(stdmath_{name} a, stdmath_{name} b) {
-	return c(col(a).blend_luminosity(c(b)));
+	return col(col(a).blend_luminosity(col(b)));
 }
 
 stdmath_{name} stdmath_{name}_premultiply_alpha(stdmath_{name} color) {
-	return c(col(color).premultiply_alpha());
+	return col(col(color).premultiply_alpha());
 }
 stdmath_{name} stdmath_{name}_unpremultiply_alpha(stdmath_{name} color) {
-	return c(col(color).unpremultiply_alpha());
+	return col(col(color).unpremultiply_alpha());
 }
 stdmath_{name} stdmath_{name}_exposure(stdmath_{name} color, float stops) {
-	return c(col(color).exposure(stops));
+	return col(col(color).exposure(stops));
 }
 #if {is_color8}
 stdmath_float4 stdmath_{name}_to_color32_normalized(stdmath_{name} color) {
-	return c(col(color).color8_to_color32_normalized());
+	auto tmp = col(color).color8_to_color32_normalized();
+	return (stdmath_float4&)tmp;
+}
+stdmath_float4 stdmath_color32_to_color32_normalized(union stdmath_float4 color) {
+	assert(false && "Don't use this function... it exists purely so that the name exists for automatic bindings!");
+	return color;
 }
 #else
 stdmath_byte4 stdmath_{name}_normalized_to_color8(stdmath_{name} color) {
-	return c(col(color).color32_normalized_to_color8());
+	auto tmp = col(color).color32_normalized_to_color8();
+	return (stdmath_byte4&)tmp;
+}
+stdmath_byte4 stdmath_color8_normalized_to_color8(union stdmath_byte4 color) {
+	assert(false && "Don't use this function... it exists purely so that the name exists for automatic bindings!");
+	return color;
 }
 #endif
 stdmath_string_view stdmath_{name}_linear_to_hex(stdmath_{name} color) {
 	auto str = col(color).linear_to_hex(false);
-	auto out = (char*)malloc(str.size());
 	auto len = str.size();
+	auto out = (char*)malloc(len);
 	memcpy(out, str.c_str(), len);
 	return {out, len};
 }
 stdmath_string_view stdmath_{name}_linear_to_hex_include_alpha(stdmath_{name} color) {
 	auto str = col(color).linear_to_hex(true);
-	auto out = (char*)malloc(str.size());
 	auto len = str.size();
+	auto out = (char*)malloc(len);
 	memcpy(out, str.c_str(), len);
 	return {out, len};
 }
 stdmath_{name} stdmath_{name}_saturate(stdmath_{name} color) {
-	return c(saturate(col(color)));
+	return col(saturate(col(color)));
+}
+
+stdmath_string_view stdmath_{name}_to_string(stdmath_{name} color) {
+	auto str = std::format("{}", col(color));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
 }
 
 #ifdef __cplusplus

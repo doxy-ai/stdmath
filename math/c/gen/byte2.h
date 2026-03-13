@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <assert.h>
 #endif
-#include "../maybe_export.h"
+#include "../util.h"
 
 #if false
 #include "radian.h"
@@ -142,6 +142,8 @@ STDMATH_EXPORT bool stdmath_bool2_none_of(stdmath_bool2 v);
 STDMATH_EXPORT bool stdmath_bool2_some_of(stdmath_bool2 v);
 #endif
 
+STDMATH_EXPORT stdmath_string_view stdmath_byte2_to_string(stdmath_byte2 v);
+
 #ifndef STDMATH_NO_SWIZZLES
 STDMATH_EXPORT STDMATH_INLINE stdmath_byte1 stdmath_byte2_x(stdmath_byte2 v) { return {v.x}; }
 STDMATH_EXPORT STDMATH_INLINE stdmath_byte1 stdmath_byte2_x_get(stdmath_byte2* p) { return stdmath_byte2_x(*p); }
@@ -174,6 +176,7 @@ STDMATH_EXPORT STDMATH_INLINE stdmath_byte2 stdmath_byte2_yy_set(stdmath_byte2* 
 #endif
 
 #ifndef STDMATH_MODULE
+import std.compat;
 import stdmath.slang;
 #endif
 
@@ -337,6 +340,14 @@ bool stdmath_bool2_some_of(stdmath_bool2 v) {
 	return some_of(c(v));
 }
 #endif
+
+stdmath_string_view stdmath_byte2_to_string(stdmath_byte2 v) {
+	auto str = std::format("{}", c(v));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
 
 #ifdef __cplusplus
 } // extern "C"

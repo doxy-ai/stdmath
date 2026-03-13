@@ -1,11 +1,12 @@
 #ifndef __STDMATH_double2x4_H__
 #define __STDMATH_double2x4_H__
 
+#include "../util.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../maybe_export.h"
 STDMATH_EXPORT struct stdmath_double2x2;
 STDMATH_EXPORT struct stdmath_double2x3;
 STDMATH_EXPORT struct stdmath_double2x4;
@@ -61,12 +62,14 @@ STDMATH_EXPORT stdmath_double4 stdmath_double2x4_multiply(const stdmath_double2x
 
 STDMATH_EXPORT bool stdmath_double2x4_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b);
 STDMATH_EXPORT bool stdmath_double2x4_not_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b);
-STDMATH_EXPORT bool stdmath_double2x4_approximately_equal(stdmath_double2x4* a, stdmath_double2x4* b);
+STDMATH_EXPORT bool stdmath_double2x4_approximately_equal(const stdmath_double2x4* a, const stdmath_double2x4* b);
 
 #if 2 == 4
 STDMATH_EXPORT stdmath_double2x2 stdmath_double2x2_scale(const stdmath_double2x2* m, double s);
 STDMATH_EXPORT stdmath_double2x2 stdmath_double2x2_inverse(const stdmath_double2x2* m);
 #endif
+
+STDMATH_EXPORT stdmath_string_view stdmath_double2x4_to_string(const stdmath_double2x4* m);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -141,7 +144,7 @@ bool stdmath_double2x4_equal_to(const stdmath_double2x4* a, const stdmath_double
 bool stdmath_double2x4_not_equal_to(const stdmath_double2x4* a, const stdmath_double2x4* b) {
 	return c(*a) != c(*b);
 }
-bool stdmath_double2x4_approximately_equal(stdmath_double2x4* a, stdmath_double2x4* b) {
+bool stdmath_double2x4_approximately_equal(const stdmath_double2x4* a, const stdmath_double2x4* b) {
 	return stdmath::approximately_equal(c(*a), c(*b));
 }
 
@@ -153,6 +156,15 @@ stdmath_double2x2 stdmath_double2x2_inverse(const stdmath_double2x2* m) {
 	return c(inverse(c(*m)));
 }
 #endif
+
+stdmath_string_view stdmath_double2x4_to_string(const stdmath_double2x4* m) {
+	auto str = std::format("{}", c(*m));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
+
 
 #ifdef __cplusplus
 } // extern "C"

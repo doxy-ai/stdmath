@@ -36,6 +36,8 @@ STDMATH_EXPORT stdmath_{name} stdmath_{name}_wrap(stdmath_{name} a);
 STDMATH_EXPORT struct stdmath_radian stdmath_{name}_radian(stdmath_{name} a);
 STDMATH_EXPORT struct stdmath_degree stdmath_{name}_degree(stdmath_{name} a);
 
+STDMATH_EXPORT stdmath_string_view stdmath_{name}_to_string(stdmath_{name} a);
+
 STDMATH_EXPORT bool stdmath_{name}_approximately_equal(stdmath_{name} a, stdmath_{name} b);
 
 STDMATH_EXPORT float sin{name_first_letter}(stdmath_{name} a);
@@ -124,6 +126,14 @@ stdmath_radian stdmath_{name}_radian(stdmath_{name} a) {
 }
 stdmath_degree stdmath_{name}_degree(stdmath_{name} a) {
 	return {c(a).degree()};
+}
+
+stdmath_string_view stdmath_{name}_to_string(stdmath_{name} a) {
+	auto str = std::format("{}", c(a));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
 }
 
 bool stdmath_{name}_approximately_equal(stdmath_{name} a, stdmath_{name} b) {

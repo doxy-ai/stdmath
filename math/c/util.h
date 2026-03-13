@@ -2,7 +2,10 @@
 #define __STDMATH_UTIL_H__
 
 #include "maybe_export.h"
+
+#ifndef STDMATH_MODULE
 #include <stddef.h>
+#endif
 
 #ifndef __STDMATH_REAL_T__
 #define __STDMATH_REAL_T__
@@ -27,11 +30,11 @@ import stdmath.slang;
 #endif
 
 bool stdmath_approximately_equal_no_default(double a, double b, double epsilon) {
-    return stdmath::approximately_equal(a, b, epsilon);
+	return stdmath::approximately_equal(a, b, epsilon);
 }
 
 bool stdmath_approximately_equal(double a, double b) {
-    return stdmath::approximately_equal(a, b);
+	return stdmath::approximately_equal(a, b);
 }
 
 #endif // STDMATH_IMPLEMENTATION

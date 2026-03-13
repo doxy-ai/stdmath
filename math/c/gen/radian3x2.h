@@ -1,11 +1,12 @@
 #ifndef __STDMATH_radian3x2_H__
 #define __STDMATH_radian3x2_H__
 
+#include "../util.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../maybe_export.h"
 STDMATH_EXPORT struct stdmath_radian3x2;
 STDMATH_EXPORT struct stdmath_radian3x3;
 STDMATH_EXPORT struct stdmath_radian3x4;
@@ -61,12 +62,14 @@ STDMATH_EXPORT stdmath_radian2 stdmath_radian3x2_multiply(const stdmath_radian3x
 
 STDMATH_EXPORT bool stdmath_radian3x2_equal_to(const stdmath_radian3x2* a, const stdmath_radian3x2* b);
 STDMATH_EXPORT bool stdmath_radian3x2_not_equal_to(const stdmath_radian3x2* a, const stdmath_radian3x2* b);
-STDMATH_EXPORT bool stdmath_radian3x2_approximately_equal(stdmath_radian3x2* a, stdmath_radian3x2* b);
+STDMATH_EXPORT bool stdmath_radian3x2_approximately_equal(const stdmath_radian3x2* a, const stdmath_radian3x2* b);
 
 #if 3 == 2
 STDMATH_EXPORT stdmath_radian3x3 stdmath_radian3x3_scale(const stdmath_radian3x3* m, stdmath_radian s);
 STDMATH_EXPORT stdmath_radian3x3 stdmath_radian3x3_inverse(const stdmath_radian3x3* m);
 #endif
+
+STDMATH_EXPORT stdmath_string_view stdmath_radian3x2_to_string(const stdmath_radian3x2* m);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -141,7 +144,7 @@ bool stdmath_radian3x2_equal_to(const stdmath_radian3x2* a, const stdmath_radian
 bool stdmath_radian3x2_not_equal_to(const stdmath_radian3x2* a, const stdmath_radian3x2* b) {
 	return c(*a) != c(*b);
 }
-bool stdmath_radian3x2_approximately_equal(stdmath_radian3x2* a, stdmath_radian3x2* b) {
+bool stdmath_radian3x2_approximately_equal(const stdmath_radian3x2* a, const stdmath_radian3x2* b) {
 	return stdmath::approximately_equal(c(*a), c(*b));
 }
 
@@ -153,6 +156,15 @@ stdmath_radian3x3 stdmath_radian3x3_inverse(const stdmath_radian3x3* m) {
 	return c(inverse(c(*m)));
 }
 #endif
+
+stdmath_string_view stdmath_radian3x2_to_string(const stdmath_radian3x2* m) {
+	auto str = std::format("{}", c(*m));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
+
 
 #ifdef __cplusplus
 } // extern "C"

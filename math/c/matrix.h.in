@@ -1,11 +1,12 @@
 #ifndef __STDMATH_{name}{X}x{Y}_H__
 #define __STDMATH_{name}{X}x{Y}_H__
 
+#include "../util.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../maybe_export.h"
 STDMATH_EXPORT struct stdmath_{name}{X}x2;
 STDMATH_EXPORT struct stdmath_{name}{X}x3;
 STDMATH_EXPORT struct stdmath_{name}{X}x4;
@@ -61,12 +62,14 @@ STDMATH_EXPORT stdmath_{name}{Y} stdmath_{name}{X}x{Y}_multiply(const stdmath_{n
 
 STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
 STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_not_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
-STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_approximately_equal(stdmath_{name}{X}x{Y}* a, stdmath_{name}{X}x{Y}* b);
+STDMATH_EXPORT bool stdmath_{name}{X}x{Y}_approximately_equal(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b);
 
 #if {X} == {Y}
 STDMATH_EXPORT stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_scale(const stdmath_{name}{X}x{X}* m, {type} s);
 STDMATH_EXPORT stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}* m);
 #endif
+
+STDMATH_EXPORT stdmath_string_view stdmath_{name}{X}x{Y}_to_string(const stdmath_{name}{X}x{Y}* m);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -141,7 +144,7 @@ bool stdmath_{name}{X}x{Y}_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmat
 bool stdmath_{name}{X}x{Y}_not_equal_to(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b) {
 	return c(*a) != c(*b);
 }
-bool stdmath_{name}{X}x{Y}_approximately_equal(stdmath_{name}{X}x{Y}* a, stdmath_{name}{X}x{Y}* b) {
+bool stdmath_{name}{X}x{Y}_approximately_equal(const stdmath_{name}{X}x{Y}* a, const stdmath_{name}{X}x{Y}* b) {
 	return stdmath::approximately_equal(c(*a), c(*b));
 }
 
@@ -153,6 +156,15 @@ stdmath_{name}{X}x{X} stdmath_{name}{X}x{X}_inverse(const stdmath_{name}{X}x{X}*
 	return c(inverse(c(*m)));
 }
 #endif
+
+stdmath_string_view stdmath_{name}{X}x{Y}_to_string(const stdmath_{name}{X}x{Y}* m) {
+	auto str = std::format("{}", c(*m));
+	auto len = str.size();
+	auto out = (char*)malloc(len);
+	memcpy(out, str.c_str(), len);
+	return {out, len};
+}
+
 
 #ifdef __cplusplus
 } // extern "C"
