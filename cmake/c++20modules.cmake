@@ -3,7 +3,85 @@
 cmake_minimum_required(VERSION 3.26.0 FATAL_ERROR)
 
 # Check compiler support for C++23 Standard Library Module.
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "17.0.0")
+if (EMSCRIPTEN)
+	if (CMAKE_CXX_STANDARD LESS 20)
+		message(FATAL_ERROR "C++20 or newer is required.")
+	endif()
+
+	# Emscripten ships std.cppm / std.compat.cppm inside its sysroot.
+	# EMSCRIPTEN_SYSROOT is exported by the Emscripten toolchain file; fall back
+	# to locating it via the em++ binary when the variable is absent.
+	if (NOT DEFINED EMSCRIPTEN_SYSROOT)
+		execute_process(
+			COMMAND ${CMAKE_CXX_COMPILER} --print-sysroot
+			OUTPUT_VARIABLE EMSCRIPTEN_SYSROOT
+			OUTPUT_STRIP_TRAILING_WHITESPACE
+		)
+	endif()
+
+	set(EMSCRIPTEN_STANDARD_MODULE_PATH
+		"${EMSCRIPTEN_SYSROOT}/include/c++/v1"
+		CACHE FILEPATH
+		"Path to Emscripten's std / std.compat module sources"
+	)
+	message("Emscripten standard module path = ${EMSCRIPTEN_STANDARD_MODULE_PATH}")
+
+	# Precompile std module
+	add_custom_command(
+		OUTPUT ${CMAKE_BINARY_DIR}/std.pcm
+		COMMAND ${CMAKE_CXX_COMPILER}
+				-std=gnu++26
+				-stdlib=libc++
+				--precompile
+				-fexceptions
+				-o ${CMAKE_BINARY_DIR}/std.pcm
+				${EMSCRIPTEN_STANDARD_MODULE_PATH}/std.cppm
+		DEPENDS ${EMSCRIPTEN_STANDARD_MODULE_PATH}/std.cppm
+		COMMENT "Precompiling std module (Emscripten)"
+	)
+
+	add_custom_target(std_module DEPENDS ${CMAKE_BINARY_DIR}/std.pcm)
+
+	# Precompile std.compat module
+	add_custom_command(
+		OUTPUT ${CMAKE_BINARY_DIR}/std.compat.pcm
+		COMMAND ${CMAKE_CXX_COMPILER}
+				-std=gnu++26
+				-stdlib=libc++
+				--precompile
+				-fexceptions
+				-fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm
+				-o ${CMAKE_BINARY_DIR}/std.compat.pcm
+				${EMSCRIPTEN_STANDARD_MODULE_PATH}/std.compat.cppm
+		DEPENDS
+			${CMAKE_BINARY_DIR}/std.pcm
+			${EMSCRIPTEN_STANDARD_MODULE_PATH}/std.compat.cppm
+		COMMENT "Precompiling std.compat module (Emscripten)"
+	)
+
+	add_custom_target(std_compat_module DEPENDS ${CMAKE_BINARY_DIR}/std.compat.pcm)
+
+	add_library(std INTERFACE)
+	target_compile_options(std INTERFACE
+		-stdlib=libc++
+		-fexceptions
+		-fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm
+		-fmodule-file=std.compat=${CMAKE_BINARY_DIR}/std.compat.pcm
+	)
+	# Note: Emscripten handles linking differently (produces .js/.wasm, not native
+	# ELF), so -stdlib=libc++ in link options is handled by the emcc wrapper.
+	# The -fmodule-file flags are still forwarded to the linker step correctly.
+	target_link_options(std INTERFACE
+		-stdlib=libc++
+		-fexceptions
+		-fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm
+		-fmodule-file=std.compat=${CMAKE_BINARY_DIR}/std.compat.pcm
+	)
+	add_dependencies(std std_module std_compat_module)
+
+	link_libraries(std)
+
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "17.0.0")
 	if (CMAKE_CXX_STANDARD LESS 20)
 		message(FATAL_ERROR "C++20 or newer is required.")
 	endif()
@@ -25,7 +103,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSIO
 	add_custom_command(
 		OUTPUT ${CMAKE_BINARY_DIR}/std.pcm
 		COMMAND ${CMAKE_CXX_COMPILER}
-				-std=gnu++2c # TODO: How do we link this to CXX_STANDARD?
+				-std=gnu++26 # TODO: How do we link this to CXX_STANDARD?
 				-stdlib=libc++
 				--precompile
 				-o ${CMAKE_BINARY_DIR}/std.pcm
@@ -42,7 +120,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSIO
 	add_custom_command(
 		OUTPUT ${CMAKE_BINARY_DIR}/std.compat.pcm
 		COMMAND ${CMAKE_CXX_COMPILER}
-				-std=gnu++2c
+				-std=gnu++26
 				-stdlib=libc++
 				--precompile
 				-fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm
@@ -59,7 +137,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSIO
 		DEPENDS ${CMAKE_BINARY_DIR}/std.compat.pcm
 	)
 
-	add_library(std INTERFACE) 
+	add_library(std INTERFACE)
 	# target_sources(std PUBLIC
 	# 	FILE_SET CXX_MODULES
 	# 	BASE_DIRS ${CLANG_STANDARD_MODULE_PATH}
@@ -67,8 +145,16 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSIO
 	# 		${CLANG_STANDARD_MODULE_PATH}/std.cppm
 	# 		${CLANG_STANDARD_MODULE_PATH}/std.compat.cppm
 	# )
-	target_compile_options(std INTERFACE -stdlib=libc++ -fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm -fmodule-file=std.compat=${CMAKE_BINARY_DIR}/std.compat.pcm)
-	target_link_options(std INTERFACE -stdlib=libc++ -fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm -fmodule-file=std.compat=${CMAKE_BINARY_DIR}/std.compat.pcm)
+	target_compile_options(std INTERFACE 
+		-stdlib=libc++ 
+		-fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm 
+		-fmodule-file=std.compat=${CMAKE_BINARY_DIR}/std.compat.pcm
+	)
+	target_link_options(std INTERFACE 
+		-stdlib=libc++ 
+		-fmodule-file=std=${CMAKE_BINARY_DIR}/std.pcm 
+		-fmodule-file=std.compat=${CMAKE_BINARY_DIR}/std.compat.pcm
+	)
 	add_dependencies(std std_module std_compat_module)
 
 	link_libraries(std)
@@ -80,9 +166,9 @@ elseif (MSVC AND MSVC_VERSION VERSION_GREATER_EQUAL 1936)
 	endif()
 
 	file(TO_CMAKE_PATH "$ENV{VCToolsInstallDir}" VCTOOLS_INSTALL_DIR)
-	message("${VCTOOLS_INSTALL_DIR} - ${MSVC_VERSION}") 
+	message("${VCTOOLS_INSTALL_DIR} - ${MSVC_VERSION}")
 
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 	add_library(std INTERFACE)
 	#target_sources(std PUBLIC
